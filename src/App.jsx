@@ -6,6 +6,7 @@ import Timeline from './components/Timeline';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Hero from './components/Hero';
+import Contact from './components/Contact';
 
 const App = () => {
   const [uiState, setUiState] = useState({
@@ -118,11 +119,12 @@ const App = () => {
         handleMenuToggle={handleMenuToggle}
       />
 
-      <main className="flex-grow flex flex-col items-center md:mt-48 mt-32 px-8">
+      <main className="flex-grow flex flex-col items-center md:mt-48 mt-32 px-8 sm:px-16 md:px-32 ">
         <Hero />
         <Skills />
         <Projects />
         <Timeline />
+        <Contact/>
       </main>
 
       <Footer />

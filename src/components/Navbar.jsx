@@ -39,6 +39,8 @@ const ColorButton = ({ highlightColor, onColorChange }) => {
 const Navbar = ({ isScrolling, handleMenuToggle }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [highlightColor, setHighlightColor] = useState('#ff00ff');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [shouldHideHeader, setShouldHideHeader] = useState(false);
 
   // Load saved theme color from localStorage
   useEffect(() => {
@@ -70,6 +72,33 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
     setIsMenuOpen(prev => !prev);
     handleMenuToggle();
   }, [handleMenuToggle]);
+
+  // Improved scroll behavior to show navbar when scrolling up
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 10) {
+        setShouldHideHeader(false); // Always show at top
+        return;
+      }
+      
+      // Determine scroll direction
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setShouldHideHeader(true);
+      } else {
+        // Scrolling up
+        setShouldHideHeader(false);
+      }
+      
+      // Update last scroll position
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
 
   // Smooth scroll to section
   const scrollToSection = useCallback((id) => {
@@ -107,8 +136,8 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
   return (
     <>
       <header
-        className={`w-full py-4 px-8 fixed top-0 z-20 bg-black/50 backdrop-blur-sm neon-border transition-all duration-300 ease-out transform origin-top ${
-          isScrolling ? 'scale-y-0 opacity-0' : 'scale-y-100 opacity-100'
+        className={`w-full py-4 px-8 fixed top-0 z-50 bg-black/50 backdrop-blur-sm neon-border transition-all duration-300 ease-out transform origin-top ${
+          shouldHideHeader ? 'scale-y-0 opacity-0' : 'scale-y-100 opacity-100'
         }`}
       >
         <div className="flex justify-between items-center w-full">
@@ -144,8 +173,8 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed w-full top-16 z-10 backdrop-blur-[10px] bg-black/70 neon-border transform transition-all duration-300 ease-in-out ${
-          isMenuOpen && !isScrolling ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        className={`fixed w-full top-16 z-40 backdrop-blur-[10px] bg-black/70 neon-border transform transition-all duration-300 ease-in-out ${
+          isMenuOpen && !shouldHideHeader ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
         style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)' }}
       >
