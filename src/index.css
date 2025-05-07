@@ -133,7 +133,7 @@
     will-change: transform;
   }
 
-  /* Skill bar */
+  /* Skill Section */
   .skill-bar {
     @apply h-2 rounded-full overflow-hidden bg-white/10;
   }
@@ -142,6 +142,41 @@
     @apply h-full bg-[var(--highlight-color)] rounded-full;
     box-shadow: 0 0 5px var(--highlight-color);
     transition: width 1s ease-out;
+  }
+
+  .skill-sparkle {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    background-size: 200% 100%;
+    animation: skill-sparkle-animation 2s ease-in-out infinite;
+    height: 100%;
+    width: 100%;
+  }
+  
+  /* Style for skill category tabs */
+  .skill-tab {
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .skill-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--highlight-color);
+    transition: width 0.3s ease;
+  }
+  
+  .skill-tab.active::after {
+    width: 70%;
+    box-shadow: 0 0 5px var(--highlight-color), 0 0 10px var(--highlight-color);
+  }
+  
+  .skill-tab.active {
+    text-shadow: 0 0 8px var(--highlight-color);
   }
 
   /* Tokenomics */
@@ -270,6 +305,17 @@
     }
     75% {
       transform: translateY(-20px) translateX(-15px);
+    }
+  }
+
+  @keyframes skill-sparkle-animation {
+    0%, 100% {
+      background-position: 0% 0%;
+      opacity: 0.5;
+    }
+    50% {
+      background-position: 100% 0%;
+      opacity: 1;
     }
   }
 
