@@ -9,6 +9,7 @@ export function useTypewriter(text, options = {}) {
   
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(startTyping);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -20,6 +21,8 @@ export function useTypewriter(text, options = {}) {
         }, typingSpeed);
       } else {
         setIsTyping(false);
+        setIsComplete(true);
+        
         if (onComplete && typeof onComplete === 'function') {
           onComplete();
         }
@@ -28,6 +31,13 @@ export function useTypewriter(text, options = {}) {
     
     return () => clearTimeout(timer);
   }, [displayedText, isTyping, text, typingSpeed, onComplete]);
+
+  // Reset when text changes
+  useEffect(() => {
+    setDisplayedText('');
+    setIsTyping(startTyping);
+    setIsComplete(false);
+  }, [text, startTyping]);
 
   return { 
     displayedText, 

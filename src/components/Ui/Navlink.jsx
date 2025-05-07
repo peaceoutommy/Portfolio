@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const NavLink = ({ href, children, onClick, isMobile = false }) => (
   <li>
     <a
-      className={`neon-text-hover ${isMobile ? 'text-base' : 'text-sm md:text-base lg:text-lg'}`}
+      className={`neon-text-hover ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'}`}
       href={href}
       onClick={onClick}
     >

@@ -186,9 +186,9 @@ const Skills = () => {
       </div>
 
       {/* Skills Display */}
-      <div className="relative overflow-hidden p-2">
+      <div className="relative overflow-hidden">
         <Card 
-          className="p-8"
+          className="p-6"
           style={{
             boxShadow: '0 0 30px rgba(var(--highlight-rgb), 0.1)',
             minHeight: '400px'

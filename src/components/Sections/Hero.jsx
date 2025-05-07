@@ -1,31 +1,41 @@
 // src/components/sections/Hero.jsx
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useTypewriter } from '../../hooks/useTypewriter';
-import { useParticles } from '../../hooks/useParticles';
+import Particles from '../Particles';
 import Button from '../ui/Button';
 
 const Hero = () => {
   const containerRef = useRef(null);
   const scrollToSection = useScrollToSection();
   
+  // State to control when to start second typewriter
+  const [shouldStartRole, setShouldStartRole] = useState(false);
+  
   // Setup typewriter effects
   const { 
     displayedText: name, 
     isTyping: isTypingName, 
     isComplete: nameComplete 
-  } = useTypewriter("Hi, I'm Tomás Lopes");
+  } = useTypewriter("Hi, I'm Tomás Lopes", {
+    onComplete: () => setShouldStartRole(true)
+  });
+  
+  // This effect will run whenever nameComplete changes
+  useEffect(() => {
+    if (nameComplete) {
+      console.log("Name typing complete, starting role typing");
+      setShouldStartRole(true);
+    }
+  }, [nameComplete]);
   
   const { 
     displayedText: role, 
     isTyping: isTypingRole 
   } = useTypewriter("Software Engineer", { 
-    startTyping: nameComplete 
+    startTyping: shouldStartRole 
   });
-  
-  // Setup particles
-  useParticles({ containerRef });
 
   // Animation variants for content
   const containerVariants = {
@@ -49,11 +59,13 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden" id="home">
+    <section 
+      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden" 
+      id="home"
+      ref={containerRef}
+    >
       {/* Particle container */}
-      <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden">
-        {/* Particles added via JS */}
-      </div>
+      <Particles />
       
       {/* Grid background */}
       <div className="absolute inset-0 bg-[radial-gradient(rgba(var(--highlight-rgb),0.1)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 z-0"></div>

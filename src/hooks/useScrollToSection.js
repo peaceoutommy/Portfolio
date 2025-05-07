@@ -3,8 +3,8 @@ import { useCallback } from 'react';
 export function useScrollToSection() {
   const scrollToSection = useCallback((id, options = {}) => {
     const { 
-      offset = 40, 
-      duration = 800, 
+      offset = 180, 
+      duration = 1, 
       onComplete = null 
     } = options;
     

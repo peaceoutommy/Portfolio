@@ -9,35 +9,29 @@ import Card from '../ui/Card';
 // Career experience data
 const EXPERIENCES = [
   { 
-    title: "Senior Frontend Developer", 
-    company: "Tech Innovations Inc.",
+    title: "Software Engineer", 
+    company: "Fontys University",
+    period: "2024 - Present",
+    description: "" 
+  },
+  { 
+    title: "Fullstack Developer", 
+    company: "Freelancer",
     period: "2023 - Present",
-    description: "Leading the frontend development team, implementing modern React practices, and optimizing application performance." 
+    description: "Built and maintained multiple scalable web-applications using the MERN stack." 
   },
   { 
-    title: "Frontend Developer", 
-    company: "Digital Solutions Co.",
-    period: "2020 - 2023",
-    description: "Developed responsive web applications using React, Redux, and TypeScript. Collaborated with UX/UI designers to implement pixel-perfect interfaces." 
+    title: "Backend Developer", 
+    company: "Freelancer",
+    period: "2023",
+    description: "Developed the backend of a web-application for a remodeling company using NodeJs, ExpressJs and MySQL." 
   },
   { 
-    title: "Web Developer", 
-    company: "Creative Web Agency",
-    period: "2018 - 2020",
-    description: "Built and maintained client websites using JavaScript, HTML, and CSS. Implemented responsive designs and CMS integrations." 
+    title: "Fullstack Developer", 
+    company: "Dionamite",
+    period: "2023",
+    description: "Development of 2 web applications and a mobile application." 
   },
-  { 
-    title: "Junior Developer", 
-    company: "Startup Ventures",
-    period: "2016 - 2018",
-    description: "Assisted in development of web applications. Learned modern frontend frameworks and backend technologies." 
-  },
-  { 
-    title: "Computer Science Degree", 
-    company: "Tech University",
-    period: "2012 - 2016",
-    description: "Bachelor's degree in Computer Science with focus on software development." 
-  }
 ];
 
 const TimelineEvent = ({ 

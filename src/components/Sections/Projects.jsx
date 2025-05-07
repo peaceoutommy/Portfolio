@@ -12,23 +12,23 @@ const PROJECTS = [
     title: "E-Commerce Platform",
     description: "A full-stack e-commerce platform with React, Node.js, and MongoDB. Features include user authentication, product search, cart management, and payment processing.",
     tags: ["React", "Node.js", "MongoDB", "Stripe API"],
-    image: "/api/placeholder/400/300",
-    link: "#",
+    image: "/../../assets/dionamite.png",
+    link: "https://dionamite.com/",
     github: "#"
   },
   {
     title: "Task Management App",
     description: "A responsive task management application with drag-and-drop interface, team collaboration features, and real-time updates.",
     tags: ["Vue.js", "Firebase", "Tailwind CSS"],
-    image: "/api/placeholder/400/300",
-    link: "#",
+    image: "../../assets/dionamite.png",
+    link: "https://dionamite.academy/",
     github: "#"
   },
   {
     title: "Weather Dashboard",
     description: "An interactive weather dashboard that displays current and forecast weather data for multiple locations with customizable views.",
     tags: ["React", "OpenWeather API", "Chart.js"],
-    image: "/api/placeholder/400/300",
+    image: "../../api/placeholder/400/300",
     link: "#",
     github: "#"
   },

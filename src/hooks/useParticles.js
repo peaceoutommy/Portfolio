@@ -1,28 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function useParticles(options = {}) {
   const {
-    containerRef,
     count = window.innerWidth > 768 ? 50 : 25,
     minSize = 1,
     maxSize = 5,
     speed = { min: 10, max: 30 }
   } = options;
   
-  const particlesRef = useRef([]);
+  const [particles, setParticles] = useState([]);
   const isInitializedRef = useRef(false);
   
   useEffect(() => {
-    if (!containerRef?.current || isInitializedRef.current) return;
+    // Only create particles once
+    if (isInitializedRef.current) return;
     
-    const container = containerRef.current;
-    const particles = [];
-    
-    // Create particles only once
-    for (let i = 0; i < count; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('hero-particle');
-      
+    const newParticles = Array.from({ length: count }).map(() => {
       // Random properties
       const size = Math.random() * (maxSize - minSize) + minSize;
       const posX = Math.random() * 100;
@@ -31,39 +24,25 @@ export function useParticles(options = {}) {
       const duration = Math.random() * (speed.max - speed.min) + speed.min;
       const opacity = Math.random() * 0.5 + 0.1;
       
-      // Set particle styles
-      Object.assign(particle.style, {
-        width: `${size}px`,
-        height: `${size}px`,
-        left: `${posX}%`,
-        top: `${posY}%`,
-        opacity: opacity,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-        background: 'var(--highlight-color)',
-        boxShadow: '0 0 6px var(--highlight-color)',
-        position: 'absolute',
-        borderRadius: '50%',
-        animation: 'float-particle infinite ease-in-out'
-      });
-      
-      container.appendChild(particle);
-      particles.push(particle);
-    }
+      return {
+        size,
+        posX,
+        posY,
+        delay,
+        duration,
+        opacity,
+        id: Math.random().toString(36).substring(2, 9) // Unique ID
+      };
+    });
     
-    particlesRef.current = particles;
+    setParticles(newParticles);
     isInitializedRef.current = true;
     
-    // Cleanup
+    // No DOM cleanup needed as we're using React components
     return () => {
-      particles.forEach(particle => {
-        if (particle.parentNode === container) {
-          container.removeChild(particle);
-        }
-      });
       isInitializedRef.current = false;
     };
-  }, [containerRef]); // Only depend on containerRef, not other props
+  }, [count, minSize, maxSize, speed.min, speed.max]);
 
-  return particlesRef;
+  return particles;
 }

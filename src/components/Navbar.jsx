@@ -1,7 +1,5 @@
-// src/components/Navbar.jsx
 import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import PropTypes from 'prop-types';
 import ThemeColorButton from './ui/ThemeColorButton';
 import NavLink from './ui/NavLink';
 import { useScrollToSection } from '../hooks/useScrollToSection';
