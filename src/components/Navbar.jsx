@@ -27,7 +27,7 @@ const ColorButton = ({ highlightColor, onColorChange }) => {
     <li className="flex items-center gap-2">
       <button
         onClick={handleColorClick}
-        className="w-6 h-6 rounded border border-white glass transition-all duration-300"
+        className="w-6 h-6 rounded border border-gray-400 glass transition-all duration-300 hover:opacity-90"
         style={{ backgroundColor: highlightColor }}
         title="Click to change theme color"
         aria-label="Change theme color"
@@ -59,7 +59,7 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
   // Update CSS variable for highlight color
   useEffect(() => {
     document.documentElement.style.setProperty('--highlight-color', highlightColor);
-    
+
     // Extract RGB values for other CSS variables
     const r = parseInt(highlightColor.slice(1, 3), 16);
     const g = parseInt(highlightColor.slice(3, 5), 16);
@@ -77,12 +77,12 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
   useEffect(() => {
     const controlNavbar = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (currentScrollY < 10) {
         setShouldHideHeader(false); // Always show at top
         return;
       }
-      
+
       // Determine scroll direction
       if (currentScrollY > lastScrollY) {
         // Scrolling down
@@ -91,7 +91,7 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
         // Scrolling up
         setShouldHideHeader(false);
       }
-      
+
       // Update last scroll position
       setLastScrollY(currentScrollY);
     };
@@ -112,7 +112,7 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
         top: offsetPosition,
         behavior: 'smooth'
       });
-      
+
       // Close mobile menu after navigation
       if (isMenuOpen) {
         toggleMenu();
@@ -136,28 +136,29 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
   return (
     <>
       <header
-        className={`w-full py-4 px-8 fixed top-0 z-50 bg-black/50 backdrop-blur-sm neon-border transition-all duration-300 ease-out transform origin-top ${
-          shouldHideHeader ? 'scale-y-0 opacity-0' : 'scale-y-100 opacity-100'
-        }`}
+        className={`w-full py-4 px-8 fixed top-0 z-50 bg-black/50 backdrop-blur-sm neon-border transition-all duration-300 ease-out transform origin-top ${shouldHideHeader ? 'scale-y-0 opacity-0' : 'scale-y-100 opacity-100'
+          }`}
       >
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-lg md:text-xl lg:text-2xl neon-title">Portfolio</h1>
+          {/* <h1 className="text-lg md:text-xl lg:text-2xl neon-title">Portfolio</h1> */}
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center">
-            <ul className="flex space-x-2 sm:space-x-4 items-center">
+          <nav className="hidden md:flex items-center justify-between w-full">
+
+            <ColorButton highlightColor={highlightColor} onColorChange={handleColorChange} />
+            
+            <ul className="flex space-x-2 sm:space-x-4 md:space-x-6 items-center">
               <NavLink href="#" onClick={() => scrollToSection('skills')}>Skills</NavLink>
               <NavLink href="#" onClick={() => scrollToSection('projects')}>Projects</NavLink>
               <NavLink href="#" onClick={() => scrollToSection('timeline')}>Experience</NavLink>
               <NavLink href="#" onClick={() => scrollToSection('contact')}>Contact</NavLink>
-              <ColorButton highlightColor={highlightColor} onColorChange={handleColorChange} />
             </ul>
           </nav>
 
           {/* Mobile Menu Button */}
           <div className='md:hidden flex gap-4'>
             <ColorButton highlightColor={highlightColor} onColorChange={handleColorChange} />
-            <button 
+            <button
               onClick={toggleMenu}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -173,9 +174,8 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed w-full top-16 z-40 backdrop-blur-[10px] bg-black/70 neon-border transform transition-all duration-300 ease-in-out ${
-          isMenuOpen && !shouldHideHeader ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-        }`}
+        className={`fixed w-full top-16 z-40 backdrop-blur-[10px] bg-black/70 neon-border transform transition-all duration-300 ease-in-out ${isMenuOpen && !shouldHideHeader ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`}
         style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)' }}
       >
         <ul className="flex flex-col space-y-4 py-4 px-8">

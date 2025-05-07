@@ -53,7 +53,7 @@ const Contact = () => {
     <motion.section
       ref={ref}
       id="contact"
-      className="md:mt-48 mt-32 mb-16 "
+      className="md:mt-48 mt-32"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
       transition={{ duration: 0.3 }}

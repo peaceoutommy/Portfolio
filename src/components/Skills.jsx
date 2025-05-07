@@ -40,21 +40,19 @@ const Skills = () => {
                 { name: "MySQL", level: 85 },
                 { name: "SQL Server", level: 85 },
                 { name: "Mongo DB", level: 79 },
+                { name: "MariaDB", level: 71 },
             ]
         },
         {
-            category: "Design",
-            icon: "fas fa-palette",
+            category: "Version Control",
+            icon: "fas fa-code-branch",
             skills: [
-                { name: "Figma", level: 80 },
-                { name: "Adobe XD", level: 75 },
-                { name: "UI/UX", level: 85 },
-                { name: "Prototyping", level: 80 },
-                { name: "Wireframing", level: 85 },
-                { name: "Responsive Design", level: 90 },
-                { name: "Color Theory", level: 75 },
+                { name: "Git", level: 83 },
+                { name: "GitHub", level: 95 },
+                { name: "GitLab", level: 80 },
             ]
         }
+        
     ];
 
     // Get current active skills
@@ -84,14 +82,14 @@ const Skills = () => {
     return (
         <motion.div
             ref={ref}
-            className="w-full mt-24 md:mt-48 pt-16"
+            className="w-full mt-32 md:mt-48"
             id="skills"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
             transition={{ duration: 0.5 }}
         >
             <h2 className="text-3xl neon-text text-center mb-16 relative">
-                <span className="relative z-10">My Skills</span>
+                <span className="z-10">My Skills</span>
                 <motion.span 
                     className="absolute w-16 h-1 bg-[var(--highlight-color)] left-1/2 -bottom-4 transform -translate-x-1/2"
                     initial={{ width: 0 }}
