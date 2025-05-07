@@ -1,46 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
+import ColorButton from './ColorButton';
+import NavLink from './Navlink';
 
-// Navigation link component
-const NavLink = ({ href, children, onClick }) => (
-  <li>
-    <a
-      className="neon-text-hover text-sm md:text-base lg:text-lg"
-      href={href}
-      onClick={onClick}
-    >
-      {children}
-    </a>
-  </li>
-);
-
-// Theme color selection button
-const ColorButton = ({ highlightColor, onColorChange }) => {
-  const colors = ['#ff00ff', '#ffffff', '#00ffff', '#ff0000', '#00ff00'];
-
-  const handleColorClick = useCallback(() => {
-    const currentIndex = colors.indexOf(highlightColor);
-    const nextIndex = (currentIndex + 1) % colors.length;
-    onColorChange(colors[nextIndex]);
-  }, [colors, highlightColor, onColorChange]);
-
-  return (
-    <li className="flex items-center gap-2">
-      <button
-        onClick={handleColorClick}
-        className="w-6 h-6 rounded border border-gray-400 glass transition-all duration-300 hover:opacity-90"
-        style={{ backgroundColor: highlightColor }}
-        title="Click to change theme color"
-        aria-label="Change theme color"
-      />
-    </li>
-  );
-};
-
-const Navbar = ({ isScrolling, handleMenuToggle }) => {
+const Navbar = ({ handleMenuToggle }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [highlightColor, setHighlightColor] = useState('#ff00ff');
   const [lastScrollY, setLastScrollY] = useState(0);
   const [shouldHideHeader, setShouldHideHeader] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // Load saved theme color from localStorage
   useEffect(() => {
@@ -77,19 +44,23 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
   useEffect(() => {
     const controlNavbar = () => {
       const currentScrollY = window.scrollY;
+      const scrollThreshold = 100; // Only hide after scrolling 100px
 
       if (currentScrollY < 10) {
         setShouldHideHeader(false); // Always show at top
+        setIsScrolling(false);
         return;
       }
 
-      // Determine scroll direction
-      if (currentScrollY > lastScrollY) {
-        // Scrolling down
+      // Determine scroll direction with threshold
+      if (currentScrollY > lastScrollY + scrollThreshold) {
+        // Only hide when scrolled significantly down
         setShouldHideHeader(true);
-      } else {
-        // Scrolling up
+        setIsScrolling(true);
+      } else if (currentScrollY < lastScrollY - 10) {
+        // Show when scrolling up just a bit
         setShouldHideHeader(false);
+        setIsScrolling(true);
       }
 
       // Update last scroll position
@@ -100,22 +71,48 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
 
-  // Smooth scroll to section
+  // Smooth scroll to section with improved handling for multiple clicks
   const scrollToSection = useCallback((id) => {
     const section = document.getElementById(id);
     if (section) {
+      // Cancel any ongoing scroll animations
+      if (window.scrollAnimationFrame) {
+        cancelAnimationFrame(window.scrollAnimationFrame);
+      }
+      
       const offset = 40;
       const elementPosition = section.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      // Custom smooth scroll implementation
+      const startPosition = window.scrollY;
+      const distance = offsetPosition - startPosition;
+      const duration = 800; // ms
+      let startTime = null;
 
-      // Close mobile menu after navigation
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = timestamp - startTime;
+        const percent = Math.min(progress / duration, 1);
+        
+        // Easing function
+        const easeInOutQuad = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        
+        window.scrollTo(0, startPosition + distance * easeInOutQuad(percent));
+        
+        if (progress < duration) {
+          window.scrollAnimationFrame = requestAnimationFrame(step);
+        }
+      }
+      
+      window.scrollAnimationFrame = requestAnimationFrame(step);
+
+      // Close mobile menu after navigation, but only after scrolling has begun
       if (isMenuOpen) {
-        toggleMenu();
+        // Add a small delay to allow scrolling to begin before closing the menu
+        setTimeout(() => {
+          toggleMenu();
+        }, 300);
       }
     }
   }, [isMenuOpen, toggleMenu]);

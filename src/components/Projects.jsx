@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import SectionTitle from './SectionTitle'; // Import the new SectionTitle component
 
 const Projects = () => {
     const [activeProject, setActiveProject] = useState(null);
@@ -63,9 +64,7 @@ const Projects = () => {
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
             transition={{ duration: 0.3 }}
         >
-            <h2 className="text-3xl neon-text text-center mb-12">
-                My Projects
-            </h2>
+            <SectionTitle title="My Projects" inView={inView} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-12">
                 {projects.map((project, index) => (
@@ -78,8 +77,12 @@ const Projects = () => {
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={handleMouseLeave}
                         whileHover={{ 
-                            y: -5,
-                            boxShadow: `0 0 15px rgba(var(--highlight-rgb), 0.5)` 
+                            y: -5
+                        }}
+                        style={{
+                            boxShadow: activeProject === index 
+                                ? `0 0 15px rgba(var(--highlight-rgb), 0.5)` 
+                                : `0 0 5px rgba(var(--highlight-rgb), 0.1)`
                         }}
                     >
                         <div className="relative overflow-hidden aspect-video">

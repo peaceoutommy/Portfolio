@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import SectionTitle from './SectionTitle';
 
 const Skills = () => {
     const { ref, inView } = useInView({
@@ -52,7 +53,7 @@ const Skills = () => {
                 { name: "GitLab", level: 80 },
             ]
         }
-        
+
     ];
 
     // Get current active skills
@@ -61,19 +62,19 @@ const Skills = () => {
     // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
-        visible: { 
+        visible: {
             opacity: 1,
-            transition: { 
+            transition: {
                 staggerChildren: 0.1,
                 delayChildren: 0.2
             }
         }
     };
-    
+
     const itemVariants = {
         hidden: { y: 20, opacity: 0 },
-        visible: { 
-            y: 0, 
+        visible: {
+            y: 0,
             opacity: 1,
             transition: { duration: 0.5 }
         }
@@ -88,33 +89,24 @@ const Skills = () => {
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
             transition={{ duration: 0.5 }}
         >
-            <h2 className="text-3xl neon-text text-center mb-16 relative">
-                <span className="z-10">My Skills</span>
-                <motion.span 
-                    className="absolute w-16 h-1 bg-[var(--highlight-color)] left-1/2 -bottom-4 transform -translate-x-1/2"
-                    initial={{ width: 0 }}
-                    animate={{ width: inView ? '4rem' : 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                />
-            </h2>
+            <SectionTitle title="Skills" inView={inView} />
 
             {/* Category Tabs */}
             <div className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4">
                 {skillCategories.map((category, idx) => (
                     <motion.button
                         key={category.category}
-                        className={`px-5 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 ${
-                            activeCategory === category.category 
+                        className={`px-5 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 ${activeCategory === category.category
                                 ? 'bg-[var(--highlight-color)]/20 border-2 border-[var(--highlight-color)] neon-text'
                                 : 'bg-black/40 border-2 border-white/10 text-white/70 hover:border-white/30'
-                        }`}
+                            }`}
                         onClick={() => setActiveCategory(category.category)}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
                         transition={{ duration: 0.5, delay: idx * 0.1 }}
-                        whileHover={{ 
-                            boxShadow: activeCategory === category.category 
-                                ? '0 0 8px var(--highlight-color)' 
+                        whileHover={{
+                            boxShadow: activeCategory === category.category
+                                ? '0 0 8px var(--highlight-color)'
                                 : 'none'
                         }}
                         whileTap={{ scale: 0.98 }}
@@ -127,7 +119,7 @@ const Skills = () => {
 
             {/* Skills Display */}
             <div className="relative overflow-hidden p-2">
-                <div 
+                <div
                     className="card p-8 bg-black/50 backdrop-blur-[30px] rounded-lg border-2 border-white/20"
                     style={{
                         boxShadow: '0 0 30px rgba(var(--highlight-rgb), 0.1)',
@@ -139,9 +131,9 @@ const Skills = () => {
                         <i className={`${skillCategories.find(c => c.category === activeCategory)?.icon || 'fas fa-code'} text-3xl neon-text`}></i>
                         <h3 className="text-2xl neon-text">{activeCategory} Skills</h3>
                     </div>
-                    
+
                     {/* Grid for larger screens, scroll for mobile */}
-                    <motion.div 
+                    <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 gap-8"
                         key={activeCategory} // This forces re-render of content when category changes
                         variants={containerVariants}
@@ -149,8 +141,8 @@ const Skills = () => {
                         animate="visible"
                     >
                         {activeSkills.map((skill, idx) => (
-                            <motion.div 
-                                key={skill.name} 
+                            <motion.div
+                                key={skill.name}
                                 className="w-full"
                                 variants={itemVariants}
                             >
@@ -166,8 +158,8 @@ const Skills = () => {
                                         }}
                                         initial={{ width: 0 }}
                                         animate={{ width: `${skill.level}%` }}
-                                        transition={{ 
-                                            duration: 1.5, 
+                                        transition={{
+                                            duration: 1.5,
                                             delay: idx * 0.1,
                                             ease: [0.4, 0, 0.2, 1]
                                         }}

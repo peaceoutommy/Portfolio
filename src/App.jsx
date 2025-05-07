@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import './index.css';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer';
 import Timeline from './components/Timeline';
 import Projects from './components/Projects';
@@ -120,7 +120,7 @@ const App = () => {
         handleMenuToggle={handleMenuToggle}
       />
 
-      <main className="flex-grow flex flex-col items-center md:mt-16 mt-32 px-8 sm:px-16 md:px-32 ">
+      <main className="flex-grow flex flex-col items-center mt-8 md:mt-16 px-8 sm:px-16 md:px-32 ">
         <Hero />
         <Skills />
         <Projects />

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import PropTypes from 'prop-types';
+import SectionTitle from './SectionTitle'; // Import the new SectionTitle component
 
 // Career experience data
 const experiences = [
@@ -182,12 +183,9 @@ const Timeline = () => {
       className="w-full md:mt-48 mt-32"
       id="timeline"
     >
-      <h2 className="text-3xl neon-text mb-8 text-center">
-        Professional Experience
-      </h2>
+      <SectionTitle title="Professional Experience" inView={inView} />
 
       <div className="relative mt-16">
-        {/* Timeline track - Adjusted z-index */}
         <div
           ref={progressRef}
           className="absolute h-full left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-500 z-10"
@@ -219,6 +217,7 @@ const Timeline = () => {
               isLeft={index % 2 === 0}
               isActive={activeIndex === index}
               index={index}
+              inView={inView}
             />
           ))}
         </div>
@@ -227,8 +226,8 @@ const Timeline = () => {
   );
 };
 
-const TimelineEvent = ({ title, company, period, description, isLeft, isActive, index }) => {
-  const { ref, inView } = useInView({
+const TimelineEvent = ({ title, company, period, description, isLeft, isActive, index, inView }) => {
+  const { ref, inView: isEventInView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
@@ -238,7 +237,7 @@ const TimelineEvent = ({ title, company, period, description, isLeft, isActive, 
     transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
     boxShadow: isActive 
       ? `0 0 8px var(--highlight-color), 0 0 12px rgba(var(--highlight-rgb), 0.2)` 
-      : 'none',
+      : '0 0 5px rgba(var(--highlight-rgb), 0.1)',
     borderColor: isActive ? 'var(--highlight-color)' : '',
     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
   };
@@ -248,11 +247,10 @@ const TimelineEvent = ({ title, company, period, description, isLeft, isActive, 
       ref={ref}
       className="flex flex-col md:flex-row items-center w-full z-30 timeline-event" 
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+      animate={{ opacity: isEventInView ? 1 : 0, y: isEventInView ? 0 : 20 }}
       transition={{ duration: 0.3 }}
       data-index={index}
     >
-      {/* No timeline dots */}
       
       {isLeft ? (
         <>
@@ -301,7 +299,8 @@ TimelineEvent.propTypes = {
   description: PropTypes.string.isRequired,
   isLeft: PropTypes.bool.isRequired,
   isActive: PropTypes.bool,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  inView: PropTypes.bool
 };
 
 export default Timeline;

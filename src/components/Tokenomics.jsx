@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import SectionTitle from './SectionTitle';
 
 const Tokenomics = () => {
 
@@ -11,8 +12,8 @@ const Tokenomics = () => {
     ];
 
     const { ref, inView } = useInView({
-        threshold: 0.1, // Trigger when 10% of the element is visible
-        triggerOnce: false, // Only trigger once
+        threshold: 0.1,
+        triggerOnce: false,
     });
 
     return (
@@ -24,9 +25,7 @@ const Tokenomics = () => {
             className="w-full md:mt-48 mt-32" id="tokenomics">
 
 
-            <h2 className="text-3xl neon-text text-center mb-8" data-scroll>
-                Tokenomics
-            </h2>
+            <SectionTitle title="Tokenomics" inView={inView} />
 
             <div className="flex flex-col md:flex-row w-full mt-16 text-center gap-8">
                 {tokenomics.map((item, i) => {
