@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Hero from './components/Hero';
 import Contact from './components/Contact';
+import Tokenomics from './components/Tokenomics';
 
 const App = () => {
   const [uiState, setUiState] = useState({
@@ -39,7 +40,7 @@ const App = () => {
       const ball = document.createElement('div');
       ball.classList.add('neon-blur');
       const size = `${Math.random() * 200 + 100}px`;
-      
+
       Object.assign(ball.style, {
         width: size,
         height: size,
@@ -48,7 +49,7 @@ const App = () => {
         '--animation-delay': `${Math.random() * -15}s`,
         opacity: '0'
       });
-      
+
       return ball;
     };
 
@@ -105,9 +106,9 @@ const App = () => {
 
   // Toggle mobile menu state handler
   const handleMenuToggle = useCallback(() => {
-    setUiState(prev => ({ 
-      ...prev, 
-      showMobileMenu: !prev.showMobileMenu 
+    setUiState(prev => ({
+      ...prev,
+      showMobileMenu: !prev.showMobileMenu
     }));
   }, []);
 
@@ -119,12 +120,13 @@ const App = () => {
         handleMenuToggle={handleMenuToggle}
       />
 
-      <main className="flex-grow flex flex-col items-center md:mt-48 mt-32 px-8 sm:px-16 md:px-32 ">
+      <main className="flex-grow flex flex-col items-center md:mt-16 mt-32 px-8 sm:px-16 md:px-32 ">
         <Hero />
         <Skills />
         <Projects />
         <Timeline />
-        <Contact/>
+        <Contact />
+        <Tokenomics />
       </main>
 
       <Footer />

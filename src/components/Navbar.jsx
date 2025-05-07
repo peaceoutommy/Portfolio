@@ -141,7 +141,7 @@ const Navbar = ({ isScrolling, handleMenuToggle }) => {
         }`}
       >
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-lg md:text-xl lg:text-2xl neon-title">Dev Portfolio</h1>
+          <h1 className="text-lg md:text-xl lg:text-2xl neon-title">Portfolio</h1>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center">

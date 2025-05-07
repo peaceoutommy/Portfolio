@@ -234,12 +234,14 @@ const TimelineEvent = ({ title, company, period, description, isLeft, isActive, 
   });
 
   // Enhanced card style for active card
-  const cardStyle = isActive ? {
-    boxShadow: `0 0 8px var(--highlight-color), 0 0 12px rgba(var(--highlight-rgb), 0.2)`,
-    borderColor: 'var(--highlight-color)',
-    transform: 'translateY(-3px)',
+  const cardStyle = {
+    transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
+    boxShadow: isActive 
+      ? `0 0 8px var(--highlight-color), 0 0 12px rgba(var(--highlight-rgb), 0.2)` 
+      : 'none',
+    borderColor: isActive ? 'var(--highlight-color)' : '',
     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-  } : {};
+  };
 
   return (
     <motion.div

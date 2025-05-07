@@ -30,8 +30,6 @@ const Tokenomics = () => {
 
             <div className="flex flex-col md:flex-row w-full mt-16 text-center gap-8">
                 {tokenomics.map((item, i) => {
-
-
                     return (
                         <motion.div
 
