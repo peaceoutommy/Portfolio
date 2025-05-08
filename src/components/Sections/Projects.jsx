@@ -9,25 +9,25 @@ import Card from '../ui/Card';
 // Project data with proper shape
 const PROJECTS = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce platform with React, Node.js, and MongoDB. Features include user authentication, product search, cart management, and payment processing.",
-    tags: ["React", "Node.js", "MongoDB", "Stripe API"],
-    image: "/../../assets/dionamite.png",
+    title: "Corporate Website",
+    description: "A modern, responsive platform built with React.js and TailwindCSS. It highlights the company's services, showcases the portfolio, and includes a contact form with mailing functionality.",
+    tags: ["ReactJs", "TailwindCSS"],
+    image: "./dionamite.png",
     link: "https://dionamite.com/",
-    github: "#"
+    github: null
   },
   {
     title: "Task Management App",
     description: "A responsive task management application with drag-and-drop interface, team collaboration features, and real-time updates.",
-    tags: ["Vue.js", "Firebase", "Tailwind CSS"],
-    image: "../../assets/dionamite.png",
+    tags: ["ReactJs", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
+    image: "./dionamiteacademy.png",
     link: "https://dionamite.academy/",
-    github: "#"
+    github: null
   },
   {
-    title: "Weather Dashboard",
-    description: "An interactive weather dashboard that displays current and forecast weather data for multiple locations with customizable views.",
-    tags: ["React", "OpenWeather API", "Chart.js"],
+    title: "Mobile App",
+    description: "A cross-plataform mobile application for scheduling car cleaning services. Features a live map view, user authentication, and payment processing.",
+    tags: ["React Native", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
     image: "../../api/placeholder/400/300",
     link: "#",
     github: "#"
@@ -58,55 +58,67 @@ const ProjectCard = ({ project, index, isActive, onMouseEnter, onMouseLeave, inV
         isActive={isActive}
         whileHover={{ y: -5 }}
         style={{
-          boxShadow: isActive 
-            ? `0 0 15px rgba(var(--highlight-rgb), 0.5)` 
+          boxShadow: isActive
+            ? `0 0 15px rgba(var(--highlight-rgb), 0.5)`
             : `0 0 5px rgba(var(--highlight-rgb), 0.1)`
         }}
       >
         <div className="relative overflow-hidden aspect-video">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover transition-transform duration-500 ease-in-out" 
-            style={{ 
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
+            style={{
               transform: isActive ? 'scale(1.05)' : 'scale(1)'
-            }} 
+            }}
           />
-          <div 
+          <div
             className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300"
-            style={{ 
+            style={{
               opacity: isActive ? 1 : 0.7
             }}
           />
         </div>
-        
+
         <div className="p-6 flex flex-col flex-grow">
           <h3 className="text-xl neon-text mb-3">{project.title}</h3>
           <p className="mb-4 text-white/80">{project.description}</p>
-          
+
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tags.map((tag, tagIndex) => (
-              <span 
-                key={tagIndex} 
+              <span
+                key={tagIndex}
                 className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30"
               >
                 {tag}
               </span>
             ))}
           </div>
-          
+
           <div className="flex gap-4 mt-auto">
-            <a 
-              href={project.github}
-              className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View code for ${project.title}`}
-            >
-              <i className="fab fa-github mr-2"></i>
-              Code
-            </a>
-            <a 
+            {project.github && project.github !== null ? (
+              <a
+                href={project.github}
+                className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View code for ${project.title}`}
+              >
+                <i className="fab fa-github mr-2"></i>
+                Code
+              </a>
+            ) : (
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                disabled
+                aria-label="Code not available"
+              >
+                <i className="fab fa-github mr-2"></i>
+                Code
+              </button>
+            )}
+
+            <a
               href={project.link}
               className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
               target="_blank"
@@ -141,7 +153,7 @@ ProjectCard.propTypes = {
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(null);
-  
+
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,

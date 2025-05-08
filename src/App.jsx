@@ -17,7 +17,7 @@ const App = () => {
     
         <Navbar />
 
-        <main className="flex-grow flex flex-col items-center mt-8 px-4 sm:px-8 md:px-16 lg:px-32 max-w-7xl mx-auto w-full">
+        <main className="flex-grow flex flex-col items-center mt-8 px-4 sm:px-8 md:px-16 lg:px-32 max-w-screen-2xl mx-auto w-full">
           <Hero />
           <Skills />
           <Projects />

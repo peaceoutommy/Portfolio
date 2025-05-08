@@ -11,27 +11,27 @@ const EXPERIENCES = [
   { 
     title: "Software Engineer", 
     company: "Fontys University",
-    period: "2024 - Present",
-    description: "" 
+    period: "2024 – Present",
+    description: "Designed and developed a scalable white-labeled web application for restaurant owners. Key features include automated stock management, menu configuration, and dynamic QR code generation for tables." 
   },
   { 
-    title: "Fullstack Developer", 
+    title: "Full-Stack Developer", 
     company: "Freelancer",
-    period: "2023 - Present",
-    description: "Built and maintained multiple scalable web-applications using the MERN stack." 
+    period: "2023 – Present",
+    description: "Built and maintained several scalable web applications using the MERN stack, ensuring responsive design and robust backend architecture." 
   },
   { 
     title: "Backend Developer", 
     company: "Freelancer",
     period: "2023",
-    description: "Developed the backend of a web-application for a remodeling company using NodeJs, ExpressJs and MySQL." 
+    description: "Implemented the backend of a web application for a remodeling company using the MERN stack, focusing on performance and data integrity." 
   },
   { 
-    title: "Fullstack Developer", 
+    title: "Full-Stack Developer", 
     company: "Dionamite",
     period: "2023",
-    description: "Development of 2 web applications and a mobile application." 
-  },
+    description: "Participated in the development of two web applications and a mobile application, delivering full-featured solutions from frontend to backend." 
+  },  
 ];
 
 const TimelineEvent = ({ 
@@ -73,11 +73,11 @@ const TimelineEvent = ({
               }}
             >
               <h3 className="text-xl neon-text mb-1">{title}</h3>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-wrap justify-between items-center mb-4">
                 <p className="text-white/70">{company}</p>
-                <span className="text-sm text-white/50">{period}</span>
+                <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <p className="neon-text">{description}</p>
+              <p className="neon-text text-sm md:text-base">{description}</p>
             </Card>
           </div>
           <div className="hidden md:block w-full md:w-1/2" />
@@ -98,11 +98,11 @@ const TimelineEvent = ({
               }}
             >
               <h3 className="text-xl neon-text mb-1">{title}</h3>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-wrap justify-between items-center mb-4">
                 <p className="text-white/70">{company}</p>
-                <span className="text-sm text-white/50">{period}</span>
+                <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <p className="neon-text">{description}</p>
+              <p className="neon-text text-sm md:text-base">{description}</p>
             </Card>
           </div>
         </>
