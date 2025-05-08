@@ -9,14 +9,14 @@ import GlowText from './GlowText';
 /**
  * TimelineEvent - A standardized timeline event component
  */
-const TimelineEvent = ({ 
-  title, 
-  company, 
-  period, 
-  description, 
-  isLeft, 
-  isActive, 
-  index 
+const TimelineEvent = ({
+  title,
+  company,
+  period,
+  description,
+  isLeft,
+  isActive,
+  index
 }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
@@ -26,23 +26,21 @@ const TimelineEvent = ({
   return (
     <motion.div
       ref={ref}
-      className="flex flex-col md:flex-row items-center w-full z-30 timeline-event" 
+      className="flex flex-col md:flex-row items-center w-full z-30 timeline-event"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
       transition={{ duration: 0.3 }}
       data-index={index}
     >
-      
+
       {isLeft ? (
         <>
           <div className="w-full md:w-1/2 md:pr-8">
             <Card
-              className="p-6"
+              className="p-6 transition-all"
               isActive={isActive}
-              intensity={isActive ? "high" : "medium"}
-              style={{
-                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
-              }}
+              intensity={isActive ? "high" : "low"}
+              whileHover={{ y: -5 }}
             >
               <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>
                 {title}
@@ -51,7 +49,7 @@ const TimelineEvent = ({
                 <p className="text-white/70">{company}</p>
                 <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <GlowText className="text-sm md:text-base" intensity="low">
+              <GlowText className="text-sm md:text-base" intensity={isActive ? "medium" : "low"}>
                 {description}
               </GlowText>
             </Card>
@@ -63,12 +61,10 @@ const TimelineEvent = ({
           <div className="hidden md:block w-full md:w-1/2" />
           <div className="w-full md:w-1/2 md:pl-8">
             <Card
-              className="p-6"
+              className="p-6 transition-all"
               isActive={isActive}
-              intensity={isActive ? "high" : "medium"}
-              style={{
-                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
-              }}
+              intensity={isActive ? "high" : "low"}
+              whileHover={{ y: -5 }}
             >
               <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>
                 {title}
@@ -77,7 +73,7 @@ const TimelineEvent = ({
                 <p className="text-white/70">{company}</p>
                 <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <GlowText className="text-sm md:text-base" intensity="low">
+              <GlowText className="text-sm md:text-base" intensity={isActive ? "medium" : "low"}>
                 {description}
               </GlowText>
             </Card>

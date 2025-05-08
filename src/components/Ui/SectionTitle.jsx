@@ -8,7 +8,7 @@ import GlowText from './GlowText';
  */
 const SectionTitle = ({ title, inView }) => (
   <h2 className="text-3xl mb-16 sm:mb-24 text-center relative">
-    <GlowText intensity="high">{title}</GlowText>
+    <GlowText intensity="medium">{title}</GlowText>
     <motion.span 
       className="absolute w-16 h-1 bg-[var(--highlight-color)] left-1/2 -bottom-4 transform -translate-x-1/2"
       initial={{ width: 0 }}

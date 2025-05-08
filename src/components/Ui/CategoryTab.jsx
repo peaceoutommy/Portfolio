@@ -24,7 +24,11 @@ const CategoryTab = ({
       }`}
       onClick={onClick}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+      animate={{ 
+        opacity: inView ? 1 : 0, 
+        y: inView ? 0 : 20,
+        width: isActive ? 'auto' : 'auto', // This triggers the width animation
+      }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{
         scale: 1.03,
@@ -35,10 +39,21 @@ const CategoryTab = ({
       whileTap={{ scale: 0.98 }}
       aria-pressed={isActive}
       style={{
-        boxShadow: isActive ? 'var(--box-shadow-sm)' : 'none'
+        boxShadow: isActive ? 'var(--box-shadow-sm)' : 'none',
+        width: isActive ? 'auto' : 'auto', // This helps with the width animation
       }}
     >
-      {icon && <i className={`${icon} mr-2`} aria-hidden="true"></i>}
+      {icon && (
+        <i 
+          className={`${icon} text-[var(--highlight-color)]`} 
+          style={{ 
+            textShadow: isActive 
+              ? 'var(--text-shadow-md)' 
+              : 'var(--text-shadow-sm)',
+          }}
+          aria-hidden="true"
+        />
+      )}
       <GlowText intensity={isActive ? 'high' : 'low'}>
         {label}
       </GlowText>

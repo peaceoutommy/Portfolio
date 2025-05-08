@@ -57,7 +57,7 @@ const SKILL_CATEGORIES = [
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('Frontend');
-  
+
   // Memoize active skills to prevent unnecessary renders
   const activeSkills = useMemo(() => {
     return SKILL_CATEGORIES.find(cat => cat.category === activeCategory)?.skills || [];
@@ -91,7 +91,7 @@ const Skills = () => {
 
           {/* Skills Display */}
           <div className="relative overflow-hidden">
-            <Card 
+            <Card
               className="p-6"
               intensity={activeCategory === "Frontend" ? "high" : "medium"}
               style={{
@@ -100,8 +100,15 @@ const Skills = () => {
             >
               {/* Category Title */}
               <div className="flex items-center gap-4 mb-8">
-                <i className={`${activeCategoryIcon} text-3xl`} aria-hidden="true"></i>
-                <GlowText as="h3" className="text-2xl" intensity="high">
+                <span 
+                  className="text-3xl text-[var(--highlight-color)]"
+                  style={{ 
+                    textShadow: 'var(--text-shadow-md)',
+                  }}
+                >
+                  <i className={activeCategoryIcon} aria-hidden="true"></i>
+                </span>
+                <GlowText as="h3" className="text-2xl" intensity="medium">
                   {activeCategory} Skills
                 </GlowText>
               </div>
