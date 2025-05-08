@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
-const DEFAULT_COLOR = '#ff00ff'; // Default magenta
+const DEFAULT_COLOR = '#00ffff';
 const THEME_STORAGE_KEY = 'portfolioThemeColor';
 
 export const ThemeProvider = ({ children }) => {

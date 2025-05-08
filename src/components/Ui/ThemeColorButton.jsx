@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 
-const THEME_COLORS = ['#ff00ff', '#ffffff', '#00ffff', '#ff0000', '#00ff00'];
+const THEME_COLORS = ['#00ffff', '#ffff00', '#ffffff', '#ff00ff', '#ff6600', '#ff0000', '#00ff00'];
 
 const ThemeColorButton = () => {
   const { highlightColor, setThemeColor } = useTheme();

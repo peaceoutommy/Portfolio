@@ -3,10 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --highlight-color: #ff00ff;
-  --highlight-rgb: 255, 0, 255;
-}
+
 
 /* Base styles */
 @layer base {

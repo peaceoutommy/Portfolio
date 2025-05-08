@@ -3,37 +3,31 @@ import { useState, useEffect } from 'react';
 /**
  * Custom hook for controlling navbar visibility based on scroll direction
  * Shows navbar immediately when scrolling up, hides when scrolling down after 10px
+ * Handles edge cases like reaching bottom of page
  * @returns {Object} - States for navbar visibility
  */
 export const useNavbarScroll = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Check if we're on mobile 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Set initial value
-    checkMobile();
-    
-    // Update on resize
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
+      // Check if we're at the bottom of the page
+      const isBottomReached = 
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
+      
+      setIsAtBottom(isBottomReached);
+      
       // When scrolling down AND not at the top of the page, hide the navbar
-      if (currentScrollY > lastScrollY && currentScrollY > 10) {
+      // But only if we're not at the bottom of the page (prevents false "scroll up" detection)
+      if (currentScrollY > lastScrollY && currentScrollY > 10 && !isBottomReached) {
         setIsVisible(false);
       } 
       // When scrolling up OR at the top of the page, show the navbar
-      else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+      else if ((currentScrollY < lastScrollY && !isBottomReached) || currentScrollY <= 0) {
         setIsVisible(true);
       }
       
@@ -57,12 +51,12 @@ export const useNavbarScroll = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isAtBottom]);
 
   return {
     isVisible,
     isAtTop: lastScrollY <= 0,
-    isMobile
+    isAtBottom
   };
 };
 
