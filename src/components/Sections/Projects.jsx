@@ -53,7 +53,7 @@ const Projects = () => {
   // Detect mobile devices on component mount and window resize
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
+      const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
       
       // Reset active project when switching between mobile and desktop
