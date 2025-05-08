@@ -1,52 +1,47 @@
+// src/contexts/ThemeContext.js
 import { createContext, useContext, useState, useEffect } from 'react';
 
+// Default theme color (Cyan)
+const DEFAULT_THEME = '0, 255, 255';
+
+// Create context
 const ThemeContext = createContext();
 
-const DEFAULT_COLOR = '#00ffff';
-const THEME_STORAGE_KEY = 'portfolioThemeColor';
-
 export const ThemeProvider = ({ children }) => {
-  const [highlightColor, setHighlightColor] = useState(DEFAULT_COLOR);
+  // Get saved theme from localStorage or use default
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme-color');
+    return savedTheme || DEFAULT_THEME;
+  });
 
-  // Load saved theme on initial mount
-  useEffect(() => {
-    const storedColor = localStorage.getItem(THEME_STORAGE_KEY);
-    if (storedColor) {
-      setHighlightColor(storedColor);
-    }
-  }, []);
-
-  // Update CSS variables when color changes
-  useEffect(() => {
-    document.documentElement.style.setProperty('--highlight-color', highlightColor);
-
-    // Extract RGB values for other CSS variables
-    const r = parseInt(highlightColor.slice(1, 3), 16);
-    const g = parseInt(highlightColor.slice(3, 5), 16);
-    const b = parseInt(highlightColor.slice(5, 7), 16);
-    document.documentElement.style.setProperty('--highlight-rgb', `${r}, ${g}, ${b}`);
-  }, [highlightColor]);
-
-  const setThemeColor = (newColor) => {
-    setHighlightColor(newColor);
-    localStorage.setItem(THEME_STORAGE_KEY, newColor);
+  // Update theme color variables and save to localStorage
+  const changeColor = (colorValue) => {
+    setCurrentTheme(colorValue);
+    localStorage.setItem('theme-color', colorValue);
+    
+    // Update CSS variables
+    document.documentElement.style.setProperty('--highlight-rgb', colorValue);
+    document.documentElement.style.setProperty('--highlight-color', `rgb(${colorValue})`);
   };
 
-  const value = {
-    highlightColor,
-    setThemeColor,
-  };
+  // Initialize theme on mount
+  useEffect(() => {
+    // Set the theme from state
+    document.documentElement.style.setProperty('--highlight-rgb', currentTheme);
+    document.documentElement.style.setProperty('--highlight-color', `rgb(${currentTheme})`);
+  }, [currentTheme]);
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={{ currentTheme, changeColor }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
+// Custom hook for using the theme context
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;

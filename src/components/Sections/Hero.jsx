@@ -5,6 +5,7 @@ import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useTypewriter } from '../../hooks/useTypewriter';
 import Particles from '../Particles';
 import Button from '../ui/Button';
+import GlowText from '../ui/GlowText';
 
 const Hero = () => {
   const containerRef = useRef(null);
@@ -81,18 +82,18 @@ const Hero = () => {
         {/* Main heading */}
         <motion.div variants={itemVariants} className="mb-6">
           <h1 
-            className={`text-3xl md:text-6xl lg:text-7xl font-bold neon-text leading-tight min-h-[1.2em] ${isTypingName ? 'typing' : ''}`}
+            className={`text-3xl md:text-6xl lg:text-7xl font-bold leading-tight min-h-[1.2em] ${isTypingName ? 'typing' : ''}`}
           >
-            {name}
+            <GlowText intensity="high">{name}</GlowText>
           </h1>
         </motion.div>
         
         {/* Subtitle/role */}
         <motion.div variants={itemVariants} className="mb-12">
           <h2 
-            className={`text-xl md:text-4xl lg:text-5xl neon-text leading-tight min-h-[1.2em] opacity-80 ${isTypingRole ? 'typing' : ''}`}
+            className={`text-xl md:text-4xl lg:text-5xl leading-tight min-h-[1.2em] opacity-80 ${isTypingRole ? 'typing' : ''}`}
           >
-            {role}
+            <GlowText intensity="medium">{role}</GlowText>
           </h2>
         </motion.div>
         

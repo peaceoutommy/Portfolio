@@ -1,10 +1,11 @@
+// src/App.jsx
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/sections/Hero';
 import Skills from './components/sections/Skills';
 import Projects from './components/sections/Projects';
 import Timeline from './components/sections/Timeline';
-import Education from './components/Sections/Education';
+import Education from './components/sections/Education';
 import Contact from './components/sections/Contact';
 import AnimatedBackground from './components/AnimatedBackground';
 import { ThemeProvider } from './contexts/ThemeContext';

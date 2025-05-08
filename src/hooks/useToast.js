@@ -1,43 +1,40 @@
-import { useContext } from "react";
-import ToastContext, { TOAST_TYPES, TOAST_POSITIONS } from "../contexts/ToastContext";
+// src/hooks/useToast.js
+import { useContext } from 'react';
+import { ToastContext, ToastTypes, ToastPositions } from '../contexts/ToastContext';
 
 /**
- * Custom hook to use the Toast functionality
+ * Custom hook for using the toast notification system
  * 
- * @returns {Object} Toast methods
- * @returns {Function} .showSuccess - Show a success toast
- * @returns {Function} .showError - Show an error toast
- * @returns {Function} .showWarning - Show a warning toast
- * @returns {Function} .showInfo - Show an info toast
- * @returns {Function} .addToast - Add a custom toast
- * @returns {Function} .removeToast - Remove a toast by ID
- * @returns {Function} .clearAllToasts - Clear all toasts
+ * @returns {Object} Toast functions
+ * @returns {Function} showSuccess - Display a success toast
+ * @returns {Function} showError - Display an error toast
+ * @returns {Function} showInfo - Display an info toast
+ * @returns {Function} showWarning - Display a warning toast
+ * @returns {Function} removeToast - Remove a specific toast by ID
+ * 
+ * Each show function accepts:
+ * @param {string} message - The toast message
+ * @param {Object} options - Options for customizing the toast
+ * @param {string} options.position - Position of the toast (default: TOP_RIGHT)
+ * @param {number} options.duration - Duration in milliseconds (default: 3000)
+ * 
  * @example
- * const { showSuccess, showError } = useToast();
- * showSuccess('Operation completed!', { position: 'top-right', duration: 3000 });
- * showError('Something went wrong', { position: 'bottom-center' });
+ * const { showSuccess } = useToast();
+ * 
+ * showSuccess('Operation completed successfully!', {
+ *   position: ToastPositions.TOP_RIGHT,
+ *   duration: 5000
+ * });
  */
 export const useToast = () => {
   const context = useContext(ToastContext);
   
   if (!context) {
-    throw new Error(
-      'useToast must be used within a ToastProvider. ' +
-      'Make sure you have wrapped your component tree with <ToastProvider>.'
-    );
+    throw new Error('useToast must be used within a ToastProvider');
   }
   
   return context;
 };
 
-/**
- * Toast types for better auto-completion
- */
-export const ToastTypes = TOAST_TYPES;
-
-/**
- * Toast positions for better auto-completion
- */
-export const ToastPositions = TOAST_POSITIONS;
-
+export { ToastTypes, ToastPositions };
 export default useToast;

@@ -1,0 +1,63 @@
+// src/components/ui/SkillBar.jsx
+import { memo } from 'react';
+import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import GlowText from './GlowText';
+
+/**
+ * SkillBar - A standardized skill bar component with animation
+ */
+const SkillBar = ({ skill, index }) => {
+  return (
+    <motion.div
+      className="w-full"
+      variants={{
+        hidden: { opacity: 0, y: 10 },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: {
+            duration: 0.5,
+            delay: index * 0.1
+          }
+        }
+      }}
+    >
+      <div className="flex justify-between mb-2">
+        <GlowText>{skill.name}</GlowText>
+        <GlowText>{skill.level}%</GlowText>
+      </div>
+      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
+        <motion.div
+          className="h-full rounded-full relative"
+          style={{
+            background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(var(--highlight-rgb), 1) 100%)`,
+            boxShadow: 'var(--box-shadow-sm)'
+          }}
+          initial={{ width: 0 }}
+          animate={{ width: `${skill.level}%` }}
+          transition={{
+            duration: 1.5,
+            delay: index * 0.1,
+            ease: [0.4, 0, 0.2, 1]
+          }}
+        >
+          {/* Animated particles within the bar */}
+          <div className="absolute top-0 right-0 h-full w-8 overflow-hidden">
+            <div className="absolute inset-0 skill-sparkle"></div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
+
+SkillBar.propTypes = {
+  skill: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    level: PropTypes.number.isRequired
+  }).isRequired,
+  index: PropTypes.number.isRequired
+};
+
+export default memo(SkillBar);

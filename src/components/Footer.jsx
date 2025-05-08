@@ -2,6 +2,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import GlowText from './ui/GlowText';
 
 const SOCIAL_LINKS = [
   { icon: "fab fa-github", url: "https://github.com/peaceoutommy", label: "GitHub" },
@@ -29,21 +30,25 @@ const Footer = () => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="neon-text-hover text-2xl"
+            className="text-2xl"
             aria-label={link.label}
             whileHover={{ y: -3, scale: 1.1 }}
             transition={{ duration: 0.2 }}
           >
-            <i className={link.icon} aria-hidden="true"></i>
+            <GlowText hover intensity="high">
+              <i className={link.icon} aria-hidden="true"></i>
+            </GlowText>
           </motion.a>
         ))}
       </div>
       
       <div className="text-center">
-        <p className="neon-text md:text-sm text-xs">© {new Date().getFullYear()} Tomás Lopes. </p>
-        <p className="neon-text mt-2 md:text-xs text-[10px] opacity-70">
-        All rights reserved.
-        </p>
+        <GlowText className="md:text-sm text-xs">
+          © {new Date().getFullYear()} Tomás Lopes.
+        </GlowText>
+        <GlowText className="mt-2 md:text-xs text-[10px] opacity-70" intensity="low">
+          All rights reserved.
+        </GlowText>
       </div>
     </motion.footer>
   );
