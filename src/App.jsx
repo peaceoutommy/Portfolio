@@ -8,26 +8,29 @@ import Education from './components/Sections/Education';
 import Contact from './components/sections/Contact';
 import AnimatedBackground from './components/AnimatedBackground';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
 
 const App = () => {
   return (
     <ThemeProvider>
-      <div className="text-white min-h-screen flex flex-col">
-        <AnimatedBackground />
-    
-        <Navbar />
+      <ToastProvider>
+        <div className="text-white min-h-screen flex flex-col">
+          <AnimatedBackground />
 
-        <main className="flex-grow flex flex-col items-center mt-8 px-4 sm:px-8 md:px-16 lg:px-32 max-w-screen-2xl mx-auto w-full">
-          <Hero />
-          <Skills />
-          <Projects />
-          <Timeline />
-          <Education/>
-          <Contact />
-        </main>
+          <Navbar />
 
-        <Footer />
-      </div>
+          <main className="flex-grow flex flex-col items-center mt-8 px-4 sm:px-8 md:px-16 lg:px-32 max-w-screen-2xl mx-auto w-full">
+            <Hero />
+            <Skills />
+            <Projects />
+            <Timeline />
+            <Education />
+            <Contact />
+          </main>
+
+          <Footer />
+        </div>
+      </ToastProvider>
     </ThemeProvider>
   );
 };

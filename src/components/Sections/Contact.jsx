@@ -1,53 +1,74 @@
-// src/components/sections/Contact.jsx
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import emailjs from '@emailjs/browser';
 import SectionTitle from '../ui/SectionTitle';
 import Button from '../ui/Button';
+import { useToast, ToastPositions, ToastTypes } from '../../hooks/useToast';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const serviceId = import.meta.env.VITE_MAILER_SERVICE_ID;
+  const templateId = import.meta.env.VITE_MAILER_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_MAILER_PUBLIC_KEY;
+  
+  // Use the refactored toast hook with position and duration options
+  const { showSuccess, showError } = useToast();
+
+  useEffect(() => {
+    emailjs.init(publicKey);
+  }, [publicKey]);
 
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  // Using object shorthand for handlers
+  const handleChange = {
+    name: (e) => setName(e.target.value),
+    email: (e) => setEmail(e.target.value),
+    message: (e) => setMessage(e.target.value)
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      
-      // Reset form after success
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
+
+    try {
+      // Validate configuration
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('Missing required EmailJS configuration values');
+      }
+
+      // Send email
+      await emailjs.send(
+        serviceId,
+        templateId,
+        { name, email, message },
+        publicKey
+      );
+
+      showSuccess('Message sent successfully!', {
+        position: ToastPositions.TOP_RIGHT,
+        duration: 4000
       });
-      
-      // Clear success message after delay
-      setTimeout(() => {
-        setSubmitStatus(null);
-      }, 5000);
-    }, 1500);
+
+      // Reset form
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      showError(`Failed to send message: ${error.message || 'Please try again later'}`, {
+        position: ToastPositions.TOP_RIGHT,
+        duration: 4000 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Input styles
@@ -64,18 +85,18 @@ const Contact = () => {
       transition={{ duration: 0.3 }}
     >
       <SectionTitle title="Get In Touch" inView={inView} />
-      
+
       <div className="max-w-2xl w-full mx-auto mb-8">
         <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="name" className={labelStyles}>Name</label>
-              <input 
-                type="text" 
-                id="name" 
+              <input
+                type="text"
+                id="name"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
+                value={name}
+                onChange={handleChange.name}
                 className={inputStyles}
                 placeholder="Your Name"
                 required
@@ -84,12 +105,12 @@ const Contact = () => {
             </div>
             <div>
               <label htmlFor="email" className={labelStyles}>Email</label>
-              <input 
-                type="email" 
-                id="email" 
+              <input
+                type="email"
+                id="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={handleChange.email}
                 className={inputStyles}
                 placeholder="your.email@example.com"
                 required
@@ -97,45 +118,31 @@ const Contact = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label htmlFor="message" className={labelStyles}>Message</label>
-            <textarea 
-              id="message" 
+            <textarea
+              id="message"
               name="message"
-              value={formData.message}
-              onChange={handleChange}
-              rows="4" 
+              value={message}
+              onChange={handleChange.message}
+              rows="4"
               className={inputStyles}
               placeholder="Your message here..."
               required
               aria-required="true"
             ></textarea>
           </div>
-          
+
           <div>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               primary
               disabled={isSubmitting}
               aria-label={isSubmitting ? "Sending message..." : "Send message"}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </Button>
-            
-            <AnimatePresence>
-              {submitStatus === 'success' && (
-                <motion.div 
-                  className="mt-4 p-3 bg-green-500/20 border border-green-500 rounded-lg text-green-300"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  role="alert"
-                >
-                  Message sent successfully!
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </form>
       </div>

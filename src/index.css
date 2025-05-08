@@ -53,6 +53,7 @@
 
 /* Component styles */
 @layer components {
+
   /* Typography styles */
   .neon-text {
     @apply text-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
@@ -143,8 +144,8 @@
     height: 100%;
     width: 100%;
   }
-  
-  /* Tokenomics */
+
+  /* Education */
   .parallelogram {
     @apply bg-white w-full h-6 md:h-8 transition-all duration-300 brightness-75;
     box-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
@@ -159,6 +160,31 @@
   .tokenomic-container {
     transition: transform 0.3s ease;
   }
+}
+
+/* Toast container positions */
+.toast-container-top-left {
+  @apply fixed top-4 left-4 z-50 space-y-3 flex flex-col items-start;
+}
+
+.toast-container-top-right {
+  @apply fixed top-4 right-4 z-50 space-y-3 flex flex-col items-end;
+}
+
+.toast-container-bottom-left {
+  @apply fixed bottom-4 left-4 z-50 space-y-3 flex flex-col-reverse items-start;
+}
+
+.toast-container-bottom-right {
+  @apply fixed bottom-4 right-4 z-50 space-y-3 flex flex-col-reverse items-end;
+}
+
+.toast-container-top-center {
+  @apply fixed top-4 left-1/2 -translate-x-1/2 z-50 space-y-3 flex flex-col items-center;
+}
+
+.toast-container-bottom-center {
+  @apply fixed bottom-4 left-1/2 -translate-x-1/2 z-50 space-y-3 flex flex-col-reverse items-center;
 }
 
 /* Animations */
@@ -203,6 +229,7 @@
   }
 
   @keyframes blink {
+
     from,
     to {
       opacity: 1;
@@ -214,6 +241,7 @@
   }
 
   @keyframes flicker {
+
     0%,
     18%,
     22%,
@@ -241,28 +269,56 @@
   }
 
   @keyframes float-particle {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0) translateX(0);
     }
+
     25% {
       transform: translateY(-30px) translateX(10px);
     }
+
     50% {
       transform: translateY(-10px) translateX(25px);
     }
+
     75% {
       transform: translateY(-20px) translateX(-15px);
     }
   }
 
   @keyframes skill-sparkle-animation {
-    0%, 100% {
+
+    0%,
+    100% {
       background-position: 0% 0%;
       opacity: 0.5;
     }
+
     50% {
       background-position: 100% 0%;
       opacity: 1;
+    }
+  }
+
+  /* Toast Progress bar animation */
+  @keyframes shrink-width {
+    from {
+      width: 100%;
+    }
+
+    to {
+      width: 0%;
+    }
+  }
+
+  @keyframes toast-glitch-animation {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 150%;
     }
   }
 
