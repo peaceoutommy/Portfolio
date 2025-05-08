@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ThemeColorButton from './ui/ThemeColorButton';
 import NavLink from './ui/NavLink';
 import { useScrollToSection } from '../hooks/useScrollToSection';
@@ -14,7 +14,8 @@ const NAV_ITEMS = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { shouldHideHeader } = useNavbarScroll();
+  // Use our simplified navbar scroll hook
+  const { isVisible, isAtTop } = useNavbarScroll();
   const scrollToSection = useScrollToSection();
   
   const toggleMenu = useCallback(() => {
@@ -61,17 +62,29 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
+  // Close menu when navbar is hidden
+  useEffect(() => {
+    if (!isVisible && isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isVisible, isMenuOpen]);
+
   return (
     <>
       {/* Desktop Header */}
       <motion.header
-        className="w-full py-4 px-4 sm:px-8 fixed top-0 z-50 bg-black/50 backdrop-blur-sm neon-border"
-        initial={{ y: 0, opacity: 1 }}
+        className={`w-full py-4 px-4 sm:px-8 fixed top-0 z-50 
+                    transition-all duration-300
+                    ${isAtTop ? 'bg-black/30' : 'bg-black/70'} 
+                    backdrop-blur-sm neon-border`}
+        initial={{ y: 0 }}
         animate={{ 
-          y: shouldHideHeader ? -100 : 0, 
-          opacity: shouldHideHeader ? 0 : 1 
+          y: isVisible ? 0 : -100,
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ 
+          type: "tween", // Using tween for more immediate response
+          duration: 0.3
+        }}
       >
         <div className="flex justify-between items-center w-full max-w-7xl mx-auto">
           {/* Logo/Brand */}
@@ -136,31 +149,37 @@ const Navbar = () => {
         </div>
       </motion.header>
 
-      {/* Mobile Navigation */}
-      <motion.nav
-        id="mobile-menu"
-        className="fixed w-full top-16 z-40 backdrop-blur-[10px] bg-black/70 neon-border md:hidden"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: isMenuOpen && !shouldHideHeader ? 0 : -100,
-          opacity: isMenuOpen && !shouldHideHeader ? 1 : 0
-        }}
-        transition={{ duration: 0.3 }}
-        style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)' }}
-      >
-        <ul className="flex flex-col space-y-4 py-4 px-8">
-          {NAV_ITEMS.map((item) => (
-            <NavLink 
-              key={item.id} 
-              href={`#${item.id}`}
-              isMobile={true}
-              onClick={() => handleNavClick(item.id)}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </ul>
-      </motion.nav>
+      {/* Mobile Navigation with AnimatePresence for proper animations */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.nav
+            id="mobile-menu"
+            className="fixed w-full top-[73px] z-40 backdrop-blur-[10px] bg-black/70 neon-border md:hidden"
+            style={{ 
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)',
+              // Ensure the top edge of the menu is visible by adding a border
+              borderTop: '1px solid var(--highlight-color)'
+            }}
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ul className="flex flex-col space-y-4 py-4 px-8">
+              {NAV_ITEMS.map((item) => (
+                <NavLink 
+                  key={item.id} 
+                  href={`#${item.id}`}
+                  isMobile={true}
+                  onClick={() => handleNavClick(item.id)}
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </>
   );
 };

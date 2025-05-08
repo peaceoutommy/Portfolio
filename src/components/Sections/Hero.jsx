@@ -25,7 +25,6 @@ const Hero = () => {
   // This effect will run whenever nameComplete changes
   useEffect(() => {
     if (nameComplete) {
-      console.log("Name typing complete, starting role typing");
       setShouldStartRole(true);
     }
   }, [nameComplete]);
@@ -74,7 +73,7 @@ const Hero = () => {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[color:var(--highlight-color)] opacity-5 blur-[100px] z-0"></div>
       
       <motion.div 
-        className="relative z-10 max-w-4xl mx-auto text-center px-6"
+        className="relative z-10 max-w-4xl mx-auto text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -100,7 +99,7 @@ const Hero = () => {
         {/* CTA Buttons */}
         <motion.div 
           variants={itemVariants}
-          className="flex flex-col md:flex-row gap-6 justify-center"
+          className="flex flex-col md:flex-row gap-6 justify-center sm:px-6"
         >
           <Button onClick={() => scrollToSection('contact')}>
             Contact Me

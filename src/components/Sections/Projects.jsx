@@ -9,7 +9,7 @@ import Card from '../ui/Card';
 // Project data with proper shape
 const PROJECTS = [
   {
-    title: "Corporate Website",
+    title: "Dionamite",
     description: "A modern, responsive platform built with React.js and TailwindCSS. It highlights the company's services, showcases the portfolio, and includes a contact form with mailing functionality.",
     tags: ["ReactJs", "TailwindCSS"],
     image: "./dionamite.png",
@@ -17,7 +17,7 @@ const PROJECTS = [
     github: null
   },
   {
-    title: "Task Management App",
+    title: "Dionamite Academy",
     description: "A responsive task management application with drag-and-drop interface, team collaboration features, and real-time updates.",
     tags: ["ReactJs", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
     image: "./dionamiteacademy.png",
@@ -25,12 +25,12 @@ const PROJECTS = [
     github: null
   },
   {
-    title: "Mobile App",
+    title: "Mr Wipe",
     description: "A cross-plataform mobile application for scheduling car cleaning services. Features a live map view, user authentication, and payment processing.",
     tags: ["React Native", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
     image: "../../api/placeholder/400/300",
-    link: "#",
-    github: "#"
+    link: null,
+    github: null
   },
   {
     title: "Community Blog Platform",
@@ -96,7 +96,7 @@ const ProjectCard = ({ project, index, isActive, onMouseEnter, onMouseLeave, inV
           </div>
 
           <div className="flex gap-4 mt-auto">
-            {project.github && project.github !== null ? (
+            {project.github && project.github !== null && project.github !== "#" ? (
               <a
                 href={project.github}
                 className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
@@ -118,16 +118,27 @@ const ProjectCard = ({ project, index, isActive, onMouseEnter, onMouseLeave, inV
               </button>
             )}
 
-            <a
-              href={project.link}
-              className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View live demo for ${project.title}`}
-            >
-              <i className="fas fa-external-link-alt mr-2"></i>
-              Live Demo
-            </a>
+            {project.link && project.link !== null && project.link !== "#" ? (
+              <a
+                href={project.link}
+                className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live demo for ${project.title}`}
+              >
+                <i className="fas fa-external-link-alt mr-2"></i>
+                Live Demo
+              </a>
+            ) : (
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                disabled
+                aria-label="Live demo not available"
+              >
+                <i className="fas fa-external-link-alt mr-2"></i>
+                Live Demo
+              </button>
+            )}
           </div>
         </div>
       </Card>
@@ -141,8 +152,8 @@ ProjectCard.propTypes = {
     description: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     image: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    github: PropTypes.string.isRequired
+    link: PropTypes.string,
+    github: PropTypes.string
   }).isRequired,
   index: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,

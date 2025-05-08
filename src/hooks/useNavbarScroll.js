@@ -1,39 +1,69 @@
 import { useState, useEffect } from 'react';
 
-export function useNavbarScroll() {
+/**
+ * Custom hook for controlling navbar visibility based on scroll direction
+ * Shows navbar immediately when scrolling up, hides when scrolling down after 10px
+ * @returns {Object} - States for navbar visibility
+ */
+export const useNavbarScroll = () => {
+  const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [shouldHideHeader, setShouldHideHeader] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on mobile 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Set initial value
+    checkMobile();
+    
+    // Update on resize
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
-    const controlNavbar = () => {
+    const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const scrollThreshold = 100; // Only hide after scrolling 100px
-
-      if (currentScrollY < 10) {
-        setShouldHideHeader(false); // Always show at top
-        setIsScrolling(false);
-        return;
+      
+      // When scrolling down AND not at the top of the page, hide the navbar
+      if (currentScrollY > lastScrollY && currentScrollY > 10) {
+        setIsVisible(false);
+      } 
+      // When scrolling up OR at the top of the page, show the navbar
+      else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+        setIsVisible(true);
       }
-
-      // Determine scroll direction with threshold
-      if (currentScrollY > lastScrollY + scrollThreshold) {
-        // Only hide when scrolled significantly down
-        setShouldHideHeader(true);
-        setIsScrolling(true);
-      } else if (currentScrollY < lastScrollY - 10) {
-        // Show when scrolling up just a bit
-        setShouldHideHeader(false);
-        setIsScrolling(true);
-      }
-
-      // Update last scroll position
+      
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', controlNavbar);
-    return () => window.removeEventListener('scroll', controlNavbar);
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [lastScrollY]);
 
-  return { shouldHideHeader, isScrolling };
-}
+  return {
+    isVisible,
+    isAtTop: lastScrollY <= 0,
+    isMobile
+  };
+};
+
+export default useNavbarScroll;
