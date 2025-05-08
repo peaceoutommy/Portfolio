@@ -44,7 +44,7 @@ const SkillBar = ({ skill, index }) => {
         >
           {/* Animated particles within the bar */}
           <div className="absolute top-0 right-0 h-full w-8 overflow-hidden">
-            <div className="absolute inset-0 skill-sparkle"></div>
+            <div className="absolute inset-0"></div>
           </div>
         </motion.div>
       </div>

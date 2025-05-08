@@ -31,12 +31,10 @@ const CategoryTab = ({
       }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{
-        scale: 1.03,
         boxShadow: isActive
           ? 'var(--box-shadow-md)'
           : 'var(--box-shadow-sm)'
       }}
-      whileTap={{ scale: 0.98 }}
       aria-pressed={isActive}
       style={{
         boxShadow: isActive ? 'var(--box-shadow-sm)' : 'none',
@@ -54,7 +52,7 @@ const CategoryTab = ({
           aria-hidden="true"
         />
       )}
-      <GlowText intensity={isActive ? 'high' : 'low'}>
+      <GlowText intensity={isActive ? 'medium' : 'low'}>
         {label}
       </GlowText>
     </motion.button>

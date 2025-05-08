@@ -55,7 +55,7 @@ const ThemeColorButton = () => {
   return (
     <div className="relative theme-color-dropdown-container">
       <motion.button
-        className="p-2 rounded-lg border-2 border-[var(--highlight-color)]/50 transition-all duration-300 relative group"
+        className="p-2 rounded-lg border-2 border-[#333f3f] transition-all duration-300 relative group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.98 }}
         onClick={toggleDropdown}

@@ -76,7 +76,7 @@ const Contact = () => {
         <>
           <SectionTitle title="Get In Touch" inView={inView} />
 
-          <div className="max-w-2xl w-full mx-auto mb-8">
+          <div className="max-w-4xl w-full mx-auto mb-8">
             <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

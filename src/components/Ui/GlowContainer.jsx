@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 /**
  * GlowContainer - A standardized container with glow effects
+ * Updated with smoother transitions
  * 
  * @param {Object} props
  * @param {React.ReactNode} props.children - Container content
@@ -25,6 +26,7 @@ const GlowContainer = forwardRef(({
 }, ref) => {
   // Intensity levels for box shadow
   const shadowIntensities = {
+    none: '0px 0px 0px 0px',
     low: isActive 
       ? '0 0 10px rgba(var(--highlight-rgb), 0.3)'
       : '0 0 5px rgba(var(--highlight-rgb), 0.1)',
@@ -40,17 +42,39 @@ const GlowContainer = forwardRef(({
   const borderColor = isActive 
     ? 'border-[var(--highlight-color)]' 
     : 'border-white/20';
+    
+  // Define animation variants for smooth transitions
+  const containerVariants = {
+    active: {
+      boxShadow: shadowIntensities[intensity],
+      borderColor: 'rgb(var(--highlight-rgb))',
+      transition: { 
+        duration: 0.6,
+        ease: [0.19, 1, 0.22, 1] // Custom ease for smoother effect
+      }
+    },
+    inactive: {
+      boxShadow: shadowIntensities[intensity].split(',')[0], // Get the first part of the shadow
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      transition: { 
+        duration: 0.6,
+        ease: [0.19, 1, 0.22, 1]
+      }
+    }
+  };
 
   return (
     <motion.div
       ref={ref}
-      className={`bg-black/50 backdrop-blur-[30px] rounded-lg border-2 ${borderColor} z-10 ${className}`}
+      className={`bg-black/50 backdrop-blur-[30px] rounded-lg border-2 z-10 ${className}`}
       whileHover={whileHover}
       onClick={onClick}
+      variants={containerVariants}
+      initial="inactive"
+      animate={isActive ? "active" : "inactive"}
+      transition={{ duration: 0.6 }}
       style={{
-        boxShadow: shadowIntensities[intensity],
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        willChange: 'transform, box-shadow'
+        willChange: 'transform, box-shadow, border-color'
       }}
       {...props}
     >

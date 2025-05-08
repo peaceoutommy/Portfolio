@@ -1,9 +1,11 @@
+// src/components/ui/Card.jsx
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import GlowContainer from './GlowContainer';
 
 /**
  * Card - A wrapper around GlowContainer with card-specific defaults
+ * Updated with smooth transitions
  */
 const Card = forwardRef(({ 
   children, 
@@ -22,6 +24,10 @@ const Card = forwardRef(({
       onClick={onClick}
       isActive={isActive}
       intensity={intensity}
+      style={{
+        transition: "all 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
+        ...props.style
+      }}
       {...props}
     >
       {children}
@@ -37,7 +43,8 @@ Card.propTypes = {
   onClick: PropTypes.func,
   whileHover: PropTypes.object,
   isActive: PropTypes.bool,
-  intensity: PropTypes.oneOf(['low', 'medium', 'high'])
+  intensity: PropTypes.oneOf(['none', 'low', 'medium', 'high']),
+  style: PropTypes.object
 };
 
 export default Card;

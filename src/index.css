@@ -165,14 +165,6 @@
     transition: width 1s ease-out;
   }
 
-  .skill-sparkle {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-    background-size: 200% 100%;
-    animation: skill-sparkle-animation 2s ease-in-out infinite;
-    height: 100%;
-    width: 100%;
-  }
-
   /* Education */
   .parallelogram {
     @apply bg-white w-full h-6 md:h-8 transition-all duration-300 brightness-75;

@@ -39,7 +39,7 @@ const TimelineEvent = ({
             <Card
               className="p-6 transition-all"
               isActive={isActive}
-              intensity={isActive ? "high" : "low"}
+              intensity={isActive ? "medium" : "none"}
               whileHover={{ y: -5 }}
             >
               <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>
@@ -63,7 +63,7 @@ const TimelineEvent = ({
             <Card
               className="p-6 transition-all"
               isActive={isActive}
-              intensity={isActive ? "high" : "low"}
+              intensity={isActive ? "medium" : "none"}
               whileHover={{ y: -5 }}
             >
               <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>

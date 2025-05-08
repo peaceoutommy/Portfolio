@@ -90,19 +90,13 @@ const Skills = () => {
           </div>
 
           {/* Skills Display */}
-          <div className="relative overflow-hidden">
-            <Card
-              className="p-6"
-              intensity={activeCategory === "Frontend" ? "high" : "medium"}
-              style={{
-                minHeight: '400px'
-              }}
-            >
+          <div className="relative">
+            <Card className="p-6 min-h-[400px]" >
               {/* Category Title */}
               <div className="flex items-center gap-4 mb-8">
-                <span 
+                <span
                   className="text-3xl text-[var(--highlight-color)]"
-                  style={{ 
+                  style={{
                     textShadow: 'var(--text-shadow-md)',
                   }}
                 >
