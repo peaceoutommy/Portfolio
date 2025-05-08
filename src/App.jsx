@@ -14,7 +14,7 @@ const App = () => {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <div className="text-white min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
           <AnimatedBackground />
 
           <Navbar />
