@@ -94,7 +94,7 @@ const ProjectCard = ({
           </div>
 
           <div className="p-6 flex flex-col flex-grow">
-            <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "high" : "medium"}>
+            <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "medium" : "low"}>
               {project.title}
             </GlowText>
             <p className="mb-4 text-white/80">{project.description}</p>

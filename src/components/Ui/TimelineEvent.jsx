@@ -42,14 +42,14 @@ const TimelineEvent = ({
               intensity={isActive ? "medium" : "none"}
               whileHover={{ y: -5 }}
             >
-              <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>
+              <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
                 {title}
               </GlowText>
               <div className="flex flex-wrap justify-between items-center mb-4">
                 <p className="text-white/70">{company}</p>
                 <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <GlowText className="text-sm md:text-base" intensity={isActive ? "medium" : "low"}>
+              <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
                 {description}
               </GlowText>
             </Card>
@@ -66,14 +66,14 @@ const TimelineEvent = ({
               intensity={isActive ? "medium" : "none"}
               whileHover={{ y: -5 }}
             >
-              <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "high" : "medium"}>
+              <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
                 {title}
               </GlowText>
               <div className="flex flex-wrap justify-between items-center mb-4">
                 <p className="text-white/70">{company}</p>
                 <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
               </div>
-              <GlowText className="text-sm md:text-base" intensity={isActive ? "medium" : "low"}>
+              <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
                 {description}
               </GlowText>
             </Card>
