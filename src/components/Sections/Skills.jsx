@@ -62,31 +62,31 @@ const Skills = () => {
   const [isContainerHovered, setIsContainerHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const categoryRefs = useRef([]);
-  
+
   // Create a separate ref for the skills container
   const { ref: containerInViewRef, inView: containerInView } = useInView({
     threshold: 0.3,
     triggerOnce: false
   });
-  
+
   // Set up refs for all categories
   useEffect(() => {
     categoryRefs.current = categoryRefs.current.slice(0, SKILL_CATEGORIES.length);
   }, []);
-  
+
   // Detect mobile devices on component mount and window resize
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
     };
-    
+
     // Initial check
     checkMobile();
-    
+
     // Add event listener for window resize
     window.addEventListener('resize', checkMobile);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -123,34 +123,34 @@ const Skills = () => {
       setIsContainerHovered(false);
     }
   };
-  
+
   // Calculate which category tab is most visible in the viewport (for mobile only)
   const updateActiveCategoryBasedOnScroll = () => {
     // Skip if we're not on mobile or refs aren't set
     if (!isMobile || !categoryRefs.current.some(ref => ref)) return;
-    
+
     const viewportHeight = window.innerHeight;
     const viewportCenter = viewportHeight / 2;
-    
+
     let mostVisibleIndex = null;
     let highestVisibility = 0;
 
     categoryRefs.current.forEach((element, index) => {
       if (!element) return;
-      
+
       const rect = element.getBoundingClientRect();
-      
+
       // Check if element is in viewport
       if (rect.top < viewportHeight && rect.bottom > 0) {
         // Calculate element center position relative to viewport
         const elementCenter = rect.top + (rect.height / 2);
-        
+
         // Calculate distance from viewport center
         const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
-        
+
         // Calculate visibility score (higher score for elements closer to center)
         const visibilityScore = 1 - (distanceFromCenter / viewportHeight);
-        
+
         if (visibilityScore > highestVisibility) {
           highestVisibility = visibilityScore;
           mostVisibleIndex = index;
@@ -163,7 +163,7 @@ const Skills = () => {
       setHoveredCategory(SKILL_CATEGORIES[mostVisibleIndex].category);
     }
   };
-  
+
   // Set up scroll event listener for mobile only
   useEffect(() => {
     // Only set up scroll listener if on mobile
@@ -171,27 +171,27 @@ const Skills = () => {
       setHoveredCategory(null);
       return;
     }
-    
+
     // Use requestAnimationFrame for better performance
     let rafId = null;
-    
+
     const handleScroll = () => {
       if (rafId) {
         cancelAnimationFrame(rafId);
       }
-      
+
       rafId = requestAnimationFrame(() => {
         updateActiveCategoryBasedOnScroll();
       });
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Initial calculation after a short delay to ensure refs are set
     const timeoutId = setTimeout(() => {
       updateActiveCategoryBasedOnScroll();
     }, 500);
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafId) {
@@ -204,8 +204,8 @@ const Skills = () => {
   // Determine if the container should be highlighted:
   // On Desktop: When any category is hovered
   // On Mobile: When the container is in viewport
-  const isContainerHighlighted = isMobile 
-    ? containerInView 
+  const isContainerHighlighted = isMobile
+    ? containerInView
     : isContainerHovered;
 
   return (
@@ -217,7 +217,7 @@ const Skills = () => {
           {/* Category Tabs */}
           <div className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4">
             {SKILL_CATEGORIES.map((category, idx) => (
-              <div 
+              <div
                 key={category.category}
                 ref={el => categoryRefs.current[idx] = el}
               >
@@ -237,38 +237,52 @@ const Skills = () => {
             ))}
           </div>
 
-          {/* Skills Display - With proper hover/viewport highlighting */}
-          <div 
-            className="relative" 
+          <div
+            className="relative"
             ref={containerInViewRef}
             onMouseEnter={() => !isMobile && setIsContainerHovered(true)}
             onMouseLeave={() => !isMobile && setIsContainerHovered(false)}
           >
             <motion.div
               initial={{ y: 0 }}
-              animate={{ 
+              animate={{
                 y: isContainerHighlighted ? -5 : 0,
-                transition: { 
-                  type: "spring", 
-                  stiffness: 300, 
+                transition: {
+                  type: "spring",
+                  stiffness: 300,
                   damping: 20,
                   duration: 0.4
                 }
               }}
             >
-              <Card 
-                className="p-6 min-h-[400px]"
+              <Card
+                className="p-6 min-h-[400px] relative overflow-hidden"
                 intensity={isContainerHighlighted ? "medium" : "none"}
                 isActive={isContainerHighlighted}
                 style={{
                   transition: "all 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
-                  boxShadow: isContainerHighlighted 
+                  boxShadow: isContainerHighlighted
                     ? '0 0 20px rgba(var(--highlight-rgb), 0.7), 0 0 30px rgba(var(--highlight-rgb), 0.3)'
-                    : undefined
+                    : undefined,
                 }}
               >
+                {/* Grid Lines Background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  {/* Grid Lines */}
+                  <div className="absolute inset-0" style={{
+                    backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), 
+                                    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)`,
+                    backgroundSize: '40px 40px',
+                    opacity: 0.5,
+                  }} />
+
+                  {/* Accent corner */}
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12 
+                                rounded-lg transform origin-bottom-left" />
+                </div>
+
                 {/* Category Title */}
-                <div className="flex items-center gap-4 mb-8">
+                <div className="flex items-center gap-4 mb-8 relative">
                   <span
                     className="text-3xl text-[var(--highlight-color)]"
                     style={{
@@ -284,7 +298,7 @@ const Skills = () => {
 
                 {/* Grid for larger screens, single column for mobile */}
                 <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-8 relative"
                   key={activeCategory} // Force re-render on category change
                   variants={{
                     hidden: { opacity: 0 },
@@ -300,9 +314,9 @@ const Skills = () => {
                   animate="visible"
                 >
                   {activeSkills.map((skill, idx) => (
-                    <SkillBar 
-                      key={skill.name} 
-                      skill={skill} 
+                    <SkillBar
+                      key={skill.name}
+                      skill={skill}
                       index={idx}
                       isHighlighted={isContainerHighlighted}
                     />
