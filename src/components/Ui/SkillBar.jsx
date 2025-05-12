@@ -3,18 +3,19 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import GlowText from './GlowText';
+import Icons from './Icons';
 
 /**
  * SkillBar - A standardized skill bar component with animation
  */
-const SkillBar = ({ skill, index }) => {
+const SkillBar = ({ skill, index, isHighlighted }) => {
   return (
     <motion.div
       className="w-full"
       variants={{
         hidden: { opacity: 0, y: 10 },
-        visible: { 
-          opacity: 1, 
+        visible: {
+          opacity: 1,
           y: 0,
           transition: {
             duration: 0.5,
@@ -24,8 +25,15 @@ const SkillBar = ({ skill, index }) => {
       }}
     >
       <div className="flex justify-between mb-2">
-        <GlowText>{skill.name}</GlowText>
-        <GlowText>{skill.level}%</GlowText>
+        <div className="flex items-center gap-2">
+          <GlowText intensity={isHighlighted ? "low" : "none"} className="text-sm flex items-center">
+            <Icons name={skill.name} />
+          </GlowText>
+
+          <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.name}</GlowText>
+        </div>
+
+        <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.level}%</GlowText>
       </div>
       <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
         <motion.div
@@ -57,7 +65,12 @@ SkillBar.propTypes = {
     name: PropTypes.string.isRequired,
     level: PropTypes.number.isRequired
   }).isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  isHighlighted: PropTypes.bool
+};
+
+SkillBar.defaultProps = {
+  isHighlighted: false
 };
 
 export default memo(SkillBar);

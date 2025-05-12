@@ -16,23 +16,23 @@ const SKILL_CATEGORIES = [
     category: "Frontend",
     icon: "fas fa-code",
     skills: [
-      { name: "React", level: 90 },
-      { name: "JavaScript", level: 90 },
+      { name: "React", level: 84 },
+      { name: "JavaScript", level: 82 },
       { name: "Tailwind CSS", level: 88 },
       { name: "Blazor", level: 70 },
-      { name: "HTML/CSS", level: 95 },
+      { name: "HTML/CSS", level: 90 },
     ]
   },
   {
     category: "Backend",
     icon: "fas fa-server",
     skills: [
-      { name: "Node.js", level: 90 },
+      { name: "Node.js", level: 80 },
       { name: "Express", level: 75 },
-      { name: "C#", level: 80 },
+      { name: "C#", level: 79 },
       { name: ".NET", level: 80 },
       { name: "Python", level: 65 },
-      { name: "Php", level: 63 },
+      { name: "PHP", level: 63 },
     ]
   },
   {
@@ -41,7 +41,7 @@ const SKILL_CATEGORIES = [
     skills: [
       { name: "MySQL", level: 85 },
       { name: "SQL Server", level: 85 },
-      { name: "MongoDB", level: 79 },
+      { name: "MongoDB", level: 72 },
       { name: "MariaDB", level: 71 },
     ]
   },
