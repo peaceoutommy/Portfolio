@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import GlowText from './GlowText';
+import Icons from './Icons';
 
 /**
  * ProjectCard - A standardized project card component for the portfolio
@@ -11,31 +12,31 @@ import GlowText from './GlowText';
  * - Desktop: Hover-activated only
  * - Mobile: Scroll-activated only
  */
-const ProjectCard = ({ 
-  project, 
-  index, 
-  isActive, 
-  onMouseEnter, 
-  onMouseLeave, 
-  inView, 
+const ProjectCard = ({
+  project,
+  index,
+  isActive,
+  onMouseEnter,
+  onMouseLeave,
+  inView,
   isMobile = false
 }) => {
   // Animation variants for smooth transitions
   const cardVariants = {
     active: {
       y: -5,
-      transition: { 
-        type: "spring", 
-        stiffness: 300, 
+      transition: {
+        type: "spring",
+        stiffness: 300,
         damping: 20,
         duration: 0.4
       }
     },
     inactive: {
       y: 0,
-      transition: { 
-        type: "spring", 
-        stiffness: 300, 
+      transition: {
+        type: "spring",
+        stiffness: 300,
         damping: 25,
         duration: 0.4
       }
@@ -74,10 +75,10 @@ const ProjectCard = ({
                 alt={project.title}
                 className="w-full h-full object-cover"
                 initial={false}
-                animate={{ 
-                  scale: isActive ? 1.05 : 1 
+                animate={{
+                  scale: isActive ? 1.05 : 1
                 }}
-                transition={{ 
+                transition={{
                   duration: 0.7,
                   ease: [0.4, 0, 0.2, 1]
                 }}
@@ -85,8 +86,8 @@ const ProjectCard = ({
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"
                 initial={false}
-                animate={{ 
-                  opacity: isActive ? 1 : 0.7 
+                animate={{
+                  opacity: isActive ? 1 : 0.7
                 }}
                 transition={{ duration: 0.5 }}
               />
@@ -105,8 +106,8 @@ const ProjectCard = ({
                   key={tagIndex}
                   className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-300"
                   style={{
-                    borderColor: isActive 
-                      ? 'rgba(var(--highlight-rgb), 0.5)' 
+                    borderColor: isActive
+                      ? 'rgba(var(--highlight-rgb), 0.5)'
                       : 'rgba(var(--highlight-rgb), 0.3)',
                   }}
                 >
@@ -126,19 +127,21 @@ const ProjectCard = ({
                   onClick={(e) => e.stopPropagation()}
                 >
                   <GlowText hover intensity="medium">
-                    <i className="fab fa-github mr-2"></i>
-                    Code
+                    <div className='flex items-center gap-2'>
+                      <Icons name="GitHub" />
+                      <span>Code</span>
+                    </div>
                   </GlowText>
                 </a>
               ) : (
                 <button
-                  className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
                   disabled
                   aria-label="Code not available"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <i className="fab fa-github mr-2"></i>
-                  Code
+                  <Icons name="GitHub" />
+                  <span>Code</span>
                 </button>
               )}
 
@@ -152,19 +155,21 @@ const ProjectCard = ({
                   onClick={(e) => e.stopPropagation()}
                 >
                   <GlowText hover intensity="medium">
-                    <i className="fas fa-external-link-alt mr-2"></i>
-                    Live Demo
+                    <div className='flex items-center gap-2'>
+                      <Icons name='ExternalLink' />
+                      <span>Live Demo</span>
+                    </div>
                   </GlowText>
                 </a>
               ) : (
                 <button
-                  className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
                   disabled
                   aria-label="Live demo not available"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <i className="fas fa-external-link-alt mr-2"></i>
-                  Live Demo
+                  <Icons name='ExternalLink' />
+                  <span>Live Demo</span>
                 </button>
               )}
             </div>

@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import GlowText from './GlowText';
+import Icons from './Icons';
 
 /**
  * ThemeColorButton - A button that allows users to change the theme color
@@ -66,8 +67,8 @@ const ThemeColorButton = () => {
           boxShadow: 'var(--box-shadow-sm)'
         }}
       >
-        <GlowText intensity="medium">
-          <i className="fas fa-palette"></i>
+        <GlowText intensity="low">
+         <Icons name="Palette"></Icons>
         </GlowText>
         <span className="absolute inset-0 bg-[var(--highlight-color)]/0 group-hover:bg-[var(--highlight-color)]/20 transition-all duration-300 rounded-lg"></span>
       </motion.button>

@@ -58,6 +58,12 @@ const Icons = ({ name }) => {
       case 'Heart': return <i className="fas fa-heart"></i>;
       case 'Comment': return <i className="far fa-comment"></i>;
 
+      // Navbar
+      case 'Palette': return <i className="fas fa-palette"></i>
+
+      // Projects
+      case 'ExternalLink': return <i className="fas fa-external-link-alt"></i>
+
       // Default
       default: return <i className="fas fa-code"></i>;
     }
