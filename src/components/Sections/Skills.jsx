@@ -9,58 +9,19 @@ import AnimatedSection from '../ui/AnimatedSection';
 import CategoryTab from '../ui/CategoryTab';
 import SkillBar from '../ui/SkillBar';
 import GlowText from '../ui/GlowText';
-
-// Skill data categorized
-const SKILL_CATEGORIES = [
-  {
-    category: "Frontend",
-    icon: "fas fa-code",
-    skills: [
-      { name: "React", level: 84 },
-      { name: "JavaScript", level: 82 },
-      { name: "Tailwind CSS", level: 88 },
-      { name: "Blazor", level: 70 },
-      { name: "HTML/CSS", level: 90 },
-    ]
-  },
-  {
-    category: "Backend",
-    icon: "fas fa-server",
-    skills: [
-      { name: "Node.js", level: 80 },
-      { name: "Express", level: 75 },
-      { name: "C#", level: 79 },
-      { name: ".NET", level: 80 },
-      { name: "Python", level: 65 },
-      { name: "PHP", level: 63 },
-    ]
-  },
-  {
-    category: "Databases",
-    icon: "fas fa-database",
-    skills: [
-      { name: "MySQL", level: 85 },
-      { name: "SQL Server", level: 85 },
-      { name: "MongoDB", level: 72 },
-      { name: "MariaDB", level: 71 },
-    ]
-  },
-  {
-    category: "Version Control",
-    icon: "fas fa-code-branch",
-    skills: [
-      { name: "Git", level: 83 },
-      { name: "GitHub", level: 95 },
-      { name: "GitLab", level: 80 },
-    ]
-  }
-];
+import { SKILL_CATEGORIES, getSkillsByCategory, getCategoryIcon } from '../../data/skillsData';
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('Frontend');
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [isContainerHovered, setIsContainerHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Add state for mouse tracking
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const gridContainerRef = useRef(null);
+  
   const categoryRefs = useRef([]);
 
   // Create a separate ref for the skills container
@@ -91,14 +52,14 @@ const Skills = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Memoize active skills to prevent unnecessary renders
+  // Memoize active skills to prevent unnecessary renders - now using the helper function
   const activeSkills = useMemo(() => {
-    return SKILL_CATEGORIES.find(cat => cat.category === activeCategory)?.skills || [];
+    return getSkillsByCategory(activeCategory);
   }, [activeCategory]);
 
-  // Get icon for current category
+  // Get icon for current category - now using the helper function
   const activeCategoryIcon = useMemo(() => {
-    return SKILL_CATEGORIES.find(cat => cat.category === activeCategory)?.icon || 'fas fa-code';
+    return getCategoryIcon(activeCategory);
   }, [activeCategory]);
 
   // Handle category click for both mobile and desktop
@@ -121,6 +82,16 @@ const Skills = () => {
       setHoveredCategory(null);
       // Also unset container as hovered
       setIsContainerHovered(false);
+    }
+  };
+
+  // Mouse move handler for the grid effect
+  const handleMouseMove = (e) => {
+    if (gridContainerRef.current) {
+      const rect = gridContainerRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 110;
+      const y = ((e.clientY - rect.top) / rect.height) * 110;
+      setMousePosition({ x, y });
     }
   };
 
@@ -240,8 +211,15 @@ const Skills = () => {
           <div
             className="relative"
             ref={containerInViewRef}
-            onMouseEnter={() => !isMobile && setIsContainerHovered(true)}
-            onMouseLeave={() => !isMobile && setIsContainerHovered(false)}
+            onMouseEnter={() => {
+              !isMobile && setIsContainerHovered(true);
+              setIsHovering(true);
+            }}
+            onMouseLeave={() => {
+              !isMobile && setIsContainerHovered(false);
+              setIsHovering(false);
+            }}
+            onMouseMove={handleMouseMove}
           >
             <motion.div
               initial={{ y: 0 }}
@@ -267,14 +245,37 @@ const Skills = () => {
                 }}
               >
                 {/* Grid Lines Background */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  {/* Grid Lines */}
-                  <div className="absolute inset-0" style={{
-                    backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px), 
-                                    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)`,
-                    backgroundSize: '40px 40px',
-                    opacity: 0.5,
-                  }} />
+                <div 
+                  className="absolute inset-0 overflow-hidden pointer-events-none" 
+                  ref={gridContainerRef}
+                >
+                  {/* Grid Lines with cursor-following mask */}
+                  <div 
+                    className="absolute inset-0" 
+                    style={{
+                      backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px), 
+                                      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px)`,
+                      backgroundSize: '40px 40px',
+                      opacity: isHovering ? 1 : 0.15, // Base opacity reduced when not hovering
+                      maskImage: isHovering 
+                        ? `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
+                          rgba(0, 0, 0, 1) 0%, 
+                          rgba(0, 0, 0, 0.8) 30%, 
+                          rgba(0, 0, 0, 0.4) 60%, 
+                          rgba(0, 0, 0, 0.1) 80%, 
+                          rgba(0, 0, 0, 0) 100%)`
+                        : 'none',
+                      WebkitMaskImage: isHovering 
+                        ? `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
+                          rgba(0, 0, 0, 1) 0%, 
+                          rgba(0, 0, 0, 0.8) 30%, 
+                          rgba(0, 0, 0, 0.4) 60%, 
+                          rgba(0, 0, 0, 0.1) 80%, 
+                          rgba(0, 0, 0, 0) 100%)`
+                        : 'none',
+                      transition: 'opacity 0.5s ease',
+                    }} 
+                  />
 
                   {/* Accent corner */}
                   <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12 
