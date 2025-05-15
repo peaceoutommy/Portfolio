@@ -256,7 +256,7 @@ const Skills = () => {
                       backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px), 
                                       linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px)`,
                       backgroundSize: '40px 40px',
-                      opacity: isHovering ? 1 : 0.15, // Base opacity reduced when not hovering
+                      opacity: isHovering ? 1 : 0.2, // Base opacity reduced when not hovering
                       maskImage: isHovering 
                         ? `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
                           rgba(0, 0, 0, 1) 0%, 
