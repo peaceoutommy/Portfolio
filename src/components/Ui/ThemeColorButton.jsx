@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import GlowText from './GlowText';
 import Icons from './Icons';
+import { GetColors } from '../../data/themeColors'
 
 /**
  * ThemeColorButton - A button that allows users to change the theme color
@@ -13,13 +14,7 @@ const ThemeColorButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Predefined theme colors
-  const themeColors = [
-    { name: 'Cyan', value: '0, 255, 255' },
-    { name: 'Purple', value: '183, 0, 255' },
-    { name: 'Green', value: '0, 255, 128' },
-    { name: 'Orange', value: '255, 128, 0' },
-    { name: 'Pink', value: '255, 0, 183' }
-  ];
+  const themeColors = GetColors();
 
   const toggleDropdown = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -68,7 +63,7 @@ const ThemeColorButton = () => {
         }}
       >
         <GlowText intensity="low">
-         <Icons name="Palette"></Icons>
+          <Icons name="Palette"></Icons>
         </GlowText>
         <span className="absolute inset-0 bg-[var(--highlight-color)]/0 group-hover:bg-[var(--highlight-color)]/20 transition-all duration-300 rounded-lg"></span>
       </motion.button>
@@ -93,12 +88,12 @@ const ThemeColorButton = () => {
                 onClick={() => handleColorSelect(color.value)}
                 whileHover={{ x: 3 }}
                 style={{
-                  textShadow: color.value === currentTheme 
-                    ? 'var(--text-shadow-md)' 
+                  textShadow: color.value === currentTheme
+                    ? 'var(--text-shadow-md)'
                     : 'none'
                 }}
               >
-                <span 
+                <span
                   className={`h-3 w-3 rounded-full inline-block`}
                   style={{ background: `rgb(${color.value})`, boxShadow: `0 0 4px rgb(${color.value})` }}
                 />

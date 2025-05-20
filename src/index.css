@@ -349,3 +349,43 @@
     }
   }
 }
+
+/* Add to your src/styles/index.css file */
+.pixel-chevron {
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.chevron-first {
+  animation: pixel-pulse-first 2s infinite;
+}
+
+.chevron-second {
+  animation: pixel-pulse-second 2s infinite;
+}
+
+/* @keyframes pixel-pulse-first {
+  0%, 50%, 100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 3px var(--highlight-color));
+  }
+  
+  15%, 35% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px var(--highlight-color)) 
+            drop-shadow(0 0 10px var(--highlight-color));
+  }
+}
+
+@keyframes pixel-pulse-second {
+  0%, 50%, 100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 3px var(--highlight-color));
+  }
+  
+  65%, 85% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px var(--highlight-color)) 
+            drop-shadow(0 0 10px var(--highlight-color));
+  }
+} */

@@ -2,13 +2,24 @@ import { useState, useEffect, useRef } from 'react';
 import SectionTitle from '../ui/SectionTitle';
 import AnimatedSection from '../ui/AnimatedSection';
 import ProjectCard from '../ui/ProjectCard';
+import GlowText from '../ui/GlowText';
 import { GetProjects } from '../../data/projectsData';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const projectRefs = useRef([]);
   const PROJECTS = GetProjects();
+
+  // Number of projects to show initially
+  const initialProjectCount = 3;
+
+  // Projects to display based on toggle state
+  const visibleProjects = showAllProjects
+    ? PROJECTS
+    : PROJECTS.slice(0, initialProjectCount);
 
   // Set up refs for all projects
   useEffect(() => {
@@ -38,6 +49,21 @@ const Projects = () => {
     // Cleanup
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Toggle function for showing all projects
+  const toggleShowAllProjects = () => {
+    setShowAllProjects(!showAllProjects);
+
+    // If closing the projects, scroll back up to the first hidden project
+    if (showAllProjects && projectRefs.current[initialProjectCount - 1]) {
+      setTimeout(() => {
+        projectRefs.current[initialProjectCount - 1].scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  };
 
   // Handle mouse enter for desktop only
   const handleMouseEnter = (index) => {
@@ -127,6 +153,20 @@ const Projects = () => {
     };
   }, [isMobile]);
 
+  // SVG representation of the exact pixel art chevron
+  const PixelChevron = () => (
+    <GlowText intensity='high'>
+      <svg width="24" height="12" viewBox="0 0 24 12" className="pixel-chevron">
+        {/* Draw exact pixel art chevron using rectangles for precise control */}
+        <rect x="6" y="0" width="3" height="3" fill="var(--highlight-color)" />
+        <rect x="9" y="3" width="3" height="3" fill="var(--highlight-color)" />
+        <rect x="12" y="6" width="3" height="3" fill="var(--highlight-color)" />
+        <rect x="15" y="3" width="3" height="3" fill="var(--highlight-color)" />
+        <rect x="18" y="0" width="3" height="3" fill="var(--highlight-color)" />
+      </svg>
+    </GlowText>
+  );
+
   return (
     <AnimatedSection id="projects">
       {(inView) => (
@@ -134,7 +174,7 @@ const Projects = () => {
           <SectionTitle title="My Projects" inView={inView} />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-            {PROJECTS.map((project, index) => (
+            {visibleProjects.map((project, index) => (
               <div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
@@ -152,6 +192,41 @@ const Projects = () => {
               </div>
             ))}
           </div>
+
+          {PROJECTS.length > initialProjectCount && (
+            <motion.div
+              className="flex flex-col items-center mt-12"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: inView ? 1 : 0,
+                y: inView ? 0 : 10
+              }}
+              transition={{ duration: 0.3, delay: visibleProjects.length * 0.1 }}
+            >
+              <div
+                onClick={toggleShowAllProjects}
+                className="flex flex-col items-center cursor-pointer"
+                role="button"
+                tabIndex={0}
+                aria-label={showAllProjects ? "View less projects" : "View more projects"}
+              >
+                <div className="view-more-text mb-4">
+                  <GlowText intensity="medium">
+                    {showAllProjects ? "View Less" : "View More"}
+                  </GlowText>
+                </div>
+
+                <div className={`flex flex-col ${showAllProjects ? "rotate-180" : ""}`}>
+                  <div className="chevron-first mb-2">
+                    <PixelChevron />
+                  </div>
+                  <div className="chevron-second">
+                    <PixelChevron />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </>
       )}
     </AnimatedSection>
