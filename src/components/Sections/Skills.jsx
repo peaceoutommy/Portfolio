@@ -2,7 +2,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
 import SectionTitle from '../ui/SectionTitle';
 import Card from '../ui/Card';
 import AnimatedSection from '../ui/AnimatedSection';
@@ -12,15 +11,10 @@ import GlowText from '../ui/GlowText';
 import { SKILL_CATEGORIES, getSkillsByCategory, getCategoryIcon } from '../../data/skillsData';
 
 const Skills = () => {
-  const [activeCategory, setActiveCategory] = useState('Frontend');
+  const [activeCategory, setActiveCategory] = useState('Backend');
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [isContainerHovered, setIsContainerHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
-  // Add state for mouse tracking
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const gridContainerRef = useRef(null);
   
   const categoryRefs = useRef([]);
 
@@ -82,16 +76,6 @@ const Skills = () => {
       setHoveredCategory(null);
       // Also unset container as hovered
       setIsContainerHovered(false);
-    }
-  };
-
-  // Mouse move handler for the grid effect
-  const handleMouseMove = (e) => {
-    if (gridContainerRef.current) {
-      const rect = gridContainerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 110;
-      const y = ((e.clientY - rect.top) / rect.height) * 110;
-      setMousePosition({ x, y });
     }
   };
 
@@ -211,15 +195,8 @@ const Skills = () => {
           <div
             className="relative"
             ref={containerInViewRef}
-            onMouseEnter={() => {
-              !isMobile && setIsContainerHovered(true);
-              setIsHovering(true);
-            }}
-            onMouseLeave={() => {
-              !isMobile && setIsContainerHovered(false);
-              setIsHovering(false);
-            }}
-            onMouseMove={handleMouseMove}
+            onMouseEnter={() => !isMobile && setIsContainerHovered(true)}
+            onMouseLeave={() => !isMobile && setIsContainerHovered(false)}
           >
             <motion.div
               initial={{ y: 0 }}
@@ -244,43 +221,9 @@ const Skills = () => {
                     : undefined,
                 }}
               >
-                {/* Grid Lines Background */}
-                <div 
-                  className="absolute inset-0 overflow-hidden pointer-events-none" 
-                  ref={gridContainerRef}
-                >
-                  {/* Grid Lines with cursor-following mask */}
-                  <div 
-                    className="absolute inset-0" 
-                    style={{
-                      backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px), 
-                                      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px)`,
-                      backgroundSize: '40px 40px',
-                      opacity: isHovering ? 1 : 0.2, // Base opacity reduced when not hovering
-                      maskImage: isHovering 
-                        ? `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
-                          rgba(0, 0, 0, 1) 0%, 
-                          rgba(0, 0, 0, 0.8) 30%, 
-                          rgba(0, 0, 0, 0.4) 60%, 
-                          rgba(0, 0, 0, 0.1) 80%, 
-                          rgba(0, 0, 0, 0) 100%)`
-                        : 'none',
-                      WebkitMaskImage: isHovering 
-                        ? `radial-gradient(circle 150px at ${mousePosition.x}% ${mousePosition.y}%, 
-                          rgba(0, 0, 0, 1) 0%, 
-                          rgba(0, 0, 0, 0.8) 30%, 
-                          rgba(0, 0, 0, 0.4) 60%, 
-                          rgba(0, 0, 0, 0.1) 80%, 
-                          rgba(0, 0, 0, 0) 100%)`
-                        : 'none',
-                      transition: 'opacity 0.5s ease',
-                    }} 
-                  />
-
-                  {/* Accent corner */}
-                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12 
-                                rounded-lg transform origin-bottom-left" />
-                </div>
+                {/* Accent corner */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12 
+                              rounded-lg transform origin-bottom-left" />
 
                 {/* Category Title */}
                 <div className="flex items-center gap-4 mb-8 relative">

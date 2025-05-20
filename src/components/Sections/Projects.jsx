@@ -1,53 +1,26 @@
-// src/components/sections/Projects.jsx
 import { useState, useEffect, useRef } from 'react';
 import SectionTitle from '../ui/SectionTitle';
 import AnimatedSection from '../ui/AnimatedSection';
 import ProjectCard from '../ui/ProjectCard';
-
-// Project data with proper shape
-const PROJECTS = [
-  {
-    title: "Dionamite",
-    description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
-    tags: ["ReactJs", "TailwindCSS"],
-    image: "./dionamite.png",
-    link: "https://dionamite.com/",
-    github: null
-  },
-  {
-    title: "Dionamite Academy",
-    description: "Online learning platform supporting diverse content types, user profiles, browsing features and payment processing.",
-    tags: ["ReactJs", "NodeJs", "MongoDB", "ExpressJs", "TailwindCSS", "Stripe API"],
-    image: "./dionamiteacademy.png",
-    link: "https://dionamite.academy/",
-    github: null
-  },
-  {
-    title: "Mr Wipe",
-    description: "Cross-platform mobile application for car cleaning services. Has scheduling featuring live map integration, user authentication, and analytics.",
-    tags: ["React Native", "NodeJs", "MongoDB", "ExpressJs", "TailwindCSS", "Stripe API"],
-    image: "./mrwipe.png",
-    link: null,
-    github: null
-  },
-];
+import { GetProjects } from '../../data/projectsData';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const projectRefs = useRef([]);
-  
+  const PROJECTS = GetProjects();
+
   // Set up refs for all projects
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, PROJECTS.length);
   }, []);
-  
+
   // Detect mobile devices on component mount and window resize
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
-      
+
       // Reset active project when switching between mobile and desktop
       if (mobile) {
         updateActiveProjectBasedOnScroll();
@@ -55,13 +28,13 @@ const Projects = () => {
         setActiveProject(null);
       }
     };
-    
+
     // Initial check
     checkMobile();
-    
+
     // Add event listener for window resize
     window.addEventListener('resize', checkMobile);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -79,34 +52,34 @@ const Projects = () => {
       setActiveProject(null);
     }
   };
-  
+
   // Calculate which project is most visible in the viewport (for mobile only)
   const updateActiveProjectBasedOnScroll = () => {
     // Skip if we're not on mobile or refs aren't set
     if (!isMobile || !projectRefs.current.length) return;
-    
+
     const viewportHeight = window.innerHeight;
     const viewportCenter = viewportHeight / 2;
-    
+
     let mostVisibleIndex = null;
     let highestVisibility = 0;
 
     projectRefs.current.forEach((element, index) => {
       if (!element) return;
-      
+
       const rect = element.getBoundingClientRect();
-      
+
       // Check if element is in viewport
       if (rect.top < viewportHeight && rect.bottom > 0) {
         // Calculate element center position relative to viewport
         const elementCenter = rect.top + (rect.height / 2);
-        
+
         // Calculate distance from viewport center
         const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
-        
+
         // Calculate visibility score (higher score for elements closer to center)
         const visibilityScore = 1 - (distanceFromCenter / viewportHeight);
-        
+
         if (visibilityScore > highestVisibility) {
           highestVisibility = visibilityScore;
           mostVisibleIndex = index;
@@ -119,32 +92,32 @@ const Projects = () => {
       setActiveProject(mostVisibleIndex);
     }
   };
-  
+
   // Set up scroll event listener for mobile only
   useEffect(() => {
     // Only set up scroll listener if on mobile
     if (!isMobile) return;
-    
+
     // Use requestAnimationFrame for better performance
     let rafId = null;
-    
+
     const handleScroll = () => {
       if (rafId) {
         cancelAnimationFrame(rafId);
       }
-      
+
       rafId = requestAnimationFrame(() => {
         updateActiveProjectBasedOnScroll();
       });
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Initial calculation after a short delay to ensure refs are set
     const timeoutId = setTimeout(() => {
       updateActiveProjectBasedOnScroll();
     }, 500);
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafId) {
@@ -162,7 +135,7 @@ const Projects = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
             {PROJECTS.map((project, index) => (
-              <div 
+              <div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
                 className="project-card-container"

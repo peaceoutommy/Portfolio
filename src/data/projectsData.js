@@ -1,0 +1,46 @@
+const PROJECTS = [
+    {
+        title: "Bytebite Customer",
+        description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
+        tags: ["Blazor", "C#", ".NET"],
+        image: "./dionamite.png",
+        link: "https://dionamite.com/",
+        github: null
+    },
+    {
+        title: "Bytebite Management",
+        description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
+        tags: ["Blazor", "C#", ".NET"],
+        image: "./dionamite.png",
+        link: "https://dionamite.com/",
+        github: null
+    },
+    {
+        title: "Dionamite",
+        description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
+        tags: ["ReactJs", "TailwindCSS"],
+        image: "./dionamite.png",
+        link: "https://dionamite.com/",
+        github: null
+    },
+    {
+        title: "Dionamite Academy",
+        description: "Online learning platform supporting diverse content types, user profiles, browsing features and payment processing.",
+        tags: ["ReactJs", "NodeJs", "MongoDB", "ExpressJs", "TailwindCSS", "Stripe API"],
+        image: "./dionamiteacademy.png",
+        link: "https://dionamite.academy/",
+        github: null
+    },
+    {
+        title: "Mr Wipe",
+        description: "Cross-platform mobile application for car cleaning services. Has scheduling featuring live map integration, user authentication, and analytics.",
+        tags: ["React Native", "NodeJs", "MongoDB", "ExpressJs", "TailwindCSS", "Stripe API"],
+        image: "./mrwipe.png",
+        link: null,
+        github: null
+    },
+];
+
+export const GetProjects = () => {
+    return PROJECTS;
+}
