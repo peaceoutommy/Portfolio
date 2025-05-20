@@ -222,7 +222,7 @@ const Skills = () => {
                 }}
               >
                 {/* Accent corner */}
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12 
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12
                               rounded-lg transform origin-bottom-left" />
 
                 {/* Category Title */}

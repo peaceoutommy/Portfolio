@@ -155,7 +155,7 @@ const Projects = () => {
 
   // SVG representation of the exact pixel art chevron
   const PixelChevron = () => (
-    <GlowText intensity='high'>
+    <GlowText intensity='high' hover>
       <svg width="24" height="12" viewBox="0 0 24 12" className="pixel-chevron">
         {/* Draw exact pixel art chevron using rectangles for precise control */}
         <rect x="6" y="0" width="3" height="3" fill="var(--highlight-color)" />
@@ -205,7 +205,7 @@ const Projects = () => {
             >
               <div
                 onClick={toggleShowAllProjects}
-                className="flex flex-col items-center cursor-pointer"
+                className="flex flex-col items-center cursor-pointer hover:scale-105 duration-300"
                 role="button"
                 tabIndex={0}
                 aria-label={showAllProjects ? "View less projects" : "View more projects"}

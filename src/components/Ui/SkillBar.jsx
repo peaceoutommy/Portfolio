@@ -8,7 +8,7 @@ import Icons from './Icons';
 /**
  * SkillBar - A standardized skill bar component with animation
  */
-const SkillBar = ({ skill, index, isHighlighted }) => {
+const SkillBar = ({ skill, index, isHighlighted = false }) => {
   return (
     <motion.div
       className="w-full"
@@ -67,10 +67,6 @@ SkillBar.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   isHighlighted: PropTypes.bool
-};
-
-SkillBar.defaultProps = {
-  isHighlighted: false
 };
 
 export default memo(SkillBar);

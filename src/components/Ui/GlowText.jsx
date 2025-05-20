@@ -1,4 +1,3 @@
-// src/components/ui/GlowText.jsx
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 
@@ -25,6 +24,7 @@ const GlowText = ({
   
   // Shadow intensities
   const glowIntensities = {
+    none: "",
     low: "text-shadow-sm",
     medium: "text-shadow-md",
     high: "text-shadow-lg"
@@ -46,7 +46,7 @@ const GlowText = ({
 GlowText.propTypes = {
   children: PropTypes.node.isRequired,
   as: PropTypes.string,
-  intensity: PropTypes.oneOf(['low', 'medium', 'high']),
+  intensity: PropTypes.oneOf(['none', 'low', 'medium', 'high']),
   hover: PropTypes.bool,
   className: PropTypes.string
 };

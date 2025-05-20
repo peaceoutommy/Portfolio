@@ -91,7 +91,7 @@ GlowContainer.propTypes = {
   onClick: PropTypes.func,
   whileHover: PropTypes.object,
   isActive: PropTypes.bool,
-  intensity: PropTypes.oneOf(['low', 'medium', 'high'])
+  intensity: PropTypes.oneOf(['none', 'low', 'medium', 'high'])
 };
 
 export default GlowContainer;
