@@ -17,7 +17,6 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
         <div
           className="w-full relative flex"
           style={{
-            transform: "skew(-10deg)",
             overflow: "hidden",
             height: "400px"
           }}
@@ -26,49 +25,44 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
             <motion.div
               key={index}
               className="relative h-full overflow-hidden transition-all duration-500 ease-in-out"
-              initial={{ flex: index === 0 ? 2 : 1 }}
-              animate={{ 
-                flex: activeImageIndex === index ? 2 : 1,
+              initial={{ flex: index === 0 ? 3 : 1 }}
+              animate={{
+                flex: activeImageIndex === index ? 3 : 1,
               }}
               whileHover={{
-                flex: 2, // Slightly larger for better effect
+                flex: 3,
                 transition: { duration: 0.1 }
               }}
               onHoverStart={() => setActiveImageIndex(index)}
-              onClick={() => setActiveImageIndex(index)} // Add click for mobile
+              onClick={() => setActiveImageIndex(index)}
               style={{
                 marginRight: index < images.length - 1 ? "12px" : "0",
-                zIndex: activeImageIndex === index ? 10 : 1,
-                cursor: "pointer" // Show it's clickable
+                cursor: "pointer",
               }}
             >
               <div
+                className="absolute inset-0"
                 style={{
-                  position: "absolute",
-                  top: "-5%", // Add extra space at top
-                  left: "-10%", // Add extra space at left
-                  width: "150%", // Increased from 120% to ensure coverage
-                  height: "110%", // Extra height to cover bottom
-                  transform: "skew(10deg) translateX(-15%)", // Adjusted from -5%
                   backgroundImage: `url(/${img})`,
                   backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  width: "100%",
+                  height: "100%"
                 }}
-              ></div>
+              />
             </motion.div>
           ))}
         </div>
       </GlowContainer>
-      
-      {/* Add navigation indicators */}
+
       <div className="flex justify-center mt-4">
         {images.map((_, index) => (
           <button
             key={index}
-            className={`mx-1 h-1 rounded-full transition-all duration-300 ${
-              activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500"
-            }`}
+            className={`mx-1 h-1 rounded-full transition-all duration-300 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
+
+             
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
