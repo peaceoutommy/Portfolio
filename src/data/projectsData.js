@@ -1,16 +1,16 @@
 const PROJECTS = [
     {
         title: "Bytebite Customer",
-        description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
-        tags: ["Blazor", "C#", ".NET"],
-        image: "./dionamite.png",
+        description: "Mobile-first, white-labeled web application for restaurants, fully customizable through a management dashboard.",
+        tags: ["Blazor", "C#", ".NET", "Cloudinary API", "Stripe API"],
+        image: "./bbcustomer.png",
         link: "https://dionamite.com/",
         github: null
     },
     {
         title: "Bytebite Management",
         description: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
-        tags: ["Blazor", "C#", ".NET"],
+        tags: ["Blazor", "C#", ".NET", "Cloudinary API", "Stripe API"],
         image: "./dionamite.png",
         link: "https://dionamite.com/",
         github: null

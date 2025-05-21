@@ -153,7 +153,7 @@ const Projects = () => {
     };
   }, [isMobile]);
 
-  // SVG representation of the exact pixel art chevron
+
   const PixelChevron = () => (
     <GlowText intensity='high' hover>
       <svg width="24" height="12" viewBox="0 0 24 12" className="pixel-chevron">
