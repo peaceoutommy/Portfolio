@@ -3,9 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { GetProject } from '../../data/projectsData';
 import GlowText from '../ui/GlowText';
-import GlowContainer from '../ui/GlowContainer';
+import Card from '../ui/Card';
 import Icons from '../ui/Icons';
-import Carousel from '../Ui/Carousel'; 
+import Carousel from '../Ui/Carousel';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -81,14 +81,11 @@ const ProjectDetail = () => {
       {/* Back Button */}
       <motion.button
         onClick={handleBackClick}
-        className="self-start mb-8 px-4 py-2 rounded-lg transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
+        className="self-start mb-8 py-2"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3 }}
-        whileHover={{
-          x: -5,
-          transition: { duration: 0.2 }
-        }}
+        whileHover={{ x: -5, transition: { duration: 0.2 } }}
       >
         <GlowText hover intensity="medium">
           <div className="flex items-center gap-2">
@@ -115,7 +112,8 @@ const ProjectDetail = () => {
               {project.tags.map((tag, tagIndex) => (
                 <span
                   key={tagIndex}
-                  className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30"
+                  className="px-3 py-1 rounded-full text-xs border border-[var(--highlight-color)]/30"
+                  style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
                 >
                   <GlowText intensity="low">{tag}</GlowText>
                 </span>
@@ -151,7 +149,7 @@ const ProjectDetail = () => {
             {project.link && project.link !== null && project.link !== "#" ? (
               <a
                 href={project.link}
-                className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/30 text-sm"
+                className="px-4 py-2 rounded-lg border transition-all duration-300 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -175,7 +173,7 @@ const ProjectDetail = () => {
         </div>
       </motion.div>
 
-      <Carousel 
+      <Carousel
         images={projectImages}
         activeImageIndex={activeImageIndex}
         setActiveImageIndex={setActiveImageIndex}
@@ -191,7 +189,7 @@ const ProjectDetail = () => {
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           {/* Project Overview */}
-          <GlowContainer className="p-6 mb-8">
+          <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Project Overview
             </GlowText>
@@ -201,17 +199,12 @@ const ProjectDetail = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="mb-4">{project.short}</p>
-              <p className="mb-4">
-                This project showcases my skills in {project.tags.join(', ')}.
-                The development process involved careful planning, design, and implementation
-                to create a solution that meets all requirements while providing an excellent user experience.
-              </p>
+              <p className="mb-4">{project.description}</p>
             </motion.div>
-          </GlowContainer>
+          </Card>
 
           {/* Additional Project Details - Features */}
-          <GlowContainer className="p-6 mb-8">
+          <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Key Features
             </GlowText>
@@ -260,10 +253,10 @@ const ProjectDetail = () => {
                 </>
               )}
             </motion.ul>
-          </GlowContainer>
+          </Card>
 
           {/* Development Process */}
-          <GlowContainer className="p-6 mb-8">
+          <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Development Process
             </GlowText>
@@ -313,7 +306,7 @@ const ProjectDetail = () => {
                 </p>
               </div>
             </motion.div>
-          </GlowContainer>
+          </Card>
         </motion.div>
 
         {/* Sidebar - 4 columns on large screens */}
@@ -324,7 +317,7 @@ const ProjectDetail = () => {
           transition={{ duration: 0.4, delay: 0.3 }}
         >
           {/* Project Metadata */}
-          <GlowContainer className="p-6 mb-8">
+          <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Project Details
             </GlowText>
@@ -345,10 +338,10 @@ const ProjectDetail = () => {
                 <p className="text-white/80">Personal Project</p>
               </div>
             </div>
-          </GlowContainer>
+          </Card>
 
           {/* Challenges & Solutions */}
-          <GlowContainer className="p-6 mb-8">
+          <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Challenges & Solutions
             </GlowText>
@@ -368,7 +361,7 @@ const ProjectDetail = () => {
                 <p>Implemented a mobile-first design approach with Tailwind CSS and custom breakpoints.</p>
               </div>
             </div>
-          </GlowContainer>
+          </Card>
 
           {/* Call to Action */}
           <motion.div

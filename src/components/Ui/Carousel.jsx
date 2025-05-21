@@ -27,15 +27,15 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
             <motion.div
               key={index}
               className="relative h-full overflow-hidden transition-all duration-500 ease-in-out"
-              initial={{ flex: index === 0 ? 3 : 1 }}
-              animate={{ flex: activeImageIndex === index ? 3 : 1 }}
+              initial={{ flex: index === 0 ? 2 : 1 }}
+              animate={{ flex: activeImageIndex === index ? 2 : 1 }}
               whileHover={{
-                flex: 3,
+                flex: 2,
                 transition: { duration: 0.3 }
               }}
               onHoverStart={() => setActiveImageIndex(index)}
               style={{
-                marginRight: index < images.length - 1 ? "4px" : "0",
+                marginRight: index < images.length - 1 ? "12px" : "0",
                 zIndex: activeImageIndex === index ? 10 : 1
               }}
             >
@@ -49,6 +49,7 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
                   transform: "skew(10deg) translateX(-5%)", // Counter-skew to make image appear normal
                   backgroundImage: `url(/${img})`,
                   backgroundSize: "cover",
+                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
                   transition: "all 0.5s ease-in-out"
                 }}

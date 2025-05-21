@@ -48,7 +48,7 @@ const ProjectCard = ({
 
   return (
     <motion.div
-      className="h-full project-card-wrapper"
+      className="h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -77,7 +77,7 @@ const ProjectCard = ({
                   className="w-full h-full object-cover"
                   initial={false}
                   animate={{
-                    scale: isActive ? 1.05 : 1
+                    scale: isActive ? 1.03 : 1
                   }}
                   transition={{
                     duration: 0.7,
@@ -106,11 +106,7 @@ const ProjectCard = ({
                   <span
                     key={tagIndex}
                     className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-300"
-                    style={{
-                      borderColor: isActive
-                        ? 'rgba(var(--highlight-rgb), 0.5)'
-                        : 'rgba(var(--highlight-rgb), 0.3)',
-                    }}
+                    style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
                   >
                     <GlowText intensity="low">{tag}</GlowText>
                   </span>

@@ -3,11 +3,12 @@ const PROJECTS = [
         id: 0,
         title: "Bytebite Customer",
         short: "Mobile-first, white-labeled web application for restaurants, fully customizable through a management dashboard.",
-        keyFeatures:["Session creation system through QR Code scanning", "White-labeled application, fully customizable", "Tag system (meat, vegan etc) with algorithm that detects what tags should be applied on the dish based on the ingredient", "Payment and cart system", "Extensive filtering"],
+        description: "Bytebite Customer is a mobile-first, white-labeled web application built for restaurants to deliver a fully customizable digital ordering experience. The app is tightly integrated with a management dashboard, allowing restaurant owners to control branding, content, and behavior with ease. Developed as part of a collaborative team, we followed an Agile workflow with structured sprints, daily stand-ups, sprint reviews, and retrospectives. We used GitLab for version control, issue tracking, and CI/CD pipelines to maintain a smooth development process. The application was developed using Blazor and .NET, with media assets managed via Cloudinary API and payments processed through Stripe. To ensure code reliability and maintainability, we wrote extensive unit tests using xUnit and Moq.",
+        keyFeatures: ["Session creation system through QR Code scanning", "White-labeled application, fully customizable", "Tag system (meat, vegan etc) with algorithm that detects what tags should be applied on the dish based on the ingredient", "Payment and cart system", "Extensive filtering"],
         tags: ["Blazor", "C#", ".NET", "Cloudinary API", "Stripe API"],
-        cover: "./bbcustomer.png",
-        images:["./bbcustomer.png", "./dionamite.png", "./dionamiteacademy.png"],
-        timeline:"",
+        cover: "./bbcustomer/cover.png",
+        images: ["./bbcustomer/menu.png", "./bbcustomer/filters.png", "./bbcustomer/filters.png", "./bbcustomer/filters.png", "./bbcustomer/filters.png"],
+        timeline: "Jan 2025 - Jun 2025",
         link: "https://dionamite.com/",
         github: null
     },
@@ -54,5 +55,5 @@ export const GetProjects = () => {
 }
 
 export const GetProject = (id) => {
-  return PROJECTS.find(project => project.id === parseInt(id));
+    return PROJECTS.find(project => project.id === parseInt(id));
 }
