@@ -9,15 +9,15 @@ import { Link } from 'react-router-dom';
  */
 const NavLink = ({ href, children, onClick, isMobile = false, active = false }) => (
   <li>
-    <Link
-      className={`transition-all duration-300 ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
+    <div
+      className={`transition-all duration-300 cursor-pointer ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
       to={`/${href}`}
       onClick={onClick}
     >
       <GlowText hover intensity={active ? 'high' : 'medium'}>
         {children}
       </GlowText>
-    </Link>
+    </div>
   </li>
 );
 

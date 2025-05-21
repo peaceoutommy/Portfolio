@@ -214,12 +214,6 @@ const Skills = () => {
                 className="p-6 min-h-[400px] relative overflow-hidden"
                 intensity={isContainerHighlighted ? "medium" : "none"}
                 isActive={isContainerHighlighted}
-                style={{
-                  transition: "all 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
-                  boxShadow: isContainerHighlighted
-                    ? '0 0 20px rgba(var(--highlight-rgb), 0.7), 0 0 30px rgba(var(--highlight-rgb), 0.3)'
-                    : undefined,
-                }}
               >
                 {/* Accent corner */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--highlight-color)]/20 rotate-12

@@ -6,7 +6,7 @@ import NavLink from './ui/NavLink';
 import GlowText from './ui/GlowText';
 import { useScrollToSection } from '../hooks/useScrollToSection';
 import { useNavbarScroll } from '../hooks/useNavbarScroll';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NAV_ITEMS = [
   { id: 'skills', label: 'Skills' },
@@ -18,6 +18,7 @@ const NAV_ITEMS = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const navigate = useNavigate();
 
   // Use our simplified navbar scroll hook
   const { isVisible, isAtTop } = useNavbarScroll();
@@ -28,17 +29,28 @@ const Navbar = () => {
   }, []);
 
   // Handle navigation
-  const handleNavClick = useCallback((id) => {
-    scrollToSection(id, {
-      onComplete: () => {
-        // Close mobile menu after scrolling completes
-        if (isMenuOpen) {
-          setTimeout(() => setIsMenuOpen(false), 300);
-        }
-        setActiveSection(id);
+  // const handleNavClick = useCallback((id) => {
+  //   scrollToSection(id, {
+  //     onComplete: () => {
+  //       // Close mobile menu after scrolling completes
+  //       if (isMenuOpen) {
+  //         setTimeout(() => setIsMenuOpen(false), 300);
+  //       }
+  //       setActiveSection(id);
+  //     }
+  //   });
+  // }, [isMenuOpen, scrollToSection]);
+
+  const handleNavClick = (id) => {
+    navigate('/');
+    // Scroll to projects section after a short delay
+    setTimeout(() => {
+      const projectsSection = document.getElementById(`${id}`);
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: 'smooth' });
       }
-    });
-  }, [isMenuOpen, scrollToSection]);
+    }, 100);
+  };
 
   // Update active section based on scroll position
   useEffect(() => {

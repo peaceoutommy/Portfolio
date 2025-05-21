@@ -6,7 +6,6 @@ import GlowText from '../ui/GlowText';
 import PixelChevron from '../ui/PixelChevron'
 import { GetProjects } from '../../data/projectsData';
 import { motion } from 'framer-motion';
-import { CgChevronDoubleDown } from 'react-icons/cg';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);

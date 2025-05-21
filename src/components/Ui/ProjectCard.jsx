@@ -72,7 +72,7 @@ const ProjectCard = ({
               {/* Apply specific rounded corners only to the top of the image container */}
               <div className="relative aspect-video overflow-hidden rounded-t-lg">
                 <motion.img
-                  src={project.image}
+                  src={project.cover}
                   alt={project.title}
                   className="w-full h-full object-cover"
                   initial={false}
@@ -99,7 +99,7 @@ const ProjectCard = ({
               <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "medium" : "low"}>
                 {project.title}
               </GlowText>
-              <p className="mb-4 text-white/80">{project.description}</p>
+              <p className="mb-4 text-white/80">{project.short}</p>
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag, tagIndex) => (
@@ -185,9 +185,9 @@ const ProjectCard = ({
 ProjectCard.propTypes = {
   project: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    short: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    image: PropTypes.string.isRequired,
+    cover: PropTypes.string.isRequired,
     link: PropTypes.string,
     github: PropTypes.string
   }).isRequired,
