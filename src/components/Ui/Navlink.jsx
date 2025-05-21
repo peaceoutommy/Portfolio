@@ -2,21 +2,22 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 import GlowText from './GlowText';
+import { Link } from 'react-router-dom';
 
 /**
  * NavLink - A standardized navigation link component
  */
 const NavLink = ({ href, children, onClick, isMobile = false, active = false }) => (
   <li>
-    <a
+    <Link
       className={`transition-all duration-300 ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
-      href={href}
+      to={`/${href}`}
       onClick={onClick}
     >
       <GlowText hover intensity={active ? 'high' : 'medium'}>
         {children}
       </GlowText>
-    </a>
+    </Link>
   </li>
 );
 

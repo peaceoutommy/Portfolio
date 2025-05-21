@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import AnimatedBackground from './components/AnimatedBackground';
-import ProjectDetail from './components/Pages/ProjectDetail';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './components/Pages/Home';
 import ProjectDetail from './components/Pages/ProjectDetail';
 
