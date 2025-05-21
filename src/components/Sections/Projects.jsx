@@ -6,11 +6,13 @@ import GlowText from '../ui/GlowText';
 import PixelChevron from '../ui/PixelChevron'
 import { GetProjects } from '../../data/projectsData';
 import { motion } from 'framer-motion';
+import { CgChevronDoubleDown } from 'react-icons/cg';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false); // Track if user has interacted with any card
   const projectRefs = useRef([]);
   const PROJECTS = GetProjects();
 
@@ -80,6 +82,15 @@ const Projects = () => {
     }
   };
 
+  // Handle click on a project card
+  const handleProjectClick = (project) => {
+    // Mark that user has interacted with cards
+    setHasInteracted(true);
+
+    // Additional click handling logic here
+    // For example: opening a modal with project details
+  };
+
   // Calculate which project is most visible in the viewport (for mobile only)
   const updateActiveProjectBasedOnScroll = () => {
     // Skip if we're not on mobile or refs aren't set
@@ -117,6 +128,11 @@ const Projects = () => {
     // Only update if we found a visible project
     if (mostVisibleIndex !== null) {
       setActiveProject(mostVisibleIndex);
+
+      // Mark as interacted when scrolling on mobile
+      if (!hasInteracted) {
+        setHasInteracted(true);
+      }
     }
   };
 
@@ -161,13 +177,37 @@ const Projects = () => {
         <>
           <SectionTitle title="My Projects" inView={inView} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12">
             {visibleProjects.map((project, index) => (
               <div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
-                className="project-card-container"
+                className="project-card-container relative"
+                onClick={() => handleProjectClick(project)}
               >
+                {/* Click Me button - shown on the currently hovered card */}
+                {activeProject === index && !hasInteracted && !isMobile && (
+                  <motion.div
+                    className="absolute -top-10 z-20"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{
+                      opacity: 1,
+                      y: [0, -5, 0],
+                    }}
+                    transition={{
+                      opacity: { duration: 0.2 },
+                      y: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
+                    }}
+                  >
+                    <div className="view-more-text mb-4 flex flex-row items-center gap-2">
+                      <GlowText intensity="medium">
+                        Click
+                      </GlowText>
+                      <PixelChevron />
+                    </div>
+                  </motion.div>
+                )}
+
                 <ProjectCard
                   project={project}
                   index={index}

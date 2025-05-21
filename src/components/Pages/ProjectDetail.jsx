@@ -48,20 +48,11 @@ const ProjectDetail = () => {
 
   if (loading) {
     return (
-      <ThemeProvider>
-        <ToastProvider>
-          <div className="min-h-screen flex flex-col">
-            <AnimatedBackground />
-            <Navbar />
-            <main className="flex-grow flex items-center justify-center">
-              <div className="loading-spinner">
-                <GlowText intensity="high">Loading...</GlowText>
-              </div>
-            </main>
-            <Footer />
-          </div>
-        </ToastProvider>
-      </ThemeProvider>
+
+      <div className="loading-spinner">
+        <GlowText intensity="high">Loading...</GlowText>
+      </div>
+
     );
   }
 
@@ -73,7 +64,7 @@ const ProjectDetail = () => {
     <>
       <motion.button
         onClick={handleBackClick}
-        className="self-start mb-8 px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
+        className="mt-16 self-start mb-8 px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3 }}
