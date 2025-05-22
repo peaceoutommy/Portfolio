@@ -2,39 +2,62 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
-import { useTypewriter } from '../../hooks/useTypewriter';
 import Particles from '../Particles';
 import Button from '../ui/Button';
+import GlowText from '../ui/GlowText';
 
 const Hero = () => {
   const containerRef = useRef(null);
   const scrollToSection = useScrollToSection();
   
-  // State to control when to start second typewriter
-  const [shouldStartRole, setShouldStartRole] = useState(false);
+  // State for typewriter effect
+  const [displayedName, setDisplayedName] = useState('');
+  const [displayedRole, setDisplayedRole] = useState('');
+  const [isTypingName, setIsTypingName] = useState(true);
+  const [isTypingRole, setIsTypingRole] = useState(false);
+  const [nameComplete, setNameComplete] = useState(false);
   
-  // Setup typewriter effects
-  const { 
-    displayedText: name, 
-    isTyping: isTypingName, 
-    isComplete: nameComplete 
-  } = useTypewriter("Hi, I'm Tomás Lopes", {
-    onComplete: () => setShouldStartRole(true)
-  });
+  // Full texts
+  const fullName = "Hi, I'm Tomás Lopes";
+  const fullRole = "Software Engineer";
   
-  // This effect will run whenever nameComplete changes
+  // Typewriter effect for name
   useEffect(() => {
-    if (nameComplete) {
-      setShouldStartRole(true);
+    if (isTypingName) {
+      if (displayedName.length < fullName.length) {
+        const timeout = setTimeout(() => {
+          setDisplayedName(fullName.substring(0, displayedName.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        setIsTypingName(false);
+        setNameComplete(true);
+      }
     }
-  }, [nameComplete]);
+  }, [displayedName, isTypingName, fullName]);
   
-  const { 
-    displayedText: role, 
-    isTyping: isTypingRole 
-  } = useTypewriter("Software Engineer", { 
-    startTyping: shouldStartRole 
-  });
+  // Start typing role after name is complete
+  useEffect(() => {
+    if (nameComplete && !isTypingRole) {
+      setTimeout(() => {
+        setIsTypingRole(true);
+      }, 500); // Delay before starting to type role
+    }
+  }, [nameComplete, isTypingRole]);
+  
+  // Typewriter effect for role
+  useEffect(() => {
+    if (isTypingRole) {
+      if (displayedRole.length < fullRole.length) {
+        const timeout = setTimeout(() => {
+          setDisplayedRole(fullRole.substring(0, displayedRole.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        setIsTypingRole(false);
+      }
+    }
+  }, [displayedRole, isTypingRole, fullRole]);
 
   // Animation variants for content
   const containerVariants = {
@@ -81,18 +104,18 @@ const Hero = () => {
         {/* Main heading */}
         <motion.div variants={itemVariants} className="mb-6">
           <h1 
-            className={`text-3xl md:text-6xl lg:text-7xl font-bold neon-text leading-tight min-h-[1.2em] ${isTypingName ? 'typing' : ''}`}
+            className={`text-3xl md:text-6xl lg:text-7xl font-bold leading-tight min-h-[1.2em] ${isTypingName ? 'typing' : ''}`}
           >
-            {name}
+            <GlowText intensity="medium">{displayedName}</GlowText>
           </h1>
         </motion.div>
         
         {/* Subtitle/role */}
         <motion.div variants={itemVariants} className="mb-12">
           <h2 
-            className={`text-xl md:text-4xl lg:text-5xl neon-text leading-tight min-h-[1.2em] opacity-80 ${isTypingRole ? 'typing' : ''}`}
+            className={`text-xl md:text-4xl lg:text-5xl leading-tight min-h-[1.2em] opacity-80 ${isTypingRole ? 'typing' : ''}`}
           >
-            {role}
+            <GlowText intensity="medium">{displayedRole}</GlowText>
           </h2>
         </motion.div>
         

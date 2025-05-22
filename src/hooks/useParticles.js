@@ -1,48 +1,51 @@
-import { useEffect, useRef, useState } from 'react';
+// src/hooks/useParticles.js
+import { useMemo } from 'react';
 
-export function useParticles(options = {}) {
+/**
+ * Custom hook to generate particle data for backgrounds
+ * 
+ * @param {Object} options - Configuration options
+ * @param {number} options.count - Number of particles to generate (default: 50)
+ * @param {number} options.minSize - Minimum particle size in pixels (default: 1)
+ * @param {number} options.maxSize - Maximum particle size in pixels (default: 4)
+ * @param {Object} options.speed - Particle animation speed range
+ * @param {number} options.speed.min - Minimum animation duration in seconds (default: 20)
+ * @param {number} options.speed.max - Maximum animation duration in seconds (default: 50)
+ * @returns {Array} - Array of particle objects with properties for rendering
+ */
+export const useParticles = (options = {}) => {
   const {
-    count = window.innerWidth > 768 ? 50 : 25,
+    count = 50,
     minSize = 1,
-    maxSize = 5,
-    speed = { min: 10, max: 30 }
+    maxSize = 4,
+    speed = {
+      min: 20,
+      max: 50
+    }
   } = options;
   
-  const [particles, setParticles] = useState([]);
-  const isInitializedRef = useRef(false);
-  
-  useEffect(() => {
-    // Only create particles once
-    if (isInitializedRef.current) return;
-    
-    const newParticles = Array.from({ length: count }).map(() => {
-      // Random properties
+  // Generate particles once and memoize the result
+  const particles = useMemo(() => {
+    return Array.from({ length: count }).map((_, index) => {
+      // Generate random properties for each particle
       const size = Math.random() * (maxSize - minSize) + minSize;
-      const posX = Math.random() * 100;
+      const posX = Math.random() * 100; // Random position as percentage of container
       const posY = Math.random() * 100;
-      const delay = Math.random() * 5;
-      const duration = Math.random() * (speed.max - speed.min) + speed.min;
-      const opacity = Math.random() * 0.5 + 0.1;
+      const opacity = (Math.random() * 0.5) + 0.1; // Random opacity between 0.1 and 0.6
+      const delay = Math.random() * 5; // Random delay for animation start (0-5s)
+      const duration = Math.random() * (speed.max - speed.min) + speed.min; // Random animation duration
       
       return {
+        id: `particle-${index}`,
         size,
         posX,
         posY,
-        delay,
-        duration,
         opacity,
-        id: Math.random().toString(36).substring(2, 9) // Unique ID
+        delay,
+        duration
       };
     });
-    
-    setParticles(newParticles);
-    isInitializedRef.current = true;
-    
-    // No DOM cleanup needed as we're using React components
-    return () => {
-      isInitializedRef.current = false;
-    };
   }, [count, minSize, maxSize, speed.min, speed.max]);
-
+  
   return particles;
-}
+};

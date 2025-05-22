@@ -1,15 +1,23 @@
+// src/components/ui/NavLink.jsx
 import { memo } from 'react';
 import PropTypes from 'prop-types';
+import GlowText from './GlowText';
+import { Link } from 'react-router-dom';
 
-const NavLink = ({ href, children, onClick, isMobile = false }) => (
+/**
+ * NavLink - A standardized navigation link component
+ */
+const NavLink = ({ href, children, onClick, isMobile = false, active = false }) => (
   <li>
-    <a
-      className={`neon-text-hover ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'}`}
-      href={href}
+    <div
+      className={`transition-all duration-300 cursor-pointer ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
+      to={`/${href}`}
       onClick={onClick}
     >
-      {children}
-    </a>
+      <GlowText hover intensity={active ? 'high' : 'medium'}>
+        {children}
+      </GlowText>
+    </div>
   </li>
 );
 
@@ -17,7 +25,8 @@ NavLink.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-  isMobile: PropTypes.bool
+  isMobile: PropTypes.bool,
+  active: PropTypes.bool
 };
 
 export default memo(NavLink);

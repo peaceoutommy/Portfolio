@@ -7,32 +7,52 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        mono: ['"Press Start 2P"', 'monospace'],
+      textShadow: {
+        sm: 'var(--text-shadow-sm)',
+        md: 'var(--text-shadow-md)',
+        lg: 'var(--text-shadow-lg)',
       },
-      colors: {
-        // Use CSS variables for dynamic theme colors
-        highlight: 'var(--highlight-color)',
-        'highlight-rgb': 'rgba(var(--highlight-rgb), <alpha-value>)'
+      boxShadow: {
+        glow: {
+          sm: 'var(--box-shadow-sm)',
+          md: 'var(--box-shadow-md)',
+          lg: 'var(--box-shadow-lg)',
+        }
       },
-      animation: {
-        'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-        'float': 'float 15s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-        'blink': 'blink 0.75s step-end infinite',
-        'flicker': 'flicker 5s infinite',
-        'sparkle': 'skill-sparkle-animation 2s ease-in-out infinite',
-        'float-particle': 'float-particle 15s ease-in-out infinite'
+      transitionProperty: {
+        'glow': 'text-shadow, box-shadow, border-color, background-color',
       },
-      backgroundImage: {
-        'radial-grid': 'radial-gradient(rgba(var(--highlight-rgb),0.1) 1px, transparent 1px)'
+      transitionDuration: {
+        '300': '300ms',
       },
-      backgroundSize: {
-        'grid': '40px 40px'
+      transitionTimingFunction: {
+        'standard': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
-      backdropBlur: {
-        'lg': '30px'
-      }
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.text-shadow-sm': {
+          'text-shadow': 'var(--text-shadow-sm)',
+        },
+        '.text-shadow-md': {
+          'text-shadow': 'var(--text-shadow-md)',
+        },
+        '.text-shadow-lg': {
+          'text-shadow': 'var(--text-shadow-lg)',
+        },
+        '.box-shadow-glow-sm': {
+          'box-shadow': 'var(--box-shadow-sm)',
+        },
+        '.box-shadow-glow-md': {
+          'box-shadow': 'var(--box-shadow-md)',
+        },
+        '.box-shadow-glow-lg': {
+          'box-shadow': 'var(--box-shadow-lg)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 }

@@ -1,208 +1,247 @@
-// src/components/sections/Projects.jsx
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from 'react';
 import SectionTitle from '../ui/SectionTitle';
-import Card from '../ui/Card';
+import AnimatedSection from '../ui/AnimatedSection';
+import ProjectCard from '../ui/ProjectCard';
+import GlowText from '../ui/GlowText';
+import PixelChevron from '../ui/PixelChevron';
+import ViewMore from '../ui/ViewMore';
+import { GetProjects } from '../../data/projectsData';
+import { motion } from 'framer-motion';
 
-// Project data with proper shape
-const PROJECTS = [
-  {
-    title: "Dionamite",
-    description: "A modern, responsive platform built with React.js and TailwindCSS. It highlights the company's services, showcases the portfolio, and includes a contact form with mailing functionality.",
-    tags: ["ReactJs", "TailwindCSS"],
-    image: "./dionamite.png",
-    link: "https://dionamite.com/",
-    github: null
-  },
-  {
-    title: "Dionamite Academy",
-    description: "A responsive task management application with drag-and-drop interface, team collaboration features, and real-time updates.",
-    tags: ["ReactJs", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
-    image: "./dionamiteacademy.png",
-    link: "https://dionamite.academy/",
-    github: null
-  },
-  {
-    title: "Mr Wipe",
-    description: "A cross-plataform mobile application for scheduling car cleaning services. Features a live map view, user authentication, and payment processing.",
-    tags: ["React Native", "NodeJs", "MongoDB", "ExpressJs", "Tailwind CSS"],
-    image: "../../api/placeholder/400/300",
-    link: null,
-    github: null
-  },
-  {
-    title: "Community Blog Platform",
-    description: "A full-featured blog platform with rich text editing, comments, user profiles, and content moderation capabilities.",
-    tags: ["Next.js", "PostgreSQL", "AWS S3"],
-    image: "/api/placeholder/400/300",
-    link: "#",
-    github: "#"
-  }
-];
+const Projects = () => {
+  const [activeProject, setActiveProject] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false); // Track if user has interacted with any card
+  const projectRefs = useRef([]);
+  const PROJECTS = GetProjects();
 
-// ProjectCard component for better separation of concerns
-const ProjectCard = ({ project, index, isActive, onMouseEnter, onMouseLeave, inView }) => {
+  // Number of projects to show initially
+  const initialProjectCount = 3;
+
+  // Projects to display based on toggle state
+  const visibleProjects = showAllProjects
+    ? PROJECTS
+    : PROJECTS.slice(0, initialProjectCount);
+
+  // Set up refs for all projects
+  useEffect(() => {
+    projectRefs.current = projectRefs.current.slice(0, PROJECTS.length);
+  }, []);
+
+  // Detect mobile devices on component mount and window resize
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 640;
+      setIsMobile(mobile);
+
+      // Reset active project when switching between mobile and desktop
+      if (mobile) {
+        updateActiveProjectBasedOnScroll();
+      } else {
+        setActiveProject(null);
+      }
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Toggle function for showing all projects
+  const toggleShowAllProjects = () => {
+    setShowAllProjects(!showAllProjects);
+
+    // If closing the projects, scroll back up to the first hidden project
+    if (showAllProjects && projectRefs.current[initialProjectCount - 1]) {
+      setTimeout(() => {
+        projectRefs.current[initialProjectCount - 1].scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  };
+
+  // Handle mouse enter for desktop only
+  const handleMouseEnter = (index) => {
+    if (!isMobile) {
+      setActiveProject(index);
+    }
+  };
+
+  // Handle mouse leave for desktop only
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setActiveProject(null);
+    }
+  };
+
+  // Handle click on a project card
+  const handleProjectClick = (project) => {
+    // Mark that user has interacted with cards
+    setHasInteracted(true);
+
+    // Additional click handling logic here
+    // For example: opening a modal with project details
+  };
+
+  // Calculate which project is most visible in the viewport (for mobile only)
+  const updateActiveProjectBasedOnScroll = () => {
+    // Skip if we're not on mobile or refs aren't set
+    if (!isMobile || !projectRefs.current.length) return;
+
+    const viewportHeight = window.innerHeight;
+    const viewportCenter = viewportHeight / 2;
+
+    let mostVisibleIndex = null;
+    let highestVisibility = 0;
+
+    projectRefs.current.forEach((element, index) => {
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+
+      // Check if element is in viewport
+      if (rect.top < viewportHeight && rect.bottom > 0) {
+        // Calculate element center position relative to viewport
+        const elementCenter = rect.top + (rect.height / 2);
+
+        // Calculate distance from viewport center
+        const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
+
+        // Calculate visibility score (higher score for elements closer to center)
+        const visibilityScore = 1 - (distanceFromCenter / viewportHeight);
+
+        if (visibilityScore > highestVisibility) {
+          highestVisibility = visibilityScore;
+          mostVisibleIndex = index;
+        }
+      }
+    });
+
+    // Only update if we found a visible project
+    if (mostVisibleIndex !== null) {
+      setActiveProject(mostVisibleIndex);
+
+      // Mark as interacted when scrolling on mobile
+      if (!hasInteracted) {
+        setHasInteracted(true);
+      }
+    }
+  };
+
+  // Set up scroll event listener for mobile only
+  useEffect(() => {
+    // Only set up scroll listener if on mobile
+    if (!isMobile) return;
+
+    // Use requestAnimationFrame for better performance
+    let rafId = null;
+
+    const handleScroll = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+
+      rafId = requestAnimationFrame(() => {
+        updateActiveProjectBasedOnScroll();
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Initial calculation after a short delay to ensure refs are set
+    const timeoutId = setTimeout(() => {
+      updateActiveProjectBasedOnScroll();
+    }, 500);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      clearTimeout(timeoutId);
+    };
+  }, [isMobile]);
+
   return (
-    <motion.div
-      className="h-full"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
-      onMouseEnter={() => onMouseEnter(index)}
-      onMouseLeave={onMouseLeave}
-    >
-      <Card
-        className="h-full flex flex-col"
-        isActive={isActive}
-        whileHover={{ y: -5 }}
-        style={{
-          boxShadow: isActive
-            ? `0 0 15px rgba(var(--highlight-rgb), 0.5)`
-            : `0 0 5px rgba(var(--highlight-rgb), 0.1)`
-        }}
-      >
-        <div className="relative overflow-hidden aspect-video">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
-            style={{
-              transform: isActive ? 'scale(1.05)' : 'scale(1)'
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300"
-            style={{
-              opacity: isActive ? 1 : 0.7
-            }}
-          />
-        </div>
+    <AnimatedSection id="projects">
+      {(inView) => (
+        <>
+          <SectionTitle title="My Projects" inView={inView} />
 
-        <div className="p-6 flex flex-col flex-grow">
-          <h3 className="text-xl neon-text mb-3">{project.title}</h3>
-          <p className="mb-4 text-white/80">{project.description}</p>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.tags.map((tag, tagIndex) => (
-              <span
-                key={tagIndex}
-                className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12">
+            {visibleProjects.map((project, index) => (
+              <div
+                key={index}
+                ref={el => projectRefs.current[index] = el}
+                className="project-card-container relative"
+                onClick={() => handleProjectClick(project)}
               >
-                {tag}
-              </span>
+                {/* Click Me button - shown on the currently hovered card */}
+                {activeProject === index && !hasInteracted && !isMobile && (
+                  <motion.div
+                    className="absolute -top-10 z-20"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{
+                      opacity: 1,
+                      y: [0, -5, 0],
+                    }}
+                    transition={{
+                      opacity: { duration: 0.2 },
+                      y: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
+                    }}
+                  >
+                    <div className="view-more-text mb-4 flex flex-row items-center gap-2">
+                      <GlowText intensity="medium">
+                        Click
+                      </GlowText>
+                      <PixelChevron />
+                    </div>
+                  </motion.div>
+                )}
+
+                <ProjectCard
+                  project={project}
+                  index={index}
+                  isActive={activeProject === index}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                  inView={inView}
+                  isMobile={isMobile}
+                />
+              </div>
             ))}
           </div>
 
-          <div className="flex gap-4 mt-auto">
-            {project.github && project.github !== null && project.github !== "#" ? (
-              <a
-                href={project.github}
-                className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View code for ${project.title}`}
-              >
-                <i className="fab fa-github mr-2"></i>
-                Code
-              </a>
-            ) : (
-              <button
-                className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
-                aria-label="Code not available"
-              >
-                <i className="fab fa-github mr-2"></i>
-                Code
-              </button>
-            )}
-
-            {project.link && project.link !== null && project.link !== "#" ? (
-              <a
-                href={project.link}
-                className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 neon-text-hover text-sm transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View live demo for ${project.title}`}
-              >
-                <i className="fas fa-external-link-alt mr-2"></i>
-                Live Demo
-              </a>
-            ) : (
-              <button
-                className="px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
-                aria-label="Live demo not available"
-              >
-                <i className="fas fa-external-link-alt mr-2"></i>
-                Live Demo
-              </button>
-            )}
-          </div>
-        </div>
-      </Card>
-    </motion.div>
-  );
-};
-
-ProjectCard.propTypes = {
-  project: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    image: PropTypes.string.isRequired,
-    link: PropTypes.string,
-    github: PropTypes.string
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
-  inView: PropTypes.bool.isRequired
-};
-
-const Projects = () => {
-  const [activeProject, setActiveProject] = useState(null);
-
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
-  const handleMouseEnter = (index) => {
-    setActiveProject(index);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveProject(null);
-  };
-
-  return (
-    <motion.section
-      ref={ref}
-      className="w-full md:mt-48 mt-32"
-      id="projects"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <SectionTitle title="My Projects" inView={inView} />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-        {PROJECTS.map((project, index) => (
-          <ProjectCard
-            key={index}
-            project={project}
-            index={index}
-            isActive={activeProject === index}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            inView={inView}
-          />
-        ))}
-      </div>
-    </motion.section>
+          {PROJECTS.length > initialProjectCount && (
+            <motion.div
+              className="flex flex-col items-center mt-12"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: inView ? 1 : 0,
+                y: inView ? 0 : 10
+              }}
+              transition={{ duration: 0.3, delay: visibleProjects.length * 0.1 }}
+            >
+              <ViewMore
+                isExpanded={showAllProjects}
+                onClick={toggleShowAllProjects}
+                expandedText="View less"
+                collapsedText="View more"
+                ariaLabel={showAllProjects ? "View less projects" : "View more projects"}
+              />
+            </motion.div>
+          )}
+        </>
+      )}
+    </AnimatedSection>
   );
 };
 

@@ -3,10 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /* Base styles */
 @layer base {
+  :root {
+    /* Add standard shadow intensities */
+    --text-shadow-sm: 0 0 2px var(--highlight-color);
+    --text-shadow-md: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
+    --text-shadow-lg: 0 0 4px var(--highlight-color), 0 0 8px var(--highlight-color), 0 0 12px var(--highlight-color);
+    
+    /* Add box shadow standards */
+    --box-shadow-sm: 0 0 5px rgba(var(--highlight-rgb), 0.1);
+    --box-shadow-md: 0 0 10px rgba(var(--highlight-rgb), 0.3);
+    --box-shadow-lg: 0 0 15px rgba(var(--highlight-rgb), 0.5), 0 0 30px rgba(var(--highlight-rgb), 0.2);
+    
+    /* Animation timing */
+    --transition-fast: 200ms;
+    --transition-normal: 300ms;
+    --transition-slow: 500ms;
+    
+    /* Standard cubic bezier */
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   html {
     @apply scroll-smooth;
   }
@@ -19,12 +37,12 @@
   input,
   textarea {
     @apply focus:outline-none transition-all duration-300;
-    box-shadow: 0 0 0 rgba(var(--highlight-rgb), 0);
+    box-shadow: var(--box-shadow-sm);
   }
 
   input:focus,
   textarea:focus {
-    box-shadow: 0 0 10px rgba(var(--highlight-rgb), 0.3);
+    box-shadow: var(--box-shadow-md);
   }
 
   /* Scrollbar styling */
@@ -44,39 +62,51 @@
 
   ::-webkit-scrollbar-thumb:hover {
     opacity: 1;
-    box-shadow: 0 0 5px var(--highlight-color);
+    box-shadow: var(--box-shadow-sm);
   }
 }
 
 /* Component styles */
 @layer components {
-
   /* Typography styles */
+  .text-shadow-sm {
+    text-shadow: var(--text-shadow-sm);
+  }
+  
+  .text-shadow-md {
+    text-shadow: var(--text-shadow-md);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: var(--text-shadow-lg);
+  }
+  
+  /* Legacy classes for backwards compatibility */
   .neon-text {
     @apply text-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
-    text-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
+    text-shadow: var(--text-shadow-md);
     letter-spacing: 1px;
   }
 
   .neon-text-hover {
     @apply neon-text;
-    transition: text-shadow 0.2s ease, color 0.2s ease;
+    transition: text-shadow 0.3s var(--ease-standard), color 0.3s var(--ease-standard);
   }
 
   .neon-text-hover:hover {
-    text-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color), 0 0 8px var(--highlight-color);
+    text-shadow: var(--text-shadow-lg);
   }
 
   .neon-title {
     @apply text-[var(--highlight-color)];
-    text-shadow: 0 0 4px var(--highlight-color), 0 0 8px var(--highlight-color);
+    text-shadow: var(--text-shadow-lg);
     animation: flicker 5s infinite;
   }
 
   /* Border effects */
   .neon-border {
     @apply border-t-2 border-b-2 border-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
-    box-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
+    box-shadow: var(--box-shadow-sm);
   }
 
   /* Glass effect */
@@ -112,6 +142,7 @@
     z-index: 1;
     animation: float-particle infinite ease-in-out;
     will-change: transform;
+    box-shadow: 0 0 6px var(--highlight-color);
   }
 
   /* Typewriter cursor effect */
@@ -130,32 +161,24 @@
 
   .skill-progress {
     @apply h-full bg-[var(--highlight-color)] rounded-full;
-    box-shadow: 0 0 5px var(--highlight-color);
+    box-shadow: var(--box-shadow-sm);
     transition: width 1s ease-out;
-  }
-
-  .skill-sparkle {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-    background-size: 200% 100%;
-    animation: skill-sparkle-animation 2s ease-in-out infinite;
-    height: 100%;
-    width: 100%;
   }
 
   /* Education */
   .parallelogram {
     @apply bg-white w-full h-6 md:h-8 transition-all duration-300 brightness-75;
-    box-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
+    box-shadow: var(--text-shadow-sm);
     transform: skew(-24deg);
   }
 
   .tokenomic-container:hover .parallelogram {
     @apply brightness-90;
-    box-shadow: 0 0 4px var(--highlight-color), 0 0 6px var(--highlight-color), 0 0 8px var(--highlight-color);
+    box-shadow: var(--text-shadow-md);
   }
 
   .tokenomic-container {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s var(--ease-standard);
   }
 }
 
@@ -226,7 +249,6 @@
   }
 
   @keyframes blink {
-
     from,
     to {
       opacity: 1;
@@ -238,7 +260,6 @@
   }
 
   @keyframes flicker {
-
     0%,
     18%,
     22%,
@@ -247,7 +268,7 @@
     57%,
     100% {
       opacity: 1;
-      text-shadow: 0 0 4px var(--highlight-color), 0 0 8px var(--highlight-color);
+      text-shadow: var(--text-shadow-lg);
     }
 
     20%,
@@ -261,12 +282,11 @@
     23%,
     56% {
       opacity: 0.9;
-      text-shadow: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
+      text-shadow: var(--text-shadow-sm);
     }
   }
 
   @keyframes float-particle {
-
     0%,
     100% {
       transform: translateY(0) translateX(0);
@@ -286,7 +306,6 @@
   }
 
   @keyframes skill-sparkle-animation {
-
     0%,
     100% {
       background-position: 0% 0%;
@@ -328,5 +347,43 @@
     .neon-text {
       letter-spacing: 0.5px;
     }
+  }
+}
+
+.pixel-chevron {
+  shape-rendering: geometricPrecision;
+  image-rendering: auto;
+  text-rendering: optimizeLegibility;
+}
+
+.chevron-first {
+  animation: pixel-pulse-first 2s infinite;
+}
+
+.chevron-second {
+  animation: pixel-pulse-second 2s infinite;
+}
+
+@keyframes pixel-pulse-first {
+  0%, 50%, 100% {
+    opacity: 0.1;
+    filter: drop-shadow(0 0 1px var(--highlight-color));
+  }
+  
+  15%, 35% {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px var(--highlight-color));
+  }
+}
+
+@keyframes pixel-pulse-second {
+  0%, 50%, 100% {
+    opacity: 0.1;
+    filter: drop-shadow(0 0 1px var(--highlight-color));
+  }
+  
+  65%, 85% {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px var(--highlight-color));
   }
 }

@@ -1,10 +1,9 @@
 // src/components/sections/Timeline.jsx
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
+import AnimatedSection from '../ui/AnimatedSection';
 import SectionTitle from '../ui/SectionTitle';
-import Card from '../ui/Card';
+import TimelineEvent from '../ui/TimelineEvent';
 
 // Career experience data
 const EXPERIENCES = [
@@ -34,104 +33,12 @@ const EXPERIENCES = [
   },  
 ];
 
-const TimelineEvent = ({ 
-  title, 
-  company, 
-  period, 
-  description, 
-  isLeft, 
-  isActive, 
-  index 
-}) => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      className="flex flex-col md:flex-row items-center w-full z-30 timeline-event" 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3 }}
-      data-index={index}
-    >
-      
-      {isLeft ? (
-        <>
-          <div className="w-full md:w-1/2 md:pr-8">
-            <Card
-              className="p-6"
-              style={{
-                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
-                boxShadow: isActive 
-                  ? `0 0 8px var(--highlight-color), 0 0 12px rgba(var(--highlight-rgb), 0.2)` 
-                  : '0 0 5px rgba(var(--highlight-rgb), 0.1)',
-                borderColor: isActive ? 'var(--highlight-color)' : '',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-              }}
-            >
-              <h3 className="text-xl neon-text mb-1">{title}</h3>
-              <div className="flex flex-wrap justify-between items-center mb-4">
-                <p className="text-white/70">{company}</p>
-                <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
-              </div>
-              <p className="neon-text text-sm md:text-base">{description}</p>
-            </Card>
-          </div>
-          <div className="hidden md:block w-full md:w-1/2" />
-        </>
-      ) : (
-        <>
-          <div className="hidden md:block w-full md:w-1/2" />
-          <div className="w-full md:w-1/2 md:pl-8">
-            <Card
-              className="p-6"
-              style={{
-                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
-                boxShadow: isActive 
-                  ? `0 0 8px var(--highlight-color), 0 0 12px rgba(var(--highlight-rgb), 0.2)` 
-                  : '0 0 5px rgba(var(--highlight-rgb), 0.1)',
-                borderColor: isActive ? 'var(--highlight-color)' : '',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-              }}
-            >
-              <h3 className="text-xl neon-text mb-1">{title}</h3>
-              <div className="flex flex-wrap justify-between items-center mb-4">
-                <p className="text-white/70">{company}</p>
-                <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
-              </div>
-              <p className="neon-text text-sm md:text-base">{description}</p>
-            </Card>
-          </div>
-        </>
-      )}
-    </motion.div>
-  );
-};
-
-TimelineEvent.propTypes = {
-  title: PropTypes.string.isRequired,
-  company: PropTypes.string.isRequired,
-  period: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  isLeft: PropTypes.bool.isRequired,
-  isActive: PropTypes.bool,
-  index: PropTypes.number.isRequired
-};
-
 const Timeline = () => {
   const timelineRef = useRef(null);
   const progressRef = useRef(null);
   const filledRef = useRef(null);
   const [filledOpacity, setFilledOpacity] = useState(0);
   const [activeIndex, setActiveIndex] = useState(null);
-
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
 
   // Handle scroll-based animation of timeline progress bar
   useEffect(() => {
@@ -249,60 +156,54 @@ const Timeline = () => {
   }, []);
 
   return (
-    <motion.section
-      ref={(el) => {
-        timelineRef.current = el; // Attach ref for scroll animation
-        ref(el); // Also attach inView ref
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3 }}
-      className="w-full md:mt-48 mt-32"
-      id="timeline"
-    >
-      <SectionTitle title="Professional Experience" inView={inView} />
+    <AnimatedSection id="timeline" ref={timelineRef}>
+      {(inView) => (
+        <>
+          <SectionTitle title="Professional Experience" inView={inView} />
 
-      <div className="relative mt-16">
-        {/* Timeline track */}
-        <div
-          ref={progressRef}
-          className="absolute h-full left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-500 z-10"
-          style={{
-            background: `rgba(255, 255, 255, 0.2)`,
-          }}
-          aria-hidden="true"
-        />
-        
-        {/* Animated progress fill */}
-        <div
-          ref={filledRef}
-          className="absolute left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-300 z-10"
-          style={{
-            height: '0%',
-            top: '0',
-            opacity: filledOpacity,
-            background: 'var(--highlight-color)'
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Timeline entries */}
-        <div className="space-y-12 relative mb-16 z-20">
-          {EXPERIENCES.map((experience, index) => (
-            <TimelineEvent
-              key={index}
-              title={experience.title}
-              company={experience.company}
-              period={experience.period}
-              description={experience.description}
-              isLeft={index % 2 === 0}
-              isActive={activeIndex === index}
-              index={index}
+          <div className="relative mt-16">
+            {/* Timeline track */}
+            <div
+              ref={progressRef}
+              className="absolute h-full left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-500 z-10"
+              style={{
+                background: `rgba(255, 255, 255, 0.2)`,
+              }}
+              aria-hidden="true"
             />
-          ))}
-        </div>
-      </div>
-    </motion.section>
+            
+            {/* Animated progress fill */}
+            <div
+              ref={filledRef}
+              className="absolute left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-300 z-10"
+              style={{
+                height: '0%',
+                top: '0',
+                opacity: filledOpacity,
+                background: 'var(--highlight-color)'
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Timeline entries */}
+            <div className="space-y-12 relative mb-16 z-20">
+              {EXPERIENCES.map((experience, index) => (
+                <TimelineEvent
+                  key={index}
+                  title={experience.title}
+                  company={experience.company}
+                  period={experience.period}
+                  description={experience.description}
+                  isLeft={index % 2 === 0}
+                  isActive={activeIndex === index}
+                  index={index}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </AnimatedSection>
   );
 };
 

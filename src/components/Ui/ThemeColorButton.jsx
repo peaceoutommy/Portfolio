@@ -1,26 +1,112 @@
-import { memo } from 'react';
+// src/components/ui/ThemeColorButton.jsx
+import { useState, useCallback, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
+import GlowText from './GlowText';
+import Icons from './Icons';
+import { GetColors } from '../../data/themeColors'
 
-const THEME_COLORS = ['#00ffff', '#ffff00', '#ffffff', '#ff00ff', '#ff6600', '#ff0000', '#00ff00'];
-
+/**
+ * ThemeColorButton - A button that allows users to change the theme color
+ */
 const ThemeColorButton = () => {
-  const { highlightColor, setThemeColor } = useTheme();
+  const { changeColor, currentTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleColorClick = () => {
-    const currentIndex = THEME_COLORS.indexOf(highlightColor);
-    const nextIndex = (currentIndex + 1) % THEME_COLORS.length;
-    setThemeColor(THEME_COLORS[nextIndex]);
-  };
+  // Predefined theme colors
+  const themeColors = GetColors();
+
+  const toggleDropdown = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const handleColorSelect = useCallback((colorValue) => {
+    changeColor(colorValue);
+    setIsOpen(false);
+  }, [changeColor]);
+
+  // Close dropdown when scrolling or clicking outside
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (isOpen && !event.target.closest('.theme-color-dropdown-container')) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <button
-      onClick={handleColorClick}
-      className="w-6 h-6 rounded border border-gray-400 glass transition-all duration-300 hover:opacity-90"
-      style={{ backgroundColor: highlightColor }}
-      title="Click to change theme color"
-      aria-label="Change theme color"
-    />
+    <div className="relative theme-color-dropdown-container">
+      <motion.button
+        className="p-2 rounded-lg border-2 border-[#333f3f] transition-all duration-300 relative group"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={toggleDropdown}
+        aria-label="Change theme color"
+        aria-expanded={isOpen}
+        style={{
+          background: 'rgba(var(--highlight-rgb), 0.1)',
+          boxShadow: 'var(--box-shadow-sm)'
+        }}
+      >
+        <GlowText intensity="low">
+          <Icons name="Palette"></Icons>
+        </GlowText>
+        <span className="absolute inset-0 bg-[var(--highlight-color)]/0 group-hover:bg-[var(--highlight-color)]/20 transition-all duration-300 rounded-lg"></span>
+      </motion.button>
+
+      {/* Color dropdown */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="absolute right-0 mt-2 py-2 w-36 bg-black/90 backdrop-blur-md rounded-lg border-2 border-[var(--highlight-color)]/30 z-50"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              boxShadow: 'var(--box-shadow-md)'
+            }}
+          >
+            {themeColors.map((color, index) => (
+              <motion.button
+                key={index}
+                className="w-full px-4 py-2 text-left flex items-center gap-2 transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
+                onClick={() => handleColorSelect(color.value)}
+                whileHover={{ x: 3 }}
+                style={{
+                  textShadow: color.value === currentTheme
+                    ? 'var(--text-shadow-md)'
+                    : 'none'
+                }}
+              >
+                <span
+                  className={`h-3 w-3 rounded-full inline-block`}
+                  style={{ background: `rgb(${color.value})`, boxShadow: `0 0 4px rgb(${color.value})` }}
+                />
+                <GlowText intensity={color.value === currentTheme ? "medium" : "low"}>
+                  {color.name}
+                </GlowText>
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
-export default memo(ThemeColorButton);
+export default ThemeColorButton;

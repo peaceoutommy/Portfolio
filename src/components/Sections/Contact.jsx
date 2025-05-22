@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import emailjs from '@emailjs/browser';
 import SectionTitle from '../ui/SectionTitle';
 import Button from '../ui/Button';
+import AnimatedSection from '../ui/AnimatedSection';
+import GlowText from '../ui/GlowText';
 import { useToast, ToastPositions, ToastTypes } from '../../hooks/useToast';
 
 const Contact = () => {
@@ -21,11 +21,6 @@ const Contact = () => {
   useEffect(() => {
     emailjs.init(publicKey);
   }, [publicKey]);
-
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
 
   // Using object shorthand for handlers
   const handleChange = {
@@ -71,82 +66,85 @@ const Contact = () => {
     }
   };
 
-  // Input styles
-  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 rounded-lg focus:border-[var(--highlight-color)] text-white";
-  const labelStyles = "block neon-text mb-2";
+  // Input styles - standardized
+  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-300";
+  const labelStyles = "block mb-2";
 
   return (
-    <motion.section
-      ref={ref}
-      id="contact"
-      className="md:mt-48 mt-32"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <SectionTitle title="Get In Touch" inView={inView} />
+    <AnimatedSection id="contact">
+      {(inView) => (
+        <>
+          <SectionTitle title="Get In Touch" inView={inView} />
 
-      <div className="max-w-2xl w-full mx-auto mb-8">
-        <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="name" className={labelStyles}>Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={handleChange.name}
-                className={inputStyles}
-                placeholder="Your Name"
-                required
-                aria-required="true"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className={labelStyles}>Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={handleChange.email}
-                className={inputStyles}
-                placeholder="your.email@example.com"
-                required
-                aria-required="true"
-              />
-            </div>
-          </div>
+          <div className="max-w-4xl w-full mx-auto mb-8">
+            <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className={labelStyles}>
+                    <GlowText>Name</GlowText>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={handleChange.name}
+                    className={inputStyles}
+                    placeholder="Your Name"
+                    required
+                    aria-required="true"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className={labelStyles}>
+                    <GlowText>Email</GlowText>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={handleChange.email}
+                    className={inputStyles}
+                    placeholder="your.email@example.com"
+                    required
+                    aria-required="true"
+                  />
+                </div>
+              </div>
 
-          <div>
-            <label htmlFor="message" className={labelStyles}>Message</label>
-            <textarea
-              id="message"
-              name="message"
-              value={message}
-              onChange={handleChange.message}
-              rows="4"
-              className={inputStyles}
-              placeholder="Your message here..."
-              required
-              aria-required="true"
-            ></textarea>
-          </div>
+              <div>
+                <label htmlFor="message" className={labelStyles}>
+                  <GlowText>Message</GlowText>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={message}
+                  onChange={handleChange.message}
+                  rows="4"
+                  className={inputStyles}
+                  placeholder="Your message here..."
+                  required
+                  aria-required="true"
+                ></textarea>
+              </div>
 
-          <div>
-            <Button
-              type="submit"
-              primary
-              disabled={isSubmitting}
-              aria-label={isSubmitting ? "Sending message..." : "Send message"}
-            >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </Button>
+              <div>
+                <Button
+                  type="submit"
+                  primary
+                  disabled={isSubmitting}
+                  aria-label={isSubmitting ? "Sending message..." : "Send message"}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </motion.section>
+        </>
+      )}
+    </AnimatedSection>
   );
 };
 
