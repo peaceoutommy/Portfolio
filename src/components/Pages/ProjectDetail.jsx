@@ -70,7 +70,7 @@ const ProjectDetail = () => {
         </motion.div>
       </div>
     );
-  }
+  };
 
   if (!project) {
     return null;
@@ -108,7 +108,7 @@ const ProjectDetail = () => {
               {project.title}
             </GlowText>
 
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-4">
               {project.tags.map((tag, tagIndex) => (
                 <span
                   key={tagIndex}
@@ -119,6 +119,22 @@ const ProjectDetail = () => {
                 </span>
               ))}
             </div>
+
+            {/* Project Timeline */}
+            {project.timeline && (
+              <motion.div
+                className="mb-6 flex items-center gap-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <div className="w-1 h-1 rounded-full bg-[var(--highlight-color)]/60"></div>
+                <span className="text-sm text-white/60 font-medium">
+                  {project.timeline}
+                </span>
+                <div className="w-1 h-1 rounded-full bg-[var(--highlight-color)]/60"></div>
+              </motion.div>
+            )}
           </div>
 
           <div className="flex gap-4">
@@ -199,7 +215,10 @@ const ProjectDetail = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <p className="mb-4">{project.description}</p>
+              {project.description.map((desc, i) => (
+                <p key={i} className="mb-4">{desc}</p>
+              ))}
+
             </motion.div>
           </Card>
 
@@ -316,52 +335,29 @@ const ProjectDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          {/* Project Metadata */}
-          <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-4" intensity="medium">
-              Project Details
-            </GlowText>
-
-            <div className="space-y-4">
-              <div>
-                <GlowText className="text-sm mb-1" intensity="low">Timeline</GlowText>
-                <p className="text-white/80">Jan 2023 - Mar 2023</p>
-              </div>
-
-              <div>
-                <GlowText className="text-sm mb-1" intensity="low">Role</GlowText>
-                <p className="text-white/80">Full Stack Developer</p>
-              </div>
-
-              <div>
-                <GlowText className="text-sm mb-1" intensity="low">Client</GlowText>
-                <p className="text-white/80">Personal Project</p>
-              </div>
-            </div>
-          </Card>
-
           {/* Challenges & Solutions */}
-          <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-4" intensity="medium">
-              Challenges & Solutions
-            </GlowText>
+          {project.challenges && project.solutions && project.challenges.length > 0 && project.solutions.length > 0 && (
+            <Card className="p-6 mb-8">
+              <GlowText as="h2" className="text-xl mb-4" intensity="medium">
+                Challenges & Solutions
+              </GlowText>
 
-            <div className="space-y-4 text-white/80">
-              <div>
-                <GlowText className="text-md mb-1" intensity="low">Challenge</GlowText>
-                <p className="mb-2">Implementing real-time updates without affecting performance.</p>
-                <GlowText className="text-md mb-1" intensity="low">Solution</GlowText>
-                <p>Used WebSockets with optimized data transfer to ensure smooth updates with minimal latency.</p>
+              <div className="space-y-4 text-white/80">
+                {project.challenges.map((challenge, index) => (
+                  <div key={index}>
+                    <GlowText className="text-md mb-1" intensity="low">Challenge</GlowText>
+                    <p className="mb-2">{challenge}</p>
+                    {project.solutions[index] && (
+                      <>
+                        <GlowText className="text-md mb-1" intensity="low">Solution</GlowText>
+                        <p>{project.solutions[index]}</p>
+                      </>
+                    )}
+                  </div>
+                ))}
               </div>
-
-              <div>
-                <GlowText className="text-md mb-1" intensity="low">Challenge</GlowText>
-                <p className="mb-2">Creating a responsive interface that works across all devices.</p>
-                <GlowText className="text-md mb-1" intensity="low">Solution</GlowText>
-                <p>Implemented a mobile-first design approach with Tailwind CSS and custom breakpoints.</p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          )}
 
           {/* Call to Action */}
           <motion.div

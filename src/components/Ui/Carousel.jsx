@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import GlowContainer from '../ui/GlowContainer';
+import Card from '../ui/Card';
 
 const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
   if (!images || images.length === 0) {
@@ -13,7 +13,11 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 }}
     >
-      <GlowContainer intensity="none" className="p-0 overflow-hidden">
+      <Card 
+        intensity="none" 
+        className="p-0 overflow-hidden"
+        whileHover={true} // Disable Card's default hover effect
+      >
         <div
           className="w-full relative flex"
           style={{
@@ -54,15 +58,13 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
             </motion.div>
           ))}
         </div>
-      </GlowContainer>
+      </Card>
 
       <div className="flex justify-center mt-4">
         {images.map((_, index) => (
           <button
             key={index}
             className={`mx-1 h-1 rounded-full transition-all duration-300 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
-
-             
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
