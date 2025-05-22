@@ -1,9 +1,9 @@
-import Hero from "../sections/Hero"
-import Skills from "../sections/Skills"
-import Projects from "../sections/Projects"
-import Timeline from "../sections/Timeline"
-import Education from "../sections/Education"
-import Contact from "../sections/Contact"
+import Hero from "../sections/home/hero"
+import Skills from "../sections/home/Skills"
+import Projects from "../sections/home/Projects"
+import Timeline from "../sections/home/Timeline"
+import Education from "../sections/home/Education"
+import Contact from "../sections/home/Contact"
 
 const Home = () => {
 

@@ -5,7 +5,7 @@ import { GetProject } from '../../data/projectsData';
 import GlowText from '../ui/GlowText';
 import Card from '../ui/Card';
 import Icons from '../ui/Icons';
-import Carousel from '../Ui/Carousel';
+import Carousel from '../ui/Carousel';
 import ViewMore from '../ui/ViewMore';
 import Challenges from '../Sections/ProjectDetails/Challenges';
 

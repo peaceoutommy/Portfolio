@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import SectionTitle from '../ui/SectionTitle';
-import Button from '../ui/Button';
-import AnimatedSection from '../ui/AnimatedSection';
-import GlowText from '../ui/GlowText';
-import { useToast, ToastPositions, ToastTypes } from '../../hooks/useToast';
+import SectionTitle from '../../ui/SectionTitle';
+import Button from '../../ui/Button';
+import AnimatedSection from '../../ui/AnimatedSection';
+import GlowText from '../../ui/GlowText';
+import { useToast, ToastPositions } from '../../../hooks/useToast';
 
 const Contact = () => {
   const [name, setName] = useState('');

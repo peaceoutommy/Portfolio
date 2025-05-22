@@ -2,13 +2,13 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import SectionTitle from '../ui/SectionTitle';
-import Card from '../ui/Card';
-import AnimatedSection from '../ui/AnimatedSection';
-import CategoryTab from '../ui/CategoryTab';
-import SkillBar from '../ui/SkillBar';
-import GlowText from '../ui/GlowText';
-import { SKILL_CATEGORIES, getSkillsByCategory, getCategoryIcon } from '../../data/skillsData';
+import SectionTitle from '../../ui/SectionTitle';
+import Card from '../../ui/Card';
+import AnimatedSection from '../../ui/AnimatedSection';
+import CategoryTab from '../../ui/CategoryTab';
+import SkillBar from '../../ui/SkillBar';
+import GlowText from '../../ui/GlowText';
+import { SKILL_CATEGORIES, getSkillsByCategory, getCategoryIcon } from '../../../data/skillsData';
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('Backend');

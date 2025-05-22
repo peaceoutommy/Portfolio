@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import SectionTitle from '../ui/SectionTitle';
-import AnimatedSection from '../ui/AnimatedSection';
-import ProjectCard from '../ui/ProjectCard';
-import GlowText from '../ui/GlowText';
-import PixelChevron from '../ui/PixelChevron';
-import ViewMore from '../ui/ViewMore';
-import { GetProjects } from '../../data/projectsData';
+import SectionTitle from '../../ui/SectionTitle';
+import AnimatedSection from '../../ui/AnimatedSection';
+import ProjectCard from '../../ui/ProjectCard';
+import GlowText from '../../ui/GlowText';
+import PixelChevron from '../../ui/PixelChevron';
+import ViewMore from '../../ui/ViewMore';
+import { GetProjects } from '../../../data/projectsData';
 import { motion } from 'framer-motion';
 
 const Projects = () => {

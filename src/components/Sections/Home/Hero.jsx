@@ -1,10 +1,10 @@
 // src/components/sections/Hero.jsx
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useScrollToSection } from '../../hooks/useScrollToSection';
-import Particles from '../Particles';
-import Button from '../ui/Button';
-import GlowText from '../ui/GlowText';
+import { useScrollToSection } from '../../../hooks/useScrollToSection';
+import Particles from '../../Particles';
+import Button from '../../ui/Button';
+import GlowText from '../../ui/GlowText';
 
 const Hero = () => {
   const containerRef = useRef(null);

@@ -1,7 +1,7 @@
-import SectionTitle from '../ui/SectionTitle';
+import SectionTitle from '../../ui/SectionTitle';
 import { motion } from 'framer-motion';
-import AnimatedSection from '../ui/AnimatedSection';
-import GlowText from '../ui/GlowText';
+import AnimatedSection from '../../ui/AnimatedSection';
+import GlowText from '../../ui/GlowText';
 
 const Education = () => {
     const education = [

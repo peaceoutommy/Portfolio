@@ -33,8 +33,12 @@ const Features = () => {
         >
             {features.map((feature, index) => (
                 <div key={index} className="card p-6">
-                    <h3 className="text-2xl neon-text text-white mt-4"> Feature {index + 1}: {feature.title}</h3>
-                    <p className="mt-4 neon-text">{feature.description}</p>
+                    <h3 className="text-2xl text-white mt-4">
+                      <GlowText intensity="medium">Feature {index + 1}: {feature.title}</GlowText>
+                    </h3>
+                    <p className="mt-4 text-white/80">
+                      <GlowText intensity="low">{feature.description}</GlowText>
+                    </p>
                 </div>
             ))}
         </motion.div>

@@ -1,9 +1,8 @@
 // src/components/sections/Timeline.jsx
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import AnimatedSection from '../ui/AnimatedSection';
-import SectionTitle from '../ui/SectionTitle';
-import TimelineEvent from '../ui/TimelineEvent';
+import AnimatedSection from '../../ui/AnimatedSection';
+import SectionTitle from '../../ui/SectionTitle';
+import TimelineEvent from '../../ui/TimelineEvent';
 
 // Career experience data
 const EXPERIENCES = [

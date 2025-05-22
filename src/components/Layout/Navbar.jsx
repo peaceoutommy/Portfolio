@@ -1,11 +1,11 @@
 // src/components/Navbar.jsx
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeColorButton from './ui/ThemeColorButton';
-import NavLink from './ui/NavLink';
-import GlowText from './ui/GlowText';
-import { useScrollToSection } from '../hooks/useScrollToSection';
-import { useNavbarScroll } from '../hooks/useNavbarScroll';
+import ThemeColorButton from './../ui/ThemeColorButton';
+import NavLink from './../ui/Navlink';
+import GlowText from './../ui/GlowText';
+import { useScrollToSection } from './../../hooks/useScrollToSection';
+import { useNavbarScroll } from './../../hooks/useNavbarScroll';
 import { Link, useNavigate } from 'react-router-dom';
 
 const NAV_ITEMS = [
