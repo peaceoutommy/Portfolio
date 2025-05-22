@@ -45,14 +45,15 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
               }}
             >
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 transition-all duration-500 ease-in-out"
                 style={{
                   backgroundImage: `url(/${img})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   width: "100%",
-                  height: "100%"
+                  height: "100%",
+                  filter: activeImageIndex === index ? "brightness(1)" : "brightness(0.6)",
                 }}
               />
             </motion.div>

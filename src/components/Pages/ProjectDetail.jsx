@@ -20,6 +20,9 @@ const ProjectDetail = () => {
   const [activeProcessStep, setActiveProcessStep] = useState(0);
   const [expandedChallenges, setExpandedChallenges] = useState({});
 
+  // Add hover state management
+  const [hoveredCard, setHoveredCard] = useState(null);
+
   useEffect(() => {
     const selectedProject = GetProject(projectId);
 
@@ -55,6 +58,37 @@ const ProjectDetail = () => {
       ...prev,
       [index]: !prev[index]
     }));
+  };
+
+  // Hover handlers
+  const handleMouseEnter = (cardId) => {
+    setHoveredCard(cardId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCard(null);
+  };
+
+  // Animation variants for card hover effects (matching ProjectCard behavior)
+  const cardVariants = {
+    active: {
+      y: -5,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+        duration: 0.4
+      }
+    },
+    inactive: {
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 25,
+        duration: 0.4
+      }
+    }
   };
 
   const developmentSteps = [
@@ -155,21 +189,6 @@ const ProjectDetail = () => {
                 </motion.span>
               ))}
             </div>
-
-            {project.timeline && (
-              <motion.div
-                className="mb-6 flex items-center gap-2"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-              >
-                <div className="w-1 h-1 rounded-full bg-[var(--highlight-color)]/60"></div>
-                <span className="text-sm text-white/60 font-medium">
-                  {project.timeline}
-                </span>
-                <div className="w-1 h-1 rounded-full bg-[var(--highlight-color)]/60"></div>
-              </motion.div>
-            )}
           </div>
 
           <div className="flex gap-4">
@@ -244,142 +263,178 @@ const ProjectDetail = () => {
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           {/* Project Overview - Expandable Card */}
-          <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-4" intensity="medium">
-              Project Overview
-            </GlowText>
-
-            <motion.div
-              className="text-white/80"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+          <motion.div
+            variants={cardVariants}
+            initial="inactive"
+            animate={hoveredCard === 'overview' ? "active" : "inactive"}
+          >
+            <Card
+              className="p-6 mb-8"
+              isActive={hoveredCard === 'overview'}
+              intensity={hoveredCard === 'overview' ? 'medium' : 'none'}
+              onMouseEnter={() => handleMouseEnter('overview')}
+              onMouseLeave={handleMouseLeave}
             >
-              {/* Show first paragraph always */}
-              <p className="mb-4">{project.description[0]}</p>
+              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'overview' ? "medium" : "low"}>
+                Project Overview
+              </GlowText>
 
-              {/* Show remaining paragraphs when expanded */}
-              <AnimatePresence>
-                {expandedDescription && project.description.length > 1 && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    {project.description.slice(1).map((desc, i) => (
-                      <motion.p
-                        key={i}
-                        className="mb-4"
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: i * 0.1 }}
-                      >
-                        {desc}
-                      </motion.p>
-                    ))}
-                  </motion.div>
+              <motion.div
+                className="text-white/80"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Show first paragraph always */}
+                <p className="mb-4">{project.description[0]}</p>
+
+                {/* Show remaining paragraphs when expanded */}
+                <AnimatePresence>
+                  {expandedDescription && project.description.length > 1 && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      {project.description.slice(1).map((desc, i) => (
+                        <motion.p
+                          key={i}
+                          className="mb-4"
+                          initial={{ y: 10, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: i * 0.1 }}
+                        >
+                          {desc}
+                        </motion.p>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {project.description.length > 1 && (
+                  <div className="flex justify-center mt-6">
+                    <ViewMore
+                      isExpanded={expandedDescription}
+                      onClick={() => setExpandedDescription(!expandedDescription)}
+                      expandedText="Show Less"
+                      collapsedText={"View more"}
+                      intensity="medium"
+                      ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}
+                    />
+                  </div>
                 )}
-              </AnimatePresence>
-
-              {project.description.length > 1 && (
-                <div className="flex justify-center mt-6">
-                  <ViewMore
-                    isExpanded={expandedDescription}
-                    onClick={() => setExpandedDescription(!expandedDescription)}
-                    expandedText="Show Less"
-                    collapsedText={"View more"}
-                    intensity="medium"
-                    ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}
-                  />
-                </div>
-              )}
-            </motion.div>
-          </Card>
+              </motion.div>
+            </Card>
+          </motion.div>
 
           {/* Key Features */}
-          <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-4" intensity="medium">
-              Key Features
-            </GlowText>
+          <motion.div
+            variants={cardVariants}
+            initial="inactive"
+            animate={hoveredCard === 'features' ? "active" : "inactive"}
+          >
+            <Card
+              className="p-6 mb-8"
+              isActive={hoveredCard === 'features'}
+              intensity={hoveredCard === 'features' ? 'medium' : 'none'}
+              onMouseEnter={() => handleMouseEnter('features')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'features' ? "medium" : "low"}>
+                Key Features
+              </GlowText>
 
-            {project.keyFeatures && project.keyFeatures.length > 0 && (
-              project.keyFeatures.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="flex gap-3 p-3 rounded-lg"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                >
-                  <GlowText intensity='medium'>
-                    <Icons name="CheckCircle" />
-                  </GlowText>
-                  <span className="text-white/80 text-sm">{feature}</span>
-                </motion.div>
-              )))}
-          </Card>
+              {project.keyFeatures && project.keyFeatures.length > 0 && (
+                project.keyFeatures.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex gap-3 p-3 rounded-lg"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                  >
+                    <GlowText intensity={hoveredCard === 'features' ? 'medium' : 'low'}>
+                      <Icons name="CheckCircle" />
+                    </GlowText>
+                    <span className="text-white/80 text-sm">{feature}</span>
+                  </motion.div>
+                )))}
+            </Card>
+          </motion.div>
 
           {/* Development Process - Interactive Timeline */}
-          <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-6" intensity="medium">
-              Development Process
-            </GlowText>
-            <motion.div
-              className="space-y-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+          <motion.div
+            variants={cardVariants}
+            initial="inactive"
+            animate={hoveredCard === 'process' ? "active" : "inactive"}
+          >
+            <Card
+              className="p-6 mb-8"
+              isActive={hoveredCard === 'process'}
+              intensity={hoveredCard === 'process' ? 'medium' : 'none'}
+              onMouseEnter={() => handleMouseEnter('process')}
+              onMouseLeave={handleMouseLeave}
             >
-              {developmentSteps.map((step, index) => (
-                <motion.div
-                  key={index}
-                  className={`relative p-4 rounded-lg border transition-all duration-300 cursor-pointer ${activeProcessStep === index
-                    ? 'border-[var(--highlight-color)]/50 bg-[var(--highlight-color)]/5'
-                    : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
-                    }`}
-                  onClick={() => setActiveProcessStep(activeProcessStep === index ? -1 : index)}
-                  whileHover={{ scale: 1.01 }}
-                  layoutId={`process-${index}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`p-2 rounded-lg ${activeProcessStep === index
-                      ? 'bg-[var(--highlight-color)]/20'
-                      : 'bg-[var(--highlight-color)]/10'
-                      }`}>
-                      <Icons name={step.icon} />
-                    </div>
-                    <div className="flex-1">
-                      <GlowText as="h3" className="text-lg mb-1" intensity="low">
-                        {index + 1}. {step.title}
-                      </GlowText>
-                      <p className="text-white/70 text-sm">{step.description}</p>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: activeProcessStep === index ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Icons name="ChevronDown" />
-                    </motion.div>
-                  </div>
-                  <AnimatePresence>
-                    {activeProcessStep === index && (
+              <GlowText as="h2" className="text-xl mb-6" intensity={hoveredCard === 'process' ? "medium" : "low"}>
+                Development Process
+              </GlowText>
+              <motion.div
+                className="space-y-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                {developmentSteps.map((step, index) => (
+                  <motion.div
+                    key={index}
+                    className={`relative p-4 rounded-lg border transition-all duration-300 cursor-pointer ${activeProcessStep === index
+                      ? 'border-[var(--highlight-color)]/50 bg-[var(--highlight-color)]/5'
+                      : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
+                      }`}
+                    onClick={() => setActiveProcessStep(activeProcessStep === index ? -1 : index)}
+                    whileHover={{ scale: 1.01 }}
+                    layoutId={`process-${index}`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-lg ${activeProcessStep === index
+                        ? 'bg-[var(--highlight-color)]/20'
+                        : 'bg-[var(--highlight-color)]/10'
+                        }`}>
+                        <Icons name={step.icon} />
+                      </div>
+                      <div className="flex-1">
+                        <GlowText as="h3" className="text-lg mb-1" intensity={hoveredCard === 'process' ? "medium" : "low"}>
+                          {index + 1}. {step.title}
+                        </GlowText>
+                        <p className="text-white/70 text-sm">{step.description}</p>
+                      </div>
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        animate={{ rotate: activeProcessStep === index ? 180 : 0 }}
                         transition={{ duration: 0.3 }}
-                        className="overflow-hidden mt-4 pt-4 border-t border-[var(--highlight-color)]/20"
                       >
-                        <p className="text-white/80 text-sm">{step.details}</p>
+                        <Icons name="ChevronDown" />
                       </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </motion.div>
-          </Card>
+                    </div>
+                    <AnimatePresence>
+                      {activeProcessStep === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden mt-4 pt-4 border-t border-[var(--highlight-color)]/20"
+                        >
+                          <p className="text-white/80 text-sm">{step.details}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </Card>
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -396,7 +451,6 @@ const ProjectDetail = () => {
             onToggleExpansion={toggleChallengeExpansion}
           />
         </motion.div>
-
       </div>
     </div>
   );

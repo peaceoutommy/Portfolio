@@ -29,11 +29,7 @@ const Challenges = ({
                     >
                         {/* Challenge Card */}
                         <motion.div
-                            className={`relative rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden
-                  ${expandedChallenges[index]
-                                    ? 'border-[var(--highlight-color)]/60 bg-[var(--highlight-color)]/5'
-                                    : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
-                                }`}
+                            className={`relative rounded-xl transition-all duration-500 cursor-pointer overflow-hidden ${expandedChallenges[index]}`}
                             onClick={() => onToggleExpansion(index)}
                             whileHover={{
                                 scale: 1.02,
@@ -41,18 +37,6 @@ const Challenges = ({
                             }}
                             whileTap={{ scale: 0.98 }}
                         >
-                            {/* Glowing border effect on hover */}
-                            <motion.div
-                                className="absolute inset-0 rounded-xl"
-                                initial={false}
-                                animate={{
-                                    boxShadow: expandedChallenges[index]
-                                        ? `0 0 20px rgba(var(--highlight-rgb), 0.3)`
-                                        : '0 0 0px rgba(var(--highlight-rgb), 0)'
-                                }}
-                                transition={{ duration: 0.3 }}
-                            />
-
                             {/* Card Header */}
                             <div className="relative p-4">
                                 <div className="flex items-center justify-between">
@@ -62,13 +46,13 @@ const Challenges = ({
                                             className="relative"
                                             whileHover={{ scale: 1.1 }}
                                         >
-                                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/30 border border-red-500/30 flex items-center justify-center">
+                                            <Card  className="w-8 h-8 rounded-lg border border-red-500/30 flex items-center justify-center">
                                                 <span className="text-xs font-bold text-red-300">
                                                     {String(index + 1).padStart(2, '0')}
                                                 </span>
-                                            </div>
+                                            </Card>
                                             {/* Subtle glow effect */}
-                                            <div className="absolute inset-0 rounded-lg bg-red-500/10 blur-sm -z-10" />
+                                            <div className="absolute inset-0 rounded-lg blur-sm -z-10" />
                                         </motion.div>
 
                                         <div>
@@ -118,9 +102,6 @@ const Challenges = ({
                                         className="overflow-hidden"
                                     >
                                         <div className="px-4 pb-4">
-                                            {/* Divider */}
-                                            <div className="h-px bg-gradient-to-r from-transparent via-[var(--highlight-color)]/30 to-transparent mb-4" />
-
                                             <div className="space-y-4">
                                                 {/* Challenge Description */}
                                                 <motion.div
@@ -185,10 +166,6 @@ const Challenges = ({
                                                     transition={{ delay: 0.3, duration: 0.3 }}
                                                     className="flex items-center justify-center pt-2"
                                                 >
-                                                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20">
-                                                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                                                        <span className="text-xs text-green-300 font-medium">Resolved</span>
-                                                    </div>
                                                 </motion.div>
                                             </div>
                                         </div>

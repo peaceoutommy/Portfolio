@@ -11,9 +11,9 @@ const Card = forwardRef(({
   children, 
   className = '', 
   onClick, 
-  whileHover = { y: -5 },
+  whileHover = { y: -5, intensity:'medium'},
   isActive = false,
-  intensity = 'medium',
+  intensity,
   ...props 
 }, ref) => {
   return (
