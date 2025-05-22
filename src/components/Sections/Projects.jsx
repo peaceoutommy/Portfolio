@@ -3,7 +3,8 @@ import SectionTitle from '../ui/SectionTitle';
 import AnimatedSection from '../ui/AnimatedSection';
 import ProjectCard from '../ui/ProjectCard';
 import GlowText from '../ui/GlowText';
-import PixelChevron from '../ui/PixelChevron'
+import PixelChevron from '../ui/PixelChevron';
+import ViewMore from '../ui/ViewMore';
 import { GetProjects } from '../../data/projectsData';
 import { motion } from 'framer-motion';
 
@@ -169,7 +170,6 @@ const Projects = () => {
     };
   }, [isMobile]);
 
-
   return (
     <AnimatedSection id="projects">
       {(inView) => (
@@ -230,28 +230,13 @@ const Projects = () => {
               }}
               transition={{ duration: 0.3, delay: visibleProjects.length * 0.1 }}
             >
-              <div
+              <ViewMore
+                isExpanded={showAllProjects}
                 onClick={toggleShowAllProjects}
-                className="flex flex-col items-center cursor-pointer hover:scale-105 duration-300"
-                role="button"
-                tabIndex={0}
-                aria-label={showAllProjects ? "View less projects" : "View more projects"}
-              >
-                <div className="view-more-text mb-4">
-                  <GlowText intensity="medium">
-                    {showAllProjects ? "View Less" : "View More"}
-                  </GlowText>
-                </div>
-
-                <div className={`flex flex-col ${showAllProjects ? "rotate-180" : ""}`}>
-                  <div className="chevron-first mb-2">
-                    <PixelChevron />
-                  </div>
-                  <div className="chevron-second">
-                    <PixelChevron />
-                  </div>
-                </div>
-              </div>
+                expandedText="View less"
+                collapsedText="View more"
+                ariaLabel={showAllProjects ? "View less projects" : "View more projects"}
+              />
             </motion.div>
           )}
         </>

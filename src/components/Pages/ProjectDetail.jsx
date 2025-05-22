@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { GetProject } from '../../data/projectsData';
 import GlowText from '../ui/GlowText';
 import Card from '../ui/Card';
 import Icons from '../ui/Icons';
 import Carousel from '../Ui/Carousel';
+import ViewMore from '../ui/ViewMore';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -14,6 +15,9 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [projectImages, setProjectImages] = useState([]);
+  const [expandedDescription, setExpandedDescription] = useState(false);
+  const [activeProcessStep, setActiveProcessStep] = useState(0);
+  const [expandedChallenges, setExpandedChallenges] = useState({});
 
   useEffect(() => {
     const selectedProject = GetProject(projectId);
@@ -22,12 +26,10 @@ const ProjectDetail = () => {
       setProject(selectedProject);
       document.title = `${selectedProject.title} | Portfolio`;
 
-      // Use the images array if available, otherwise use the cover image
       if (selectedProject.images && selectedProject.images.length > 0) {
         setProjectImages(selectedProject.images);
         console.log(selectedProject.images);
       } else {
-        // Fallback to using cover image if no images array
         setProjectImages([selectedProject.cover]);
       }
     } else {
@@ -37,10 +39,8 @@ const ProjectDetail = () => {
     setLoading(false);
   }, [projectId, navigate]);
 
-  // Handle back button click
   const handleBackClick = () => {
     navigate('/');
-    // Scroll to projects section after a short delay
     setTimeout(() => {
       const projectsSection = document.getElementById('projects');
       if (projectsSection) {
@@ -48,6 +48,40 @@ const ProjectDetail = () => {
       }
     }, 100);
   };
+
+  const toggleChallengeExpansion = (index) => {
+    setExpandedChallenges(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
+  const developmentSteps = [
+    {
+      title: "Planning & Research",
+      description: "Extensive research to understand requirements and identify the best technologies to use.",
+      icon: "Search",
+      details: "This included analyzing similar solutions and defining the scope of work."
+    },
+    {
+      title: "Design & Prototyping",
+      description: "Creating wireframes and interactive prototypes to visualize the user interface.",
+      icon: "Palette",
+      details: "This iterative process helped refine the design before any code was written."
+    },
+    {
+      title: "Development",
+      description: "Structured development approach with regular code reviews and testing.",
+      icon: "Code",
+      details: "The front-end was built using React with Tailwind CSS for styling, while the back-end utilized relevant technologies."
+    },
+    {
+      title: "Testing & Deployment",
+      description: "Rigorous testing ensured all features worked as expected across different environments.",
+      icon: "CheckCircle",
+      details: "After thorough quality assurance, the project was deployed to production with monitoring tools in place."
+    }
+  ];
 
   if (loading) {
     return (
@@ -110,17 +144,17 @@ const ProjectDetail = () => {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {project.tags.map((tag, tagIndex) => (
-                <span
+                <motion.span
                   key={tagIndex}
                   className="px-3 py-1 rounded-full text-xs border border-[var(--highlight-color)]/30"
+                  whileHover={{ scale: 1.05 }}
                   style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
                 >
                   <GlowText intensity="low">{tag}</GlowText>
-                </span>
+                </motion.span>
               ))}
             </div>
 
-            {/* Project Timeline */}
             {project.timeline && (
               <motion.div
                 className="mb-6 flex items-center gap-2"
@@ -139,11 +173,13 @@ const ProjectDetail = () => {
 
           <div className="flex gap-4">
             {project.github && project.github !== null && project.github !== "#" ? (
-              <a
+              <motion.a
                 href={project.github}
                 className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <GlowText hover intensity="medium">
                   <div className='flex items-center gap-2'>
@@ -151,7 +187,7 @@ const ProjectDetail = () => {
                     <span>Code</span>
                   </div>
                 </GlowText>
-              </a>
+              </motion.a>
             ) : (
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
@@ -163,11 +199,13 @@ const ProjectDetail = () => {
             )}
 
             {project.link && project.link !== null && project.link !== "#" ? (
-              <a
+              <motion.a
                 href={project.link}
                 className="px-4 py-2 rounded-lg border transition-all duration-300 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <GlowText hover intensity="medium">
                   <div className='flex items-center gap-2'>
@@ -175,7 +213,7 @@ const ProjectDetail = () => {
                     <span>Live Demo</span>
                   </div>
                 </GlowText>
-              </a>
+              </motion.a>
             ) : (
               <button
                 className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
@@ -204,126 +242,141 @@ const ProjectDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          {/* Project Overview */}
+          {/* Project Overview - Expandable Card */}
           <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Project Overview
             </GlowText>
+
             <motion.div
-              className="text-white/80 mb-6"
+              className="text-white/80"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              {project.description.map((desc, i) => (
-                <p key={i} className="mb-4">{desc}</p>
-              ))}
+              {/* Show first paragraph always */}
+              <p className="mb-4">{project.description[0]}</p>
 
+              {/* Show remaining paragraphs when expanded */}
+              <AnimatePresence>
+                {expandedDescription && project.description.length > 1 && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    {project.description.slice(1).map((desc, i) => (
+                      <motion.p
+                        key={i}
+                        className="mb-4"
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: i * 0.1 }}
+                      >
+                        {desc}
+                      </motion.p>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {project.description.length > 1 && (
+                <div className="flex justify-center mt-6">
+                  <ViewMore
+                    isExpanded={expandedDescription}
+                    onClick={() => setExpandedDescription(!expandedDescription)}
+                    expandedText="Show Less"
+                    collapsedText={"View more"}
+                    intensity="medium"
+                    ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}
+                  />
+                </div>
+              )}
             </motion.div>
           </Card>
 
-          {/* Additional Project Details - Features */}
+          {/* Key Features */}
           <Card className="p-6 mb-8">
             <GlowText as="h2" className="text-xl mb-4" intensity="medium">
               Key Features
             </GlowText>
-            <motion.ul
-              className="space-y-4 text-white/80"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              {/* Use project.keyFeatures if available, otherwise show default features */}
-              {project.keyFeatures && project.keyFeatures.length > 0 ? (
-                project.keyFeatures.map((feature, index) => (
-                  <li key={index} className="flex gap-3">
-                    <span className="text-[var(--highlight-color)]">
-                      <Icons name="CheckCircle" />
-                    </span>
-                    <span>{feature}</span>
-                  </li>
-                ))
-              ) : (
-                <>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--highlight-color)]">
-                      <Icons name="CheckCircle" />
-                    </span>
-                    <span>Responsive design that works seamlessly across all devices</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--highlight-color)]">
-                      <Icons name="CheckCircle" />
-                    </span>
-                    <span>Modern UI/UX principles with intuitive navigation</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--highlight-color)]">
-                      <Icons name="CheckCircle" />
-                    </span>
-                    <span>Efficient code structure with best practices</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--highlight-color)]">
-                      <Icons name="CheckCircle" />
-                    </span>
-                    <span>Optimized performance for smooth user experience</span>
-                  </li>
-                </>
-              )}
-            </motion.ul>
+
+            {project.keyFeatures && project.keyFeatures.length > 0 && (
+              project.keyFeatures.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="flex gap-3 p-3 rounded-lg"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  <GlowText intensity='medium'>
+                    <Icons name="CheckCircle" />
+                  </GlowText>
+                  <span className="text-white/80 text-sm">{feature}</span>
+                </motion.div>
+              )))}
           </Card>
 
-          {/* Development Process */}
+          {/* Development Process - Interactive Timeline */}
           <Card className="p-6 mb-8">
-            <GlowText as="h2" className="text-xl mb-4" intensity="medium">
+            <GlowText as="h2" className="text-xl mb-6" intensity="medium">
               Development Process
             </GlowText>
             <motion.div
-              className="space-y-6"
+              className="space-y-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div>
-                <GlowText as="h3" className="text-lg mb-2" intensity="low">
-                  1. Planning & Research
-                </GlowText>
-                <p className="text-white/80">
-                  The project began with extensive research to understand the requirements and identify the best technologies to use.
-                  This included analyzing similar solutions and defining the scope of work.
-                </p>
-              </div>
-
-              <div>
-                <GlowText as="h3" className="text-lg mb-2" intensity="low">
-                  2. Design & Prototyping
-                </GlowText>
-                <p className="text-white/80">
-                  The design phase focused on creating wireframes and interactive prototypes to visualize the user interface and experience.
-                  This iterative process helped refine the design before any code was written.
-                </p>
-              </div>
-
-              <div>
-                <GlowText as="h3" className="text-lg mb-2" intensity="low">
-                  3. Development
-                </GlowText>
-                <p className="text-white/80">
-                  Development followed a structured approach with regular code reviews and testing.
-                  The front-end was built using React with Tailwind CSS for styling, while the back-end utilized [relevant technologies].
-                </p>
-              </div>
-
-              <div>
-                <GlowText as="h3" className="text-lg mb-2" intensity="low">
-                  4. Testing & Deployment
-                </GlowText>
-                <p className="text-white/80">
-                  Rigorous testing ensured all features worked as expected across different environments.
-                  After thorough quality assurance, the project was deployed to production with monitoring tools in place.
-                </p>
-              </div>
+              {developmentSteps.map((step, index) => (
+                <motion.div
+                  key={index}
+                  className={`relative p-4 rounded-lg border transition-all duration-300 cursor-pointer ${activeProcessStep === index
+                    ? 'border-[var(--highlight-color)]/50 bg-[var(--highlight-color)]/5'
+                    : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
+                    }`}
+                  onClick={() => setActiveProcessStep(activeProcessStep === index ? -1 : index)}
+                  whileHover={{ scale: 1.01 }}
+                  layoutId={`process-${index}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-lg ${activeProcessStep === index
+                      ? 'bg-[var(--highlight-color)]/20'
+                      : 'bg-[var(--highlight-color)]/10'
+                      }`}>
+                      <Icons name={step.icon} />
+                    </div>
+                    <div className="flex-1">
+                      <GlowText as="h3" className="text-lg mb-1" intensity="low">
+                        {index + 1}. {step.title}
+                      </GlowText>
+                      <p className="text-white/70 text-sm">{step.description}</p>
+                    </div>
+                    <motion.div
+                      animate={{ rotate: activeProcessStep === index ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Icons name="ChevronDown" />
+                    </motion.div>
+                  </div>
+                  <AnimatePresence>
+                    {activeProcessStep === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden mt-4 pt-4 border-t border-[var(--highlight-color)]/20"
+                      >
+                        <p className="text-white/80 text-sm">{step.details}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
             </motion.div>
           </Card>
         </motion.div>
@@ -335,25 +388,77 @@ const ProjectDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          {/* Challenges & Solutions */}
+          {/* Challenges & Solutions - Accordion Style */}
           {project.challenges && project.solutions && project.challenges.length > 0 && project.solutions.length > 0 && (
             <Card className="p-6 mb-8">
               <GlowText as="h2" className="text-xl mb-4" intensity="medium">
                 Challenges & Solutions
               </GlowText>
 
-              <div className="space-y-4 text-white/80">
+              <div className="space-y-3">
                 {project.challenges.map((challenge, index) => (
-                  <div key={index}>
-                    <GlowText className="text-md mb-1" intensity="low">Challenge</GlowText>
-                    <p className="mb-2">{challenge}</p>
-                    {project.solutions[index] && (
-                      <>
-                        <GlowText className="text-md mb-1" intensity="low">Solution</GlowText>
-                        <p>{project.solutions[index]}</p>
-                      </>
-                    )}
-                  </div>
+                  <motion.div
+                    key={index}
+                    className="border border-[var(--highlight-color)]/20 rounded-lg overflow-hidden"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <motion.button
+                      className="w-full p-4 text-left hover:bg-[var(--highlight-color)]/5 transition-colors"
+                      onClick={() => toggleChallengeExpansion(index)}
+                      whileHover={{ scale: 1.01 }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center">
+                            <Icons name="AlertCircle" className="w-3 h-3 text-red-400" />
+                          </div>
+                          <GlowText className="text-sm font-medium" intensity="low">
+                            Challenge {index + 1}
+                          </GlowText>
+                        </div>
+                        <motion.div
+                          animate={{ rotate: expandedChallenges[index] ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Icons name="ChevronDown" />
+                        </motion.div>
+                      </div>
+                    </motion.button>
+
+                    <AnimatePresence>
+                      {expandedChallenges[index] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="p-4 pt-0 space-y-4">
+                            <div className="pl-4 border-l-2 border-red-400/30">
+                              <p className="text-white/80 text-sm">{challenge}</p>
+                            </div>
+
+                            {project.solutions[index] && (
+                              <div className="pl-4 border-l-2 border-green-400/30">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <div className="w-4 h-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                                    <Icons name="CheckCircle" className="w-2 h-2 text-green-400" />
+                                  </div>
+                                  <GlowText className="text-sm font-medium" intensity="low">
+                                    Solution
+                                  </GlowText>
+                                </div>
+                                <p className="text-white/80 text-sm">{project.solutions[index]}</p>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 ))}
               </div>
             </Card>
@@ -373,9 +478,11 @@ const ProjectDetail = () => {
               <p className="text-white/80 mb-4">
                 I'm always open to new opportunities and collaborations.
               </p>
-              <a
+              <motion.a
                 href="/contact"
                 className="inline-block px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <GlowText hover intensity="medium">
                   <div className="flex items-center gap-2">
@@ -383,7 +490,7 @@ const ProjectDetail = () => {
                     <span>Get in Touch</span>
                   </div>
                 </GlowText>
-              </a>
+              </motion.a>
             </div>
           </motion.div>
         </motion.div>
