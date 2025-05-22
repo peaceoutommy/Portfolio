@@ -2,7 +2,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import GlowText from './../Ui/GlowText';
+import GlowText from './../ui/GlowText';
 
 const SOCIAL_LINKS = [
   { icon: "fab fa-github", url: "https://github.com/peaceoutommy", label: "GitHub" },

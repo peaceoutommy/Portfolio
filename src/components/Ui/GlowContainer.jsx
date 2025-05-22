@@ -47,7 +47,7 @@ const GlowContainer = forwardRef(({
   const containerVariants = {
     active: {
       boxShadow: shadowIntensities[intensity],
-      borderColor: 'rgb(var(--highlight-rgb))',
+      borderColor: 'rgba(var(--highlight-rgb), 1)',
       transition: { 
         duration: 0.6,
         ease: [0.19, 1, 0.22, 1] // Custom ease for smoother effect

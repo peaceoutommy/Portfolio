@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Card from '../../Ui/Card';
+import GlowText from '../../Ui/GlowText';
 
 const Features = () => {
     const { ref, inView } = useInView({
@@ -32,14 +34,14 @@ const Features = () => {
             transition={{ duration: 0.3 }} // Animation duration
         >
             {features.map((feature, index) => (
-                <div key={index} className="card p-6">
+                <Card key={index} className="p-6">
                     <h3 className="text-2xl text-white mt-4">
                       <GlowText intensity="medium">Feature {index + 1}: {feature.title}</GlowText>
                     </h3>
                     <p className="mt-4 text-white/80">
                       <GlowText intensity="low">{feature.description}</GlowText>
                     </p>
-                </div>
+                </Card>
             ))}
         </motion.div>
     );
