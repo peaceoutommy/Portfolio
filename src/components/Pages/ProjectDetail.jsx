@@ -7,6 +7,7 @@ import Card from '../ui/Card';
 import Icons from '../ui/Icons';
 import Carousel from '../Ui/Carousel';
 import ViewMore from '../ui/ViewMore';
+import Challenges from '../Sections/ProjectDetails/Challenges';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -381,119 +382,21 @@ const ProjectDetail = () => {
           </Card>
         </motion.div>
 
-        {/* Sidebar - 4 columns on large screens */}
         <motion.div
           className="lg:col-span-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          {/* Challenges & Solutions - Accordion Style */}
-          {project.challenges && project.solutions && project.challenges.length > 0 && project.solutions.length > 0 && (
-            <Card className="p-6 mb-8">
-              <GlowText as="h2" className="text-xl mb-4" intensity="medium">
-                Challenges & Solutions
-              </GlowText>
-
-              <div className="space-y-3">
-                {project.challenges.map((challenge, index) => (
-                  <motion.div
-                    key={index}
-                    className="border border-[var(--highlight-color)]/20 rounded-lg overflow-hidden"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <motion.button
-                      className="w-full p-4 text-left hover:bg-[var(--highlight-color)]/5 transition-colors"
-                      onClick={() => toggleChallengeExpansion(index)}
-                      whileHover={{ scale: 1.01 }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center">
-                            <Icons name="AlertCircle" className="w-3 h-3 text-red-400" />
-                          </div>
-                          <GlowText className="text-sm font-medium" intensity="low">
-                            Challenge {index + 1}
-                          </GlowText>
-                        </div>
-                        <motion.div
-                          animate={{ rotate: expandedChallenges[index] ? 180 : 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <Icons name="ChevronDown" />
-                        </motion.div>
-                      </div>
-                    </motion.button>
-
-                    <AnimatePresence>
-                      {expandedChallenges[index] && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="p-4 pt-0 space-y-4">
-                            <div className="pl-4 border-l-2 border-red-400/30">
-                              <p className="text-white/80 text-sm">{challenge}</p>
-                            </div>
-
-                            {project.solutions[index] && (
-                              <div className="pl-4 border-l-2 border-green-400/30">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <div className="w-4 h-4 rounded-full bg-green-500/20 flex items-center justify-center">
-                                    <Icons name="CheckCircle" className="w-2 h-2 text-green-400" />
-                                  </div>
-                                  <GlowText className="text-sm font-medium" intensity="low">
-                                    Solution
-                                  </GlowText>
-                                </div>
-                                <p className="text-white/80 text-sm">{project.solutions[index]}</p>
-                              </div>
-                            )}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                ))}
-              </div>
-            </Card>
-          )}
-
-          {/* Call to Action */}
-          <motion.div
-            className="relative overflow-hidden rounded-lg border border-[var(--highlight-color)]/50 p-6"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="absolute inset-0 bg-[var(--highlight-color)]/10 animate-pulse"></div>
-            <div className="relative z-10">
-              <GlowText as="h3" className="text-lg mb-3" intensity="medium">
-                Interested in working together?
-              </GlowText>
-              <p className="text-white/80 mb-4">
-                I'm always open to new opportunities and collaborations.
-              </p>
-              <motion.a
-                href="/contact"
-                className="inline-block px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/30"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GlowText hover intensity="medium">
-                  <div className="flex items-center gap-2">
-                    <Icons name="Mail" />
-                    <span>Get in Touch</span>
-                  </div>
-                </GlowText>
-              </motion.a>
-            </div>
-          </motion.div>
+          {/* Challenges & Solutions Component */}
+          <Challenges
+            challenges={project.challenges}
+            solutions={project.solutions}
+            expandedChallenges={expandedChallenges}
+            onToggleExpansion={toggleChallengeExpansion}
+          />
         </motion.div>
+
       </div>
     </div>
   );
