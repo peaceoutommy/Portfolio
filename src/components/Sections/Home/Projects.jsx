@@ -1,7 +1,13 @@
+// src/components/sections/Projects.jsx - STANDARDIZED ANIMATIONS
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { useMobileDetection } from '../../../hooks/useMobileDetection';
+import {
+  SECTION_VARIANTS,
+  CONTAINER_VARIANTS,
+  ITEM_VARIANTS
+} from '../../../constants/animations';
 import { BREAKPOINTS, DELAYS } from '../../../constants';
-import { CONTAINER_VARIANTS, ITEM_VARIANTS } from '../../../constants/animations';
 import SectionTitle from '../../ui/SectionTitle';
 import AnimatedSection from '../../ui/AnimatedSection';
 import ProjectCard from '../../ui/ProjectCard';
@@ -9,30 +15,32 @@ import GlowText from '../../ui/GlowText';
 import PixelChevron from '../../ui/PixelChevron';
 import ViewMore from '../../ui/ViewMore';
 import { GetProjects } from '../../../data/projectsData';
-import { motion } from 'framer-motion';
 
 const Projects = () => {
-  const [activeProject, setActiveProject] = useState(0);
+  const [activeProject, setActiveProject] = useState(null); // ✅ Start with null instead of 0
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const projectRefs = useRef([]);
   const PROJECTS = GetProjects();
 
+  // Use standardized mobile detection
   const isMobile = useMobileDetection(BREAKPOINTS.SM);
 
   // Number of projects to show initially
   const initialProjectCount = 3;
+  const visibleProjects = showAllProjects ? PROJECTS : PROJECTS.slice(0, initialProjectCount);
 
-  // Projects to display based on toggle state
-  const visibleProjects = showAllProjects
-    ? PROJECTS
-    : PROJECTS.slice(0, initialProjectCount);
+  // ✅ DEBUG: Add console logs to track state changes
+  useEffect(() => {
+    console.log('Debug - activeProject:', activeProject, 'hasInteracted:', hasInteracted, 'isMobile:', isMobile);
+  }, [activeProject, hasInteracted, isMobile]);
 
   // Set up refs for all projects
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, PROJECTS.length);
   }, []);
 
+  // Reset active project when switching between mobile/desktop
   useEffect(() => {
     if (isMobile) {
       updateActiveProjectBasedOnScroll();
@@ -45,7 +53,6 @@ const Projects = () => {
   const toggleShowAllProjects = () => {
     setShowAllProjects(!showAllProjects);
 
-    // If closing the projects, scroll back up to the first hidden project
     if (showAllProjects && projectRefs.current[initialProjectCount - 1]) {
       setTimeout(() => {
         projectRefs.current[initialProjectCount - 1].scrollIntoView({
@@ -56,51 +63,42 @@ const Projects = () => {
     }
   };
 
-  // Handle mouse enter for desktop only
+  // Handle mouse interactions for desktop
   const handleMouseEnter = (index) => {
     if (!isMobile) {
+      console.log('Mouse enter on project:', index); // ✅ DEBUG
       setActiveProject(index);
     }
   };
 
-  // Handle mouse leave for desktop only
   const handleMouseLeave = () => {
     if (!isMobile) {
+      console.log('Mouse leave'); // ✅ DEBUG
       setActiveProject(null);
     }
   };
 
-  // Handle click on a project card
   const handleProjectClick = (project) => {
-    // Mark that user has interacted with cards
+    console.log('Project clicked:', project.title); // ✅ DEBUG
     setHasInteracted(true);
   };
 
-  // Calculate which project is most visible in the viewport (for mobile only)
+  // Calculate which project is most visible (mobile only)
   const updateActiveProjectBasedOnScroll = () => {
-    // Skip if we're not on mobile or refs aren't set
     if (!isMobile || !projectRefs.current.length) return;
 
     const viewportHeight = window.innerHeight;
     const viewportCenter = viewportHeight / 2;
-
     let mostVisibleIndex = null;
     let highestVisibility = 0;
 
     projectRefs.current.forEach((element, index) => {
       if (!element) return;
-
       const rect = element.getBoundingClientRect();
 
-      // Check if element is in viewport
       if (rect.top < viewportHeight && rect.bottom > 0) {
-        // Calculate element center position relative to viewport
         const elementCenter = rect.top + (rect.height / 2);
-
-        // Calculate distance from viewport center
         const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
-
-        // Calculate visibility score (higher score for elements closer to center)
         const visibilityScore = 1 - (distanceFromCenter / viewportHeight);
 
         if (visibilityScore > highestVisibility) {
@@ -110,54 +108,39 @@ const Projects = () => {
       }
     });
 
-    // Only update if we found a visible project
     if (mostVisibleIndex !== null) {
       setActiveProject(mostVisibleIndex);
-
-      // Mark as interacted when scrolling on mobile
-      if (!hasInteracted) {
-        setHasInteracted(true);
-      }
+      if (!hasInteracted) setHasInteracted(true);
     }
   };
 
+  // Mobile scroll listener
   useEffect(() => {
     if (!isMobile) return;
 
     let rafId = null;
-
     const handleScroll = () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
-
-      rafId = requestAnimationFrame(() => {
-        updateActiveProjectBasedOnScroll();
-      });
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateActiveProjectBasedOnScroll);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    const timeoutId = setTimeout(() => {
-      updateActiveProjectBasedOnScroll();
-    }, 500);
+    const timeoutId = setTimeout(updateActiveProjectBasedOnScroll, 500);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
       clearTimeout(timeoutId);
     };
   }, [isMobile]);
 
   return (
-    <AnimatedSection id="projects">
+    <AnimatedSection id="projects" variant="stagger">
       {(inView) => (
         <>
           <SectionTitle title="My Projects" inView={inView} />
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12"
             variants={CONTAINER_VARIANTS.grid}
             initial="hidden"
@@ -167,30 +150,28 @@ const Projects = () => {
               <motion.div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
-                className="project-card-container relative"
+                className="project-card-container relative" // ✅ IMPORTANT: relative positioning for absolute child
                 onClick={() => handleProjectClick(project)}
+                onMouseEnter={() => handleMouseEnter(index)} // ✅ MOVED: Put hover on container
+                onMouseLeave={handleMouseLeave} // ✅ MOVED: Put hover on container
                 variants={ITEM_VARIANTS.scaleIn}
               >
-                {/* Click Me button - shown on the currently hovered card */}
+                {/* ✅ ENHANCED: Click indicator with better positioning and debugging */}
                 {activeProject === index && !hasInteracted && !isMobile && (
                   <motion.div
-                    className="absolute -top-10 z-20"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{
-                      opacity: 1,
-                      y: [0, -5, 0],
-                    }}
-                    transition={{
-                      opacity: { duration: 0.2 },
-                      y: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
-                    }}
+                    className="absolute -top-10 left-1 transform z-30 pointer-events-none"
+                    variants={ITEM_VARIANTS.fadeInUp}
+                    initial="hidden"
+                    animate="visible"
                   >
-                    <div className="view-more-text mb-4 flex flex-row items-center gap-2">
-                      <GlowText intensity="medium">
-                        Click
-                      </GlowText>
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                      className="view-more-text mb-4 flex flex-row items-center gap-2"
+                    >
+                      <GlowText intensity="medium">Click</GlowText>
                       <PixelChevron />
-                    </div>
+                    </motion.div>
                   </motion.div>
                 )}
 
@@ -198,24 +179,22 @@ const Projects = () => {
                   project={project}
                   index={index}
                   isActive={activeProject === index}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
                   inView={inView}
                   isMobile={isMobile}
+                // ✅ REMOVED: onMouseEnter/Leave from ProjectCard to avoid conflicts
                 />
               </motion.div>
             ))}
           </motion.div>
 
+          {/* ✅ CONSISTENT: View More with standardized animation */}
           {PROJECTS.length > initialProjectCount && (
             <motion.div
               className="flex flex-col items-center mt-12"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{
-                opacity: inView ? 1 : 0,
-                y: inView ? 0 : 10
-              }}
-              transition={{ duration: 0.3, delay: visibleProjects.length * DELAYS.STAGGER_CHILD }}
+              variants={ITEM_VARIANTS.fadeInUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              transition={{ delay: visibleProjects.length * DELAYS.STAGGER_CHILD }}
             >
               <ViewMore
                 isExpanded={showAllProjects}

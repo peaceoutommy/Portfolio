@@ -5,7 +5,7 @@ import NavLink from '../ui/NavLink';
 import GlowText from '../ui/GlowText';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useNavbarScroll } from '../../hooks/useNavbarScroll';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const NAV_ITEMS = [
   { id: 'skills', label: 'Skills' },
@@ -18,6 +18,10 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const navigate = useNavigate();
+  const location = useLocation(); // Add this to track current route
+
+  // Check if we're on the home page
+  const isHomePage = location.pathname === '/';
 
   // Use our simplified navbar scroll hook
   const { isVisible, isAtTop } = useNavbarScroll();
@@ -39,8 +43,14 @@ const Navbar = () => {
     }, 100);
   };
 
-  // Update active section based on scroll position
+  // Update active section based on scroll position - ONLY when on home page
   useEffect(() => {
+    // Don't track active sections if not on home page
+    if (!isHomePage) {
+      setActiveSection('');
+      return;
+    }
+
     const handleScroll = () => {
       const sections = NAV_ITEMS.map(item => item.id);
 
@@ -67,7 +77,7 @@ const Navbar = () => {
     handleScroll(); // Initialize
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]); // Add isHomePage as dependency
 
   // Close menu on window resize (when switching to desktop view)
   useEffect(() => {
@@ -137,7 +147,7 @@ const Navbar = () => {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={() => handleNavClick(item.id)}
-                  active={activeSection === item.id}
+                  active={isHomePage && activeSection === item.id} 
                 >
                   {item.label}
                 </NavLink>
@@ -211,7 +221,7 @@ const Navbar = () => {
                   key={item.id}
                   href={`#${item.id}`}
                   isMobile={true}
-                  active={activeSection === item.id}
+                  active={isHomePage && activeSection === item.id}
                   onClick={() => handleNavClick(item.id)}
                 >
                   {item.label}

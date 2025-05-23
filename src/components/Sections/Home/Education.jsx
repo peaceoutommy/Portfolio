@@ -11,14 +11,15 @@ const Education = () => {
     ];
 
     return (
-        <AnimatedSection id="education">
+        <AnimatedSection id="education" variant="stagger">
             {(inView) => (
                 <>
                     <SectionTitle title="Education" inView={inView} />
 
+                    {/* ✅ CONSISTENT: Education grid with standardized container animation */}
                     <motion.div 
                         className="flex flex-col md:flex-row w-full mt-16 text-center gap-8"
-                        variants={CONTAINER_VARIANTS.stagger}
+                        variants={CONTAINER_VARIANTS.grid}
                         initial="hidden"
                         animate={inView ? "visible" : "hidden"}
                     >
@@ -26,7 +27,7 @@ const Education = () => {
                             <motion.div
                                 key={i}
                                 className='flex flex-col transition-all duration-300 w-full md:w-1/3 mb-8 tokenomic-container'
-                                variants={ITEM_VARIANTS.fadeInUp}
+                                variants={ITEM_VARIANTS.scaleIn}
                             >
                                 <motion.div
                                     className='flex w-full h-full justify-between flex-col'

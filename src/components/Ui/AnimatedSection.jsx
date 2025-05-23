@@ -1,29 +1,40 @@
-// src/components/ui/AnimatedSection.jsx
+// src/components/ui/AnimatedSection.jsx - STANDARDIZED VERSION
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import PropTypes from 'prop-types';
+import { SECTION_VARIANTS, INTERSECTION_CONFIG } from '../../constants/animations';
 
 /**
- * AnimatedSection - A standardized section component with consistent animation and spacing
+ * Standardized AnimatedSection component
+ * Ensures consistent scroll-based animations across all sections
+ * 
+ * ✅ FIXED: Consistent thresholds, timing, and animation patterns
  */
 const AnimatedSection = forwardRef(({ 
   children,
   id,
-  className = '',
-  threshold = 0.1,
-  triggerOnce = false,
-  delay = 0,
+  className = "",
+  variant = "default",
+  threshold = INTERSECTION_CONFIG.SECTION_THRESHOLD,
+  triggerOnce = INTERSECTION_CONFIG.TRIGGER_ONCE,
+  rootMargin = INTERSECTION_CONFIG.ROOT_MARGIN,
   ...props
 }, ref) => {
+  
+  // ✅ STANDARDIZED: Same intersection observer config for all sections
   const { ref: inViewRef, inView } = useInView({
     threshold,
     triggerOnce,
+    rootMargin
   });
-  
-  // Merge refs
+
+  // ✅ CONSISTENT: All sections use the same animation variants
+  const animationVariant = SECTION_VARIANTS[variant] || SECTION_VARIANTS.default;
+
+  // Handle both internal ref and forwarded ref
   const setRefs = (node) => {
-    // Ref from forwardRef
+    inViewRef(node);
     if (ref) {
       if (typeof ref === 'function') {
         ref(node);
@@ -31,18 +42,16 @@ const AnimatedSection = forwardRef(({
         ref.current = node;
       }
     }
-    // Ref from useInView
-    inViewRef(node);
   };
-  
+
   return (
     <motion.section
       ref={setRefs}
       id={id}
-      className={`w-full md:mt-48 mt-32 ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3, delay }}
+      className={`relative w-full px-4 sm:px-8 py-16 md:py-24 flex flex-col items-center ${className}`}
+      variants={animationVariant}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
       {...props}
     >
       {typeof children === 'function' ? children(inView) : children}
@@ -53,15 +62,13 @@ const AnimatedSection = forwardRef(({
 AnimatedSection.displayName = 'AnimatedSection';
 
 AnimatedSection.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
   id: PropTypes.string,
   className: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'stagger', 'slide', 'fade']),
   threshold: PropTypes.number,
   triggerOnce: PropTypes.bool,
-  delay: PropTypes.number,
+  rootMargin: PropTypes.string
 };
 
 export default AnimatedSection;

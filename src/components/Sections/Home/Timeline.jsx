@@ -9,10 +9,10 @@ import { EXPERIENCES } from '../../../data/experienceData';
 
 const Timeline = () => {
   // ✅ MUCH CLEANER: Extract all scroll logic to custom hooks
-  const { 
-    timelineRef, 
-    progress, 
-    opacity 
+  const {
+    timelineRef,
+    progress,
+    opacity
   } = useScrollProgress({
     startThreshold: 0.8,
     endThreshold: 0.2
@@ -28,8 +28,8 @@ const Timeline = () => {
     height: `${progress * 100}%`,
     opacity,
     background: 'var(--highlight-color)',
-    boxShadow: progress > 0 
-      ? `0 0 10px var(--highlight-color), 0 0 ${progress * 5}px var(--highlight-color)` 
+    boxShadow: progress > 0
+      ? `0 0 10px var(--highlight-color), 0 0 ${progress * 5}px var(--highlight-color)`
       : 'none'
   }), [progress, opacity]);
 
@@ -50,7 +50,7 @@ const Timeline = () => {
               style={trackStyle}
               aria-hidden="true"
             />
-            
+
             {/* ✅ PERFORMANCE: Animated progress fill with memoized styles */}
             <div
               className="absolute left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-300 z-10 top-0"
@@ -70,6 +70,7 @@ const Timeline = () => {
                   isLeft={index % 2 === 0}
                   isActive={activeIndex === index}
                   index={index}
+                  inView={inView} // ✅ FIXED: Added missing inView prop
                 />
               ))}
             </div>
