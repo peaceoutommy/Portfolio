@@ -1,8 +1,8 @@
-// src/contexts/ToastContext.js
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlowText from '../components/ui/GlowText';
+import Icons from '../components/ui/Icons'; //
 
 // Toast Types
 export const ToastTypes = {
@@ -22,23 +22,23 @@ export const ToastPositions = {
   BOTTOM_CENTER: 'toast-container-bottom-center'
 };
 
-// Create the context
+
 export const ToastContext = createContext(null);
 
-// Toast component
+
 const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositions.TOP_RIGHT }) => {
-  // Get the icon based on toast type
+
   const getIcon = () => {
     switch (type) {
       case ToastTypes.SUCCESS:
-        return <i className="fas fa-check-circle"></i>;
+        return <Icons name="CheckCircle" />;
       case ToastTypes.ERROR:
-        return <i className="fas fa-exclamation-circle"></i>;
+        return <Icons name="AlertCircle" />;
       case ToastTypes.WARNING:
-        return <i className="fas fa-exclamation-triangle"></i>;
+        return <Icons name="AlertTriangle" />;
       case ToastTypes.INFO:
       default:
-        return <i className="fas fa-info-circle"></i>;
+        return <Icons name="Info" />;
     }
   };
 
@@ -57,30 +57,19 @@ const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositi
     }
   };
 
-  // Get the class name based on position
-  const getPositionClass = () => {
-    switch (position) {
-      case ToastPositions.TOP_LEFT:
-        return 'toast-container-top-left';
-      case ToastPositions.BOTTOM_LEFT:
-        return 'toast-container-bottom-left';
-      case ToastPositions.BOTTOM_RIGHT:
-        return 'toast-container-bottom-right';
-      case ToastPositions.TOP_CENTER:
-        return 'toast-container-top-center';
-      case ToastPositions.BOTTOM_CENTER:
-        return 'toast-container-bottom-center';
-      case ToastPositions.TOP_RIGHT:
-      default:
-        return 'toast-container-top-right';
-    }
-  };
-
   return (
     <motion.div
-      initial={{ opacity: 0, x: position.includes('right') ? 20 : position.includes('left') ? -20 : 0, y: position.includes('top') ? -20 : position.includes('bottom') ? 20 : 0 }}
+      initial={{ 
+        opacity: 0, 
+        x: position.includes('right') ? 20 : position.includes('left') ? -20 : 0, 
+        y: position.includes('top') ? -20 : position.includes('bottom') ? 20 : 0 
+      }}
       animate={{ opacity: 1, x: 0, y: 0 }}
-      exit={{ opacity: 0, x: position.includes('right') ? 20 : position.includes('left') ? -20 : 0, y: position.includes('top') ? -20 : position.includes('bottom') ? 20 : 0 }}
+      exit={{ 
+        opacity: 0, 
+        x: position.includes('right') ? 20 : position.includes('left') ? -20 : 0, 
+        y: position.includes('top') ? -20 : position.includes('bottom') ? 20 : 0 
+      }}
       className={`rounded-lg border-2 shadow-lg p-4 w-72 backdrop-blur-md ${getBgColor()}`}
       style={{
         boxShadow: 'var(--box-shadow-md)'
@@ -98,7 +87,7 @@ const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositi
           className="text-white/70 hover:text-white transition-colors"
           aria-label="Close notification"
         >
-          <i className="fas fa-times"></i>
+          <Icons name="X" />
         </button>
         {/* Progress bar */}
         <div className="absolute bottom-0 left-0 h-0.5 bg-white/20 w-full">
@@ -212,13 +201,4 @@ export const ToastProvider = ({ children }) => {
       ))}
     </ToastContext.Provider>
   );
-};
-
-// Custom hook for using the toast context
-export const useToast = () => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
-  }
-  return context;
 };

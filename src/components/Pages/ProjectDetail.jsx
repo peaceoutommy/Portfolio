@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GetProject } from '../../data/projectsData';
+import { useHoverState } from '../../hooks/useHoverState';
+import { CARD_VARIANTS, ITEM_VARIANTS } from '../../constants/animations';
 import GlowText from '../ui/GlowText';
 import Card from '../ui/Card';
 import Icons from '../ui/Icons';
+import Button from '../ui/Button';
+import Loading from '../ui/Loading';
 import Carousel from '../ui/Carousel';
 import ViewMore from '../ui/ViewMore';
 import Challenges from '../Sections/ProjectDetails/Challenges';
@@ -20,8 +24,7 @@ const ProjectDetail = () => {
   const [activeProcessStep, setActiveProcessStep] = useState(0);
   const [expandedChallenges, setExpandedChallenges] = useState({});
 
-  // Add hover state management
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const { handleMouseEnter, handleMouseLeave, isHovered } = useHoverState();
 
   useEffect(() => {
     const selectedProject = GetProject(projectId);
@@ -60,37 +63,6 @@ const ProjectDetail = () => {
     }));
   };
 
-  // Hover handlers
-  const handleMouseEnter = (cardId) => {
-    setHoveredCard(cardId);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCard(null);
-  };
-
-  // Animation variants for card hover effects (matching ProjectCard behavior)
-  const cardVariants = {
-    active: {
-      y: -5,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-        duration: 0.4
-      }
-    },
-    inactive: {
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 25,
-        duration: 0.4
-      }
-    }
-  };
-
   const developmentSteps = [
     {
       title: "Planning & Research",
@@ -118,28 +90,10 @@ const ProjectDetail = () => {
     }
   ];
 
+  // ✅ FIXED: Use standardized Loading component
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0.2, 1, 0.2],
-            scale: [0.98, 1.02, 0.98]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <GlowText intensity="high" className="text-xl">
-            Loading Project...
-          </GlowText>
-        </motion.div>
-      </div>
-    );
-  };
+    return <Loading text="Loading Project..." fullScreen />;
+  }
 
   if (!project) {
     return null;
@@ -148,27 +102,30 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen pt-20 pb-16 mx-auto">
       {/* Back Button */}
-      <motion.button
-        onClick={handleBackClick}
-        className="self-start mb-8 py-2"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
+      <motion.div
+        variants={ITEM_VARIANTS.fadeInUp}
+        initial="hidden"
+        animate="visible"
         transition={{ duration: 0.3 }}
-        whileHover={{ x: -5, transition: { duration: 0.2 } }}
+        className="mb-8"
       >
-        <GlowText hover intensity="medium">
-          <div className="flex items-center gap-2">
-            <Icons name="ChevronLeft" />
-            <span>Back</span>
-          </div>
-        </GlowText>
-      </motion.button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleBackClick}
+          className="flex items-center gap-2"
+        >
+          <Icons name="ChevronLeft" />
+          <span>Back</span>
+        </Button>
+      </motion.div>
 
       {/* Project header */}
       <motion.div
         className="w-full mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={ITEM_VARIANTS.fadeInUp}
+        initial="hidden"
+        animate="visible"
         transition={{ duration: 0.4 }}
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -192,56 +149,55 @@ const ProjectDetail = () => {
           </div>
 
           <div className="flex gap-4">
+            {/* ✅ FIXED: Use standardized Button component instead of custom implementation */}
             {project.github && project.github !== null && project.github !== "#" ? (
-              <motion.a
+              <Button
+                as="a"
                 href={project.github}
-                className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GlowText hover intensity="medium">
-                  <div className='flex items-center gap-2'>
-                    <Icons name="GitHub" />
-                    <span>Code</span>
-                  </div>
-                </GlowText>
-              </motion.a>
-            ) : (
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
               >
                 <Icons name="GitHub" />
                 <span>Code</span>
-              </button>
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled
+                className="flex items-center gap-2"
+              >
+                <Icons name="GitHub" />
+                <span>Code</span>
+              </Button>
             )}
 
             {project.link && project.link !== null && project.link !== "#" ? (
-              <motion.a
+              <Button
+                as="a"
                 href={project.link}
-                className="px-4 py-2 rounded-lg border transition-all duration-300 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GlowText hover intensity="medium">
-                  <div className='flex items-center gap-2'>
-                    <Icons name='ExternalLink' />
-                    <span>Live Demo</span>
-                  </div>
-                </GlowText>
-              </motion.a>
-            ) : (
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
+                variant="primary"
+                size="sm"
+                className="flex items-center gap-2"
               >
                 <Icons name='ExternalLink' />
                 <span>Live Demo</span>
-              </button>
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled
+                className="flex items-center gap-2"
+              >
+                <Icons name='ExternalLink' />
+                <span>Live Demo</span>
+              </Button>
             )}
           </div>
         </div>
@@ -258,24 +214,25 @@ const ProjectDetail = () => {
         {/* Main Content - 8 columns on large screens */}
         <motion.div
           className="lg:col-span-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={ITEM_VARIANTS.fadeInUp}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           {/* Project Overview - Expandable Card */}
           <motion.div
-            variants={cardVariants}
+            variants={CARD_VARIANTS.hover}
             initial="inactive"
-            animate={hoveredCard === 'overview' ? "active" : "inactive"}
+            animate={isHovered('overview') ? "active" : "inactive"}
           >
             <Card
               className="p-6 mb-8"
-              isActive={hoveredCard === 'overview'}
-              intensity={hoveredCard === 'overview' ? 'medium' : 'none'}
+              isActive={isHovered('overview')}
+              intensity={isHovered('overview') ? 'medium' : 'none'}
               onMouseEnter={() => handleMouseEnter('overview')}
               onMouseLeave={handleMouseLeave}
             >
-              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'overview' ? "medium" : "low"}>
+              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('overview') ? "medium" : "low"}>
                 Project Overview
               </GlowText>
 
@@ -331,18 +288,18 @@ const ProjectDetail = () => {
 
           {/* Key Features */}
           <motion.div
-            variants={cardVariants}
+            variants={CARD_VARIANTS.hover}
             initial="inactive"
-            animate={hoveredCard === 'features' ? "active" : "inactive"}
+            animate={isHovered('features') ? "active" : "inactive"}
           >
             <Card
               className="p-6 mb-8"
-              isActive={hoveredCard === 'features'}
-              intensity={hoveredCard === 'features' ? 'medium' : 'none'}
+              isActive={isHovered('features')}
+              intensity={isHovered('features') ? 'medium' : 'none'}
               onMouseEnter={() => handleMouseEnter('features')}
               onMouseLeave={handleMouseLeave}
             >
-              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'features' ? "medium" : "low"}>
+              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('features') ? "medium" : "low"}>
                 Key Features
               </GlowText>
 
@@ -355,7 +312,7 @@ const ProjectDetail = () => {
                     animate={{ y: 0, opacity: 1 }}
                     whileHover={{ scale: 1.02, y: -2 }}
                   >
-                    <GlowText intensity={hoveredCard === 'features' ? 'medium' : 'low'}>
+                    <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
                       <Icons name="CheckCircle" />
                     </GlowText>
                     <span className="text-white/80 text-sm">{feature}</span>
@@ -366,18 +323,18 @@ const ProjectDetail = () => {
 
           {/* Development Process - Interactive Timeline */}
           <motion.div
-            variants={cardVariants}
+            variants={CARD_VARIANTS.hover}
             initial="inactive"
-            animate={hoveredCard === 'process' ? "active" : "inactive"}
+            animate={isHovered('process') ? "active" : "inactive"}
           >
             <Card
               className="p-6 mb-8"
-              isActive={hoveredCard === 'process'}
-              intensity={hoveredCard === 'process' ? 'medium' : 'none'}
+              isActive={isHovered('process')}
+              intensity={isHovered('process') ? 'medium' : 'none'}
               onMouseEnter={() => handleMouseEnter('process')}
               onMouseLeave={handleMouseLeave}
             >
-              <GlowText as="h2" className="text-xl mb-6" intensity={hoveredCard === 'process' ? "medium" : "low"}>
+              <GlowText as="h2" className="text-xl mb-6" intensity={isHovered('process') ? "medium" : "low"}>
                 Development Process
               </GlowText>
               <motion.div
@@ -405,7 +362,7 @@ const ProjectDetail = () => {
                         <Icons name={step.icon} />
                       </div>
                       <div className="flex-1">
-                        <GlowText as="h3" className="text-lg mb-1" intensity={hoveredCard === 'process' ? "medium" : "low"}>
+                        <GlowText as="h3" className="text-lg mb-1" intensity={isHovered('process') ? "medium" : "low"}>
                           {index + 1}. {step.title}
                         </GlowText>
                         <p className="text-white/70 text-sm">{step.description}</p>
@@ -437,10 +394,12 @@ const ProjectDetail = () => {
           </motion.div>
         </motion.div>
 
+        {/* Sidebar */}
         <motion.div
           className="lg:col-span-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={ITEM_VARIANTS.fadeInUp}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.4, delay: 0.3 }}
         >
           {/* Challenges & Solutions Component */}

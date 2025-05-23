@@ -1,11 +1,10 @@
-// src/components/Navbar.jsx
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeColorButton from './../Ui/ThemeColorButton';
-import NavLink from './../Ui/Navlink';
-import GlowText from './../Ui/GlowText';
-import { useScrollToSection } from './../../hooks/useScrollToSection';
-import { useNavbarScroll } from './../../hooks/useNavbarScroll';
+import ThemeColorButton from '../ui/ThemeColorButton';
+import NavLink from '../ui/NavLink';
+import GlowText from '../ui/GlowText';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
+import { useNavbarScroll } from '../../hooks/useNavbarScroll';
 import { Link, useNavigate } from 'react-router-dom';
 
 const NAV_ITEMS = [
@@ -29,18 +28,6 @@ const Navbar = () => {
   }, []);
 
   // Handle navigation
-  // const handleNavClick = useCallback((id) => {
-  //   scrollToSection(id, {
-  //     onComplete: () => {
-  //       // Close mobile menu after scrolling completes
-  //       if (isMenuOpen) {
-  //         setTimeout(() => setIsMenuOpen(false), 300);
-  //       }
-  //       setActiveSection(id);
-  //     }
-  //   });
-  // }, [isMenuOpen, scrollToSection]);
-
   const handleNavClick = (id) => {
     navigate('/');
     // Scroll to projects section after a short delay

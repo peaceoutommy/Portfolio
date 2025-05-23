@@ -1,18 +1,20 @@
-// src/components/Footer.jsx
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { INTERSECTION_THRESHOLDS } from '../../constants/index';
+import { ITEM_VARIANTS } from '../../constants/animations';
 import GlowText from './../ui/GlowText';
+import Icons from './../ui/Icons';
 
 const SOCIAL_LINKS = [
-  { icon: "fab fa-github", url: "https://github.com/peaceoutommy", label: "GitHub" },
-  { icon: "fab fa-linkedin", url: "https://www.linkedin.com/in/tomaslopess", label: "LinkedIn" },
-  { icon: "far fa-envelope", url: "mailto:tomas.29.work@gmail.com", label: "Email" }
+  { icon: "GitHub", url: "https://github.com/peaceoutommy", label: "GitHub" },
+  { icon: "Linkedin", url: "https://www.linkedin.com/in/tomaslopess", label: "LinkedIn" },
+  { icon: "Mail", url: "mailto:tomas.29.work@gmail.com", label: "Email" }
 ];
 
 const Footer = () => {
   const { ref, inView } = useInView({
-    threshold: 0.1,
+    threshold: INTERSECTION_THRESHOLDS.MINIMAL,
     triggerOnce: false,
   });
 
@@ -20,9 +22,9 @@ const Footer = () => {
     <motion.footer
       ref={ref}
       className="w-full p-4 flex flex-col justify-center items-center neon-border md:mt-32 mt-16"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3 }}
+      variants={ITEM_VARIANTS.fadeInUp}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
     >
       <div className="flex gap-6 mb-6">
         {SOCIAL_LINKS.map((link, index) => (
@@ -37,7 +39,7 @@ const Footer = () => {
             transition={{ duration: 0.2 }}
           >
             <GlowText hover intensity="medium">
-              <i className={link.icon} aria-hidden="true"></i>
+              <Icons name={link.icon} />
             </GlowText>
           </motion.a>
         ))}

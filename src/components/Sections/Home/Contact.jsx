@@ -5,6 +5,7 @@ import Button from '../../ui/Button';
 import AnimatedSection from '../../ui/AnimatedSection';
 import GlowText from '../../ui/GlowText';
 import { useToast, ToastPositions } from '../../../hooks/useToast';
+import { TOAST_CONFIG } from '../../../constants';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -49,7 +50,7 @@ const Contact = () => {
 
       showSuccess('Message sent successfully!', {
         position: ToastPositions.TOP_RIGHT,
-        duration: 4000
+        duration: TOAST_CONFIG.SUCCESS_DURATION
       });
 
       // Reset form
@@ -59,7 +60,7 @@ const Contact = () => {
     } catch (error) {
       showError(`Failed to send message: ${error.message || 'Please try again later'}`, {
         position: ToastPositions.TOP_RIGHT,
-        duration: 4000 
+        duration: TOAST_CONFIG.ERROR_DURATION
       });
     } finally {
       setIsSubmitting(false);
@@ -69,6 +70,9 @@ const Contact = () => {
   // Input styles - standardized
   const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-300";
   const labelStyles = "block mb-2";
+
+  // Check if form is valid
+  const isFormValid = name.trim() && email.trim() && message.trim();
 
   return (
     <AnimatedSection id="contact">
@@ -133,11 +137,12 @@ const Contact = () => {
               <div>
                 <Button
                   type="submit"
-                  primary
-                  disabled={isSubmitting}
+                  variant="primary"
+                  loading={isSubmitting}
+                  disabled={!isFormValid}
                   aria-label={isSubmitting ? "Sending message..." : "Send message"}
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  Send Message
                 </Button>
               </div>
             </form>

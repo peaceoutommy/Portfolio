@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { useMobileDetection } from '../../../hooks/useMobileDetection';
+import { BREAKPOINTS, DELAYS } from '../../../constants';
+import { CONTAINER_VARIANTS, ITEM_VARIANTS } from '../../../constants/animations';
 import SectionTitle from '../../ui/SectionTitle';
 import AnimatedSection from '../../ui/AnimatedSection';
 import ProjectCard from '../../ui/ProjectCard';
@@ -10,11 +13,12 @@ import { motion } from 'framer-motion';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false); // Track if user has interacted with any card
+  const [hasInteracted, setHasInteracted] = useState(false);
   const projectRefs = useRef([]);
   const PROJECTS = GetProjects();
+
+  const isMobile = useMobileDetection(BREAKPOINTS.SM);
 
   // Number of projects to show initially
   const initialProjectCount = 3;
@@ -29,29 +33,13 @@ const Projects = () => {
     projectRefs.current = projectRefs.current.slice(0, PROJECTS.length);
   }, []);
 
-  // Detect mobile devices on component mount and window resize
   useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 640;
-      setIsMobile(mobile);
-
-      // Reset active project when switching between mobile and desktop
-      if (mobile) {
-        updateActiveProjectBasedOnScroll();
-      } else {
-        setActiveProject(null);
-      }
-    };
-
-    // Initial check
-    checkMobile();
-
-    // Add event listener for window resize
-    window.addEventListener('resize', checkMobile);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    if (isMobile) {
+      updateActiveProjectBasedOnScroll();
+    } else {
+      setActiveProject(null);
+    }
+  }, [isMobile]);
 
   // Toggle function for showing all projects
   const toggleShowAllProjects = () => {
@@ -86,9 +74,6 @@ const Projects = () => {
   const handleProjectClick = (project) => {
     // Mark that user has interacted with cards
     setHasInteracted(true);
-
-    // Additional click handling logic here
-    // For example: opening a modal with project details
   };
 
   // Calculate which project is most visible in the viewport (for mobile only)
@@ -136,12 +121,9 @@ const Projects = () => {
     }
   };
 
-  // Set up scroll event listener for mobile only
   useEffect(() => {
-    // Only set up scroll listener if on mobile
     if (!isMobile) return;
 
-    // Use requestAnimationFrame for better performance
     let rafId = null;
 
     const handleScroll = () => {
@@ -156,7 +138,6 @@ const Projects = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Initial calculation after a short delay to ensure refs are set
     const timeoutId = setTimeout(() => {
       updateActiveProjectBasedOnScroll();
     }, 500);
@@ -176,13 +157,19 @@ const Projects = () => {
         <>
           <SectionTitle title="My Projects" inView={inView} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-12"
+            variants={CONTAINER_VARIANTS.grid}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
             {visibleProjects.map((project, index) => (
-              <div
+              <motion.div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
                 className="project-card-container relative"
                 onClick={() => handleProjectClick(project)}
+                variants={ITEM_VARIANTS.scaleIn}
               >
                 {/* Click Me button - shown on the currently hovered card */}
                 {activeProject === index && !hasInteracted && !isMobile && (
@@ -216,9 +203,9 @@ const Projects = () => {
                   inView={inView}
                   isMobile={isMobile}
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {PROJECTS.length > initialProjectCount && (
             <motion.div
@@ -228,7 +215,7 @@ const Projects = () => {
                 opacity: inView ? 1 : 0,
                 y: inView ? 0 : 10
               }}
-              transition={{ duration: 0.3, delay: visibleProjects.length * 0.1 }}
+              transition={{ duration: 0.3, delay: visibleProjects.length * DELAYS.STAGGER_CHILD }}
             >
               <ViewMore
                 isExpanded={showAllProjects}

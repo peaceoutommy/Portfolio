@@ -1,52 +1,59 @@
-import React, { useEffect, useRef } from 'react';
+// src/components/ui/ScrollAnimation.jsx - PROPER IMPLEMENTATION
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import PropTypes from 'prop-types';
+import { ITEM_VARIANTS } from '../../constants/animations';
+import { INTERSECTION_THRESHOLDS } from '../../constants';
 
-const ScrollAnimation = ({ children }) => {
-  const ref = useRef(null);
+const ScrollAnimation = forwardRef(({ 
+  children, 
+  threshold = INTERSECTION_THRESHOLDS.MINIMAL,
+  triggerOnce = false,
+  variants,
+  className = "",
+  ...props 
+}, ref) => {
+  const { ref: inViewRef, inView } = useInView({
+    threshold,
+    triggerOnce,
+  });
 
-  const variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          entry.target.classList.remove('hidden');
-        } else {
-          entry.target.classList.add('hidden');
-          entry.target.classList.remove('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
+  // Default animation variants
+  const animationVariants = variants || ITEM_VARIANTS.fadeInUp;
 
   return (
     <motion.div
-      ref={ref}
+      ref={(node) => {
+        inViewRef(node);
+        if (ref) {
+          if (typeof ref === 'function') {
+            ref(node);
+          } else {
+            ref.current = node;
+          }
+        }
+      }}
+      className={className}
+      variants={animationVariants}
       initial="hidden"
-      animate={ref.current?.classList.contains('visible') ? 'visible' : 'hidden'}
-      exit="exit"
-      variants={variants}
+      animate={inView ? "visible" : "hidden"}
       transition={{ duration: 0.3 }}
-      style={{ position: 'absolute', width: '100%' }} // Use absolute positioning
+      {...props}
     >
       {children}
     </motion.div>
   );
+});
+
+ScrollAnimation.displayName = 'ScrollAnimation';
+
+ScrollAnimation.propTypes = {
+  children: PropTypes.node.isRequired,
+  threshold: PropTypes.number,
+  triggerOnce: PropTypes.bool,
+  variants: PropTypes.object,
+  className: PropTypes.string
 };
 
 export default ScrollAnimation;

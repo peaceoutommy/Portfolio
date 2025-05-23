@@ -2,6 +2,10 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useMobileDetection } from '../../../hooks/useMobileDetection';
+import { useHoverState } from '../../../hooks/useHoverState';
+import { CARD_VARIANTS, CONTAINER_VARIANTS, ITEM_VARIANTS } from '../../../constants/animations';
+import { BREAKPOINTS, INTERSECTION_THRESHOLDS } from '../../../constants';
 import SectionTitle from '../../ui/SectionTitle';
 import Card from '../../ui/Card';
 import AnimatedSection from '../../ui/AnimatedSection';
@@ -12,15 +16,15 @@ import { SKILL_CATEGORIES, getSkillsByCategory, getCategoryIcon } from '../../..
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('Backend');
-  const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [isContainerHovered, setIsContainerHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
   const categoryRefs = useRef([]);
+
+  const isMobile = useMobileDetection(BREAKPOINTS.SM);
+  const categoryHover = useHoverState();
+  const containerHover = useHoverState();
 
   // Create a separate ref for the skills container
   const { ref: containerInViewRef, inView: containerInView } = useInView({
-    threshold: 0.3,
+    threshold: INTERSECTION_THRESHOLDS.MINIMAL,
     triggerOnce: false
   });
 
@@ -29,53 +33,43 @@ const Skills = () => {
     categoryRefs.current = categoryRefs.current.slice(0, SKILL_CATEGORIES.length);
   }, []);
 
-  // Detect mobile devices on component mount and window resize
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 640;
-      setIsMobile(mobile);
-    };
-
-    // Initial check
-    checkMobile();
-
-    // Add event listener for window resize
-    window.addEventListener('resize', checkMobile);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Memoize active skills to prevent unnecessary renders - now using the helper function
+  // Memoize active skills to prevent unnecessary renders
   const activeSkills = useMemo(() => {
     return getSkillsByCategory(activeCategory);
   }, [activeCategory]);
 
-  // Get icon for current category - now using the helper function
+  // Get icon for current category
   const activeCategoryIcon = useMemo(() => {
     return getCategoryIcon(activeCategory);
   }, [activeCategory]);
 
-  // Handle category click for both mobile and desktop
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
   };
 
-  // Handle mouse enter for desktop only
-  const handleMouseEnter = (category) => {
+  const handleCategoryMouseEnter = (category) => {
     if (!isMobile) {
-      setHoveredCategory(category);
-      // Also set container as hovered when a category is hovered
-      setIsContainerHovered(true);
+      categoryHover.handleMouseEnter(category);
+      containerHover.handleMouseEnter('container');
     }
   };
 
-  // Handle mouse leave for desktop only
-  const handleMouseLeave = () => {
+  const handleCategoryMouseLeave = () => {
     if (!isMobile) {
-      setHoveredCategory(null);
-      // Also unset container as hovered
-      setIsContainerHovered(false);
+      categoryHover.handleMouseLeave();
+      containerHover.handleMouseLeave();
+    }
+  };
+
+  const handleContainerMouseEnter = () => {
+    if (!isMobile) {
+      containerHover.handleMouseEnter('container');
+    }
+  };
+
+  const handleContainerMouseLeave = () => {
+    if (!isMobile) {
+      containerHover.handleMouseLeave();
     }
   };
 
@@ -115,15 +109,15 @@ const Skills = () => {
 
     // Only update if we found a visible category
     if (mostVisibleIndex !== null) {
-      setHoveredCategory(SKILL_CATEGORIES[mostVisibleIndex].category);
+      categoryHover.handleMouseEnter(SKILL_CATEGORIES[mostVisibleIndex].category);
     }
   };
 
-  // Set up scroll event listener for mobile only
+  // ✅ SIMPLIFIED: Mobile scroll handling with cleaner hook dependency
   useEffect(() => {
     // Only set up scroll listener if on mobile
     if (!isMobile) {
-      setHoveredCategory(null);
+      categoryHover.clearHover();
       return;
     }
 
@@ -156,12 +150,10 @@ const Skills = () => {
     };
   }, [isMobile]);
 
-  // Determine if the container should be highlighted:
-  // On Desktop: When any category is hovered
-  // On Mobile: When the container is in viewport
+  // ✅ SIMPLIFIED: Determine container highlight state
   const isContainerHighlighted = isMobile
     ? containerInView
-    : isContainerHovered;
+    : containerHover.isHovered('container');
 
   return (
     <AnimatedSection id="skills">
@@ -170,45 +162,45 @@ const Skills = () => {
           <SectionTitle title="Skills" inView={inView} />
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4">
+          <motion.div 
+            className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4"
+            variants={CONTAINER_VARIANTS.stagger}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
             {SKILL_CATEGORIES.map((category, idx) => (
-              <div
+              <motion.div
                 key={category.category}
                 ref={el => categoryRefs.current[idx] = el}
+                variants={ITEM_VARIANTS.scaleIn}
               >
                 <CategoryTab
                   label={category.category}
                   icon={category.icon}
                   isActive={activeCategory === category.category}
-                  isHighlighted={hoveredCategory === category.category}
+                  isHighlighted={categoryHover.isHovered(category.category)}
                   onClick={() => handleCategoryClick(category.category)}
-                  onMouseEnter={() => handleMouseEnter(category.category)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => handleCategoryMouseEnter(category.category)}
+                  onMouseLeave={handleCategoryMouseLeave}
                   index={idx}
                   inView={inView}
                   isMobile={isMobile}
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
+          {/* Skills Container */}
           <div
             className="relative"
             ref={containerInViewRef}
-            onMouseEnter={() => !isMobile && setIsContainerHovered(true)}
-            onMouseLeave={() => !isMobile && setIsContainerHovered(false)}
+            onMouseEnter={handleContainerMouseEnter}
+            onMouseLeave={handleContainerMouseLeave}
           >
             <motion.div
-              initial={{ y: 0 }}
-              animate={{
-                y: isContainerHighlighted ? -5 : 0,
-                transition: {
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20,
-                  duration: 0.4
-                }
-              }}
+              variants={CARD_VARIANTS.hover}
+              initial="inactive"
+              animate={isContainerHighlighted ? "active" : "inactive"}
             >
               <Card
                 className="p-6 min-h-[400px] relative overflow-hidden"
@@ -238,26 +230,21 @@ const Skills = () => {
                 <motion.div
                   className="grid grid-cols-1 md:grid-cols-2 gap-8 relative"
                   key={activeCategory} // Force re-render on category change
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.1,
-                        delayChildren: 0.2
-                      }
-                    }
-                  }}
+                  variants={CONTAINER_VARIANTS.stagger}
                   initial="hidden"
                   animate="visible"
                 >
                   {activeSkills.map((skill, idx) => (
-                    <SkillBar
+                    <motion.div
                       key={skill.name}
-                      skill={skill}
-                      index={idx}
-                      isHighlighted={isContainerHighlighted}
-                    />
+                      variants={ITEM_VARIANTS.fadeInUp}
+                    >
+                      <SkillBar
+                        skill={skill}
+                        index={idx}
+                        isHighlighted={isContainerHighlighted}
+                      />
+                    </motion.div>
                   ))}
                 </motion.div>
               </Card>
