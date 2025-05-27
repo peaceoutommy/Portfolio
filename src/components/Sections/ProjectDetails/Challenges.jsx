@@ -23,11 +23,10 @@ const Challenges = ({
           className="group relative"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.15, duration: 0.4 }}
+          transition={{ duration: 0.2 }}
         >
-          {/* ✅ FIXED: Add proper button semantics and ARIA attributes */}
           <motion.button
-            className="w-full text-left relative rounded-xl transition-all duration-500 cursor-pointer overflow-hidden"
+            className="w-full text-left relative rounded-xl transition-all duration-200 cursor-pointer overflow-hidden"
             onClick={() => onToggleExpansion(index)}
             whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
@@ -39,23 +38,17 @@ const Challenges = ({
             <div className="relative p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
+                  
                   {/* Challenge Number Badge */}
-                  <motion.div
-                    className="relative"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <Card className="w-8 h-8 rounded-lg border border-red-500/30 flex items-center justify-center">
-                      <span className="text-xs font-bold text-red-300">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                    </Card>
-                    {/* Subtle glow effect */}
-                    <div className="absolute inset-0 rounded-lg blur-sm -z-10" />
-                  </motion.div>
+                  <Card className="w-8 h-8 flex items-center justify-center">
+                    <GlowText className='text-xs'>
+                      {String(index + 1).padStart(2, '0')}
+                    </GlowText>
+                  </Card>
 
                   <div>
-                    <GlowText 
-                      className="text-sm font-medium" 
+                    <GlowText
+                      className="text-sm font-medium"
                       intensity="low"
                       id={`challenge-header-${index}`}
                     >
@@ -70,7 +63,6 @@ const Challenges = ({
                   </div>
                 </div>
 
-                {/* Animated Chevron */}
                 <motion.div
                   className="flex items-center gap-2"
                   animate={{
@@ -90,7 +82,7 @@ const Challenges = ({
               </div>
             </div>
 
-            {/* ✅ FIXED: Add proper ARIA region for expandable content */}
+
             <AnimatePresence>
               {expandedChallenges[index] && (
                 <motion.div
@@ -117,7 +109,7 @@ const Challenges = ({
                       >
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-1">
-                            <div 
+                            <div
                               className="w-6 h-6 rounded-md bg-red-500/20 border border-red-500/30 flex items-center justify-center"
                               aria-hidden="true"
                             >
@@ -148,7 +140,7 @@ const Challenges = ({
                         >
                           <div className="flex items-start gap-3">
                             <div className="flex-shrink-0 mt-1">
-                              <div 
+                              <div
                                 className="w-6 h-6 rounded-md bg-green-500/20 border border-green-500/30 flex items-center justify-center"
                                 aria-hidden="true"
                               >

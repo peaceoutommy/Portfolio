@@ -94,12 +94,12 @@ export const SECTION_VARIANTS = {
   }
 };
 
-// Card hover animations - used in ProjectDetail, Skills, Timeline, etc.
+// Card hover animations
 export const CARD_VARIANTS = {
   hover: {
     active: {
       y: -5,
-      scale: 1.02, // ✅ ENHANCED: Added subtle scale for active state
+      scale: 1.02,
       boxShadow: "0 8px 40px rgba(var(--highlight-color-rgb), 0.3)",
       transition: EASINGS.spring
     },
@@ -125,7 +125,6 @@ export const CARD_VARIANTS = {
   }
 };
 
-// ✅ ENHANCED: Consistent container animations
 export const CONTAINER_VARIANTS = {
   // Standard stagger for most grid layouts
   stagger: {
@@ -164,9 +163,7 @@ export const CONTAINER_VARIANTS = {
   }
 };
 
-// ✅ STANDARDIZED: Consistent item animations
 export const ITEM_VARIANTS = {
-  // Most common - fade in from bottom
   fadeInUp: {
     hidden: { 
       opacity: 0, 
@@ -180,7 +177,6 @@ export const ITEM_VARIANTS = {
     }
   },
   
-  // For cards and interactive elements
   scaleIn: {
     hidden: { 
       opacity: 0, 
@@ -196,7 +192,6 @@ export const ITEM_VARIANTS = {
     }
   },
 
-  // For side navigation or timeline items
   slideInLeft: {
     hidden: { 
       opacity: 0, 
@@ -223,7 +218,6 @@ export const ITEM_VARIANTS = {
     }
   },
 
-  // Simple fade for text content
   fadeIn: {
     hidden: { 
       opacity: 0,
@@ -236,7 +230,6 @@ export const ITEM_VARIANTS = {
   }
 };
 
-// Page transition animations (for route changes)
 export const PAGE_VARIANTS = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -244,7 +237,6 @@ export const PAGE_VARIANTS = {
   transition: EASINGS.smooth
 };
 
-// Loading animations
 export const LOADING_VARIANTS = {
   pulse: {
     scale: [0.9, 1.1, 0.9],
@@ -266,7 +258,6 @@ export const LOADING_VARIANTS = {
   }
 };
 
-// ✅ OPTIMIZED: Timeline-specific animations with better performance
 export const TIMELINE_VARIANTS = {
   progressBar: {
     hidden: { scaleY: 0, opacity: 0 },
@@ -285,7 +276,6 @@ export const TIMELINE_VARIANTS = {
       opacity: 0, 
       y: 30,
       scale: 0.95,
-      // ✅ PERFORMANCE: Ensure GPU acceleration
       willChange: "transform, opacity"
     },
     visible: { 
@@ -294,10 +284,9 @@ export const TIMELINE_VARIANTS = {
       scale: 1,
       transition: {
         ...EASINGS.smooth,
-        // ✅ ENHANCED: Slightly longer duration for smoother timeline animations
         duration: 0.5
       },
-      willChange: "auto" // Reset after animation
+      willChange: "auto"
     },
     active: {
       scale: 1.02,
@@ -305,7 +294,6 @@ export const TIMELINE_VARIANTS = {
     }
   },
 
-  // ✅ NEW: Optimized alternating timeline animations
   timelineItemLeft: {
     hidden: { 
       opacity: 0, 
@@ -348,13 +336,12 @@ export const TIMELINE_VARIANTS = {
     }
   },
 
-  // ✅ NEW: Timeline container animation
   timelineContainer: {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Stagger timeline items
+        staggerChildren: 0.15,
         delayChildren: 0.2,
         duration: 0.3
       }

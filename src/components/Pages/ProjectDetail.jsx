@@ -276,7 +276,7 @@ const ProjectDetail = () => {
                       isExpanded={expandedDescription}
                       onClick={() => setExpandedDescription(!expandedDescription)}
                       expandedText="Show Less"
-                      collapsedText={"View more"}
+                      collapsedText={"Show more"}
                       intensity="medium"
                       ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}
                     />
@@ -318,78 +318,6 @@ const ProjectDetail = () => {
                     <span className="text-white/80 text-sm">{feature}</span>
                   </motion.div>
                 )))}
-            </Card>
-          </motion.div>
-
-          {/* Development Process - Interactive Timeline */}
-          <motion.div
-            variants={CARD_VARIANTS.hover}
-            initial="inactive"
-            animate={isHovered('process') ? "active" : "inactive"}
-          >
-            <Card
-              className="p-6 mb-8"
-              isActive={isHovered('process')}
-              intensity={isHovered('process') ? 'medium' : 'none'}
-              onMouseEnter={() => handleMouseEnter('process')}
-              onMouseLeave={handleMouseLeave}
-            >
-              <GlowText as="h2" className="text-xl mb-6" intensity={isHovered('process') ? "medium" : "low"}>
-                Development Process
-              </GlowText>
-              <motion.div
-                className="space-y-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                {developmentSteps.map((step, index) => (
-                  <motion.div
-                    key={index}
-                    className={`relative p-4 rounded-lg border transition-all duration-300 cursor-pointer ${activeProcessStep === index
-                      ? 'border-[var(--highlight-color)]/50 bg-[var(--highlight-color)]/5'
-                      : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
-                      }`}
-                    onClick={() => setActiveProcessStep(activeProcessStep === index ? -1 : index)}
-                    whileHover={{ scale: 1.01 }}
-                    layoutId={`process-${index}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg ${activeProcessStep === index
-                        ? 'bg-[var(--highlight-color)]/20'
-                        : 'bg-[var(--highlight-color)]/10'
-                        }`}>
-                        <Icons name={step.icon} />
-                      </div>
-                      <div className="flex-1">
-                        <GlowText as="h3" className="text-lg mb-1" intensity={isHovered('process') ? "medium" : "low"}>
-                          {index + 1}. {step.title}
-                        </GlowText>
-                        <p className="text-white/70 text-sm">{step.description}</p>
-                      </div>
-                      <motion.div
-                        animate={{ rotate: activeProcessStep === index ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Icons name="ChevronDown" />
-                      </motion.div>
-                    </div>
-                    <AnimatePresence>
-                      {activeProcessStep === index && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden mt-4 pt-4 border-t border-[var(--highlight-color)]/20"
-                        >
-                          <p className="text-white/80 text-sm">{step.details}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                ))}
-              </motion.div>
             </Card>
           </motion.div>
         </motion.div>
