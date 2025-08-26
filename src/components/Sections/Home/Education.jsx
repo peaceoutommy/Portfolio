@@ -16,7 +16,6 @@ const Education = () => {
                 <>
                     <SectionTitle title="Education" inView={inView} />
 
-                    {/* ✅ CONSISTENT: Education grid with standardized container animation */}
                     <motion.div 
                         className="flex flex-col md:flex-row w-full mt-16 text-center gap-8"
                         variants={CONTAINER_VARIANTS.grid}
@@ -35,7 +34,7 @@ const Education = () => {
                                     whileHover="active"
                                     initial="inactive"
                                 >
-                                    <GlowText as="h3" className="text-xl text-white/70">
+                                    <GlowText className="text-xl text-white/70">
                                         {item.Title}
                                     </GlowText>
                                     <GlowText className="mt-4">

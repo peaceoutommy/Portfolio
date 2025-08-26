@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import GlowText from './GlowText';
-import Icons from './Icons';
+import { FaPalette } from "react-icons/fa";
 import { GetColors } from '../../data/themeColors'
 
 /**
@@ -51,28 +51,23 @@ const ThemeColorButton = () => {
   return (
     <div className="relative theme-color-dropdown-container">
       <motion.button
-        className="p-2 rounded-lg border-2 border-[#333f3f] transition-all duration-300 relative group"
+        className="p-2 relative group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.98 }}
         onClick={toggleDropdown}
         aria-label="Change theme color"
         aria-expanded={isOpen}
-        style={{
-          background: 'rgba(var(--highlight-rgb), 0.1)',
-          boxShadow: 'var(--box-shadow-sm)'
-        }}
       >
-        <GlowText intensity="low">
-          <Icons name="Palette"></Icons>
+        <GlowText>
+          <FaPalette size={20}/>
         </GlowText>
-        <span className="absolute inset-0 bg-[var(--highlight-color)]/0 group-hover:bg-[var(--highlight-color)]/20 transition-all duration-300 rounded-lg"></span>
       </motion.button>
 
       {/* Color dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 py-2 w-36 bg-black/90 backdrop-blur-md rounded-lg border-2 border-[var(--highlight-color)]/30 z-50"
+            className="absolute right-0 mt-2 py-2 w-36 bg-black/90 backdrop-blur-md rounded-lg z-50"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -84,7 +79,7 @@ const ThemeColorButton = () => {
             {themeColors.map((color, index) => (
               <motion.button
                 key={index}
-                className="w-full px-4 py-2 text-left flex items-center gap-2 transition-all duration-300 hover:bg-[var(--highlight-color)]/10"
+                className="w-full px-4 py-2 text-left flex items-center gap-2"
                 onClick={() => handleColorSelect(color.value)}
                 whileHover={{ x: 3 }}
                 style={{
@@ -97,7 +92,7 @@ const ThemeColorButton = () => {
                   className={`h-3 w-3 rounded-full inline-block`}
                   style={{ background: `rgb(${color.value})`, boxShadow: `0 0 4px rgb(${color.value})` }}
                 />
-                <GlowText intensity={color.value === currentTheme ? "medium" : "low"}>
+                <GlowText intensity={color.value === currentTheme ? "medium" : "none"}>
                   {color.name}
                 </GlowText>
               </motion.button>
