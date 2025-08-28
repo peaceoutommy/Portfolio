@@ -7,7 +7,8 @@ import { CONTAINER_VARIANTS, ITEM_VARIANTS, CARD_VARIANTS } from '../../../const
 const Education = () => {
     const education = [
         { Title: "Fontys University", description: "Bachelors in Software Engineering" },
-        { Title: "Citeforma", description: "ICT - Software development course" },
+        { Title: "Citeforma", description: "ICT - Software development" },
+        {Title: "Placeholder", description:"Needed to be filled"}
     ];
 
     return (

@@ -9,7 +9,6 @@ import { SECTION_VARIANTS, INTERSECTION_CONFIG } from '../../constants/animation
  * Standardized AnimatedSection component
  * Ensures consistent scroll-based animations across all sections
  * 
- * ✅ FIXED: Consistent thresholds, timing, and animation patterns
  */
 const AnimatedSection = forwardRef(({ 
   children,
@@ -22,14 +21,12 @@ const AnimatedSection = forwardRef(({
   ...props
 }, ref) => {
   
-  // ✅ STANDARDIZED: Same intersection observer config for all sections
   const { ref: inViewRef, inView } = useInView({
     threshold,
     triggerOnce,
     rootMargin
   });
 
-  // ✅ CONSISTENT: All sections use the same animation variants
   const animationVariant = SECTION_VARIANTS[variant] || SECTION_VARIANTS.default;
 
   // Handle both internal ref and forwarded ref
