@@ -84,7 +84,6 @@ const Skills = () => {
   // Mobile scroll handling (simplified for brevity)
   const updateActiveCategoryBasedOnScroll = () => {
     if (!isMobile || !categoryRefs.current.some(ref => ref)) return;
-    // ... existing scroll logic
   };
 
   useEffect(() => {

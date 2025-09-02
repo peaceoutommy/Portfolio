@@ -1,12 +1,9 @@
-// src/constants/animations.js - ENHANCED WITH SECTION VARIANTS
 /**
  * Standardized animation variants used across the application
- * ✅ ADDED: Section-level animations for consistent scroll behavior
  */
 
-// ✅ STANDARDIZED: Intersection Observer configuration
 export const INTERSECTION_CONFIG = {
-  SECTION_THRESHOLD: 0.15,           // When sections start animating
+  SECTION_THRESHOLD: 0.1,           // When sections start animating
   ITEM_THRESHOLD: 0.1,               // When individual items start animating  
   TRIGGER_ONCE: false,               // Allow animations to repeat
   ROOT_MARGIN: "-10% 0px -10% 0px"   // Animation trigger zone
@@ -21,7 +18,6 @@ export const EASINGS = {
   slow: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
 };
 
-// ✅ NEW: Standardized section-level animations
 export const SECTION_VARIANTS = {
   // Default section animation - consistent for all sections
   default: {
@@ -99,13 +95,11 @@ export const CARD_VARIANTS = {
   hover: {
     active: {
       y: -5,
-      scale: 1.02,
       boxShadow: "0 8px 40px rgba(var(--highlight-color-rgb), 0.3)",
       transition: EASINGS.spring
     },
     inactive: {
       y: 0,
-      scale: 1,
       boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
       transition: EASINGS.springGentle
     }
@@ -115,11 +109,9 @@ export const CARD_VARIANTS = {
   scale: {
     rest: { scale: 1 },
     hover: { 
-      scale: 1.03,
       transition: EASINGS.quick
     },
     tap: {
-      scale: 0.98,
       transition: EASINGS.quick
     }
   }
@@ -289,7 +281,6 @@ export const TIMELINE_VARIANTS = {
       willChange: "auto"
     },
     active: {
-      scale: 1.02,
       transition: EASINGS.spring
     }
   },
