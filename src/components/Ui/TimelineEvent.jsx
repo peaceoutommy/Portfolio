@@ -36,16 +36,15 @@ const TimelineEvent = ({
               animate={isActive ? "active" : "inactive"}
             >
               <Card
-                className="p-6 transition-all"
+                className="p-6"
                 isActive={isActive}
                 intensity={isActive ? "medium" : "none"}
-                whileHover={{ y: -5 }}
               >
                 <motion.div
                   variants={TIMELINE_VARIANTS.timelineItem}
                   initial="hidden"
                   animate={inView ? "visible" : "hidden"}
-                  transition={{ delay: index * 0.1 }}
+                  
                 >
                   <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
                     {title}
