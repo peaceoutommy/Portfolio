@@ -29,7 +29,6 @@ const Skills = () => {
   const categoryHover = useHoverState();
   const containerHover = useHoverState();
 
-  // ✅ STANDARDIZED: Use consistent intersection observer config
   const { ref: containerInViewRef, inView: containerInView } = useInView({
     threshold: INTERSECTION_CONFIG.ITEM_THRESHOLD,
     triggerOnce: INTERSECTION_CONFIG.TRIGGER_ONCE
@@ -120,7 +119,6 @@ const Skills = () => {
         <>
           <SectionTitle title="Skills" inView={inView} />
 
-          {/* ✅ CONSISTENT: Category tabs with standardized container animation */}
           <motion.div 
             className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4"
             variants={CONTAINER_VARIANTS.grid}

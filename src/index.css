@@ -81,56 +81,10 @@
     text-shadow: var(--text-shadow-lg);
   }
   
-  /* Legacy classes for backwards compatibility */
-  .neon-text {
-    @apply text-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
-    text-shadow: var(--text-shadow-md);
-    letter-spacing: 1px;
-  }
-
-  .neon-text-hover {
-    @apply neon-text;
-    transition: text-shadow 0.3s var(--ease-standard), color 0.3s var(--ease-standard);
-  }
-
-  .neon-text-hover:hover {
-    text-shadow: var(--text-shadow-lg);
-  }
-
-  .neon-title {
-    @apply text-[var(--highlight-color)];
-    text-shadow: var(--text-shadow-lg);
-    animation: flicker 5s infinite;
-  }
-
   /* Border effects */
   .neon-border {
     @apply border-t-2 border-b-2 border-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
     box-shadow: var(--box-shadow-sm);
-  }
-
-  /* Glass effect */
-  .glass {
-    @apply bg-black/40 backdrop-blur-md rounded-lg;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(var(--highlight-rgb), 0.1);
-  }
-
-  /* Background effects */
-  .neon-background {
-    @apply fixed top-0 left-0 w-full h-full overflow-hidden -z-10;
-  }
-
-  .neon-blur {
-    @apply absolute rounded-full;
-    background: rgba(var(--highlight-rgb), 0.2);
-    filter: blur(50px);
-    animation: pulse 8s infinite cubic-bezier(0.4, 0, 0.2, 1),
-      float 15s infinite cubic-bezier(0.4, 0, 0.2, 1);
-    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.5);
-    animation-delay: var(--animation-delay, 0ms);
-    will-change: transform, opacity;
   }
 
   /* Hero section */
@@ -153,18 +107,7 @@
     font-weight: 700;
     opacity: 0.9;
   }
-
-  /* Skill bar effects */
-  .skill-bar {
-    @apply h-2 rounded-full overflow-hidden bg-white/10;
-  }
-
-  .skill-progress {
-    @apply h-full bg-[var(--highlight-color)] rounded-full;
-    box-shadow: var(--box-shadow-sm);
-    transition: width 1s ease-out;
-  }
-
+  
   /* Education */
   .parallelogram {
     @apply bg-white w-full h-6 md:h-8 transition-all duration-300 brightness-75;

@@ -7,7 +7,6 @@ import { SECTION_VARIANTS, INTERSECTION_CONFIG } from '../../constants/animation
 
 /**
  * Standardized AnimatedSection component
- * Ensures consistent scroll-based animations across all sections
  * 
  */
 const AnimatedSection = forwardRef(({ 
