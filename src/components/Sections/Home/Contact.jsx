@@ -69,7 +69,6 @@ const Contact = () => {
         <>
           <SectionTitle title="Get In Touch" inView={inView} />
 
-
           <motion.div 
             className="max-w-4xl w-full mx-auto mb-8"
             variants={CONTAINER_VARIANTS.stagger}

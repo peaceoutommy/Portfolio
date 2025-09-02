@@ -33,9 +33,8 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
           <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.name}</GlowText>
         </div>
 
-        <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.level}%</GlowText>
       </div>
-      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
+      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/20">
         <motion.div
           className="h-full rounded-full relative"
           style={{

@@ -20,7 +20,7 @@ const CategoryTab = ({
       className={`px-5 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 ${
         isActive
           ? 'bg-[var(--highlight-color)]/20 border-2 border-[var(--highlight-color)]'
-          : 'bg-black/40 border-2 border-white/10 text-white/70 hover:border-white/30'
+          : 'bg-black/40 border-2 border-white/20 text-white/70 hover:border-white/30'
       }`}
       onClick={onClick}
       initial={{ opacity: 0, y: 20 }}

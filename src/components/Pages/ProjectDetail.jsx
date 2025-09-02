@@ -46,6 +46,11 @@ const ProjectDetail = () => {
     setLoading(false);
   }, [projectId, navigate]);
 
+  // Scroll to top when component mounts or projectId changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
   const handleBackClick = () => {
     navigate('/');
     setTimeout(() => {
@@ -310,7 +315,6 @@ const ProjectDetail = () => {
                     className="flex gap-3 p-3 rounded-lg"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
                   >
                     <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
                       <Icons name="CheckCircle" />

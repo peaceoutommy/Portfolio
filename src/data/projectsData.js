@@ -7,9 +7,9 @@ const PROJECTS = [
             "Bytebite Customer is a mobile-first, white-labeled web application built for restaurants to deliver a fully customizable digital ordering experience.",
             "The app is tightly integrated with a management dashboard, allowing restaurant owners to control branding, content, and behavior.",
             "Developed as part of a collaborative team, we followed an Agile workflow with structured sprints, daily stand-ups, sprint reviews, and retrospectives.",
-            "GitLab was used for version control, issue tracking, and CI/CD pipelines.",
+            "GitLab was used for version control and issue tracking.",
             "The application was developed using Blazor and .NET, with media assets managed via Cloudinary API and payments processed through Stripe.",
-            "To ensure code reliability and maintainability, we wrote extensive unit tests using xUnit and Moq."
+            "To ensure code reliability and maintainability, we wrote unit tests using xUnit and Moq."
         ],
         keyFeatures: [
             "Session management via QR code scanning for intuitive user experience",

@@ -180,7 +180,6 @@ const Skills = () => {
                   </GlowText>
                 </div>
 
-                {/* ✅ CONSISTENT: Skills grid with standardized stagger animation */}
                 <motion.div
                   className="grid grid-cols-1 md:grid-cols-2 gap-8 relative"
                   key={activeCategory}
