@@ -2,8 +2,8 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { ITEM_VARIANTS, TIMELINE_VARIANTS, CARD_VARIANTS } from '../../constants/animations';
-import Card from './Card';
+import { ITEM_VARIANTS, TIMELINE_VARIANTS } from '../../constants/animations';
+import GlowContainer from './GlowContainer';
 import GlowText from './GlowText';
 
 /**
@@ -30,35 +30,29 @@ const TimelineEvent = ({
         <>
           {/* Left side content */}
           <div className="w-full md:w-1/2 md:pr-8">
-            <motion.div
-              variants={CARD_VARIANTS.hover}
-              initial="inactive"
-              animate={isActive ? "active" : "inactive"}
+            <GlowContainer
+              className="p-6"
+              isActive={isActive}
+              intensity={isActive ? "medium" : "none"}
+              whileHover={{ y: -5 }}
             >
-              <Card
-                className="p-6"
-                isActive={isActive}
-                intensity={isActive ? "medium" : "none"}
+              <motion.div
+                variants={TIMELINE_VARIANTS.timelineItem}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
               >
-                <motion.div
-                  variants={TIMELINE_VARIANTS.timelineItem}
-                  initial="hidden"
-                  animate={inView ? "visible" : "hidden"}
-                  
-                >
-                  <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
-                    {title}
-                  </GlowText>
-                  <div className="flex flex-wrap justify-between items-center mb-4">
-                    <p className="text-white/70">{company}</p>
-                    <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
-                  </div>
-                  <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
-                    {description}
-                  </GlowText>
-                </motion.div>
-              </Card>
-            </motion.div>
+                <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
+                  {title}
+                </GlowText>
+                <div className="flex flex-wrap justify-between items-center mb-4">
+                  <p className="text-white/70">{company}</p>
+                  <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
+                </div>
+                <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
+                  {description}
+                </GlowText>
+              </motion.div>
+            </GlowContainer>
           </div>
           <div className="hidden md:block w-full md:w-1/2" />
         </>
@@ -67,36 +61,30 @@ const TimelineEvent = ({
           {/* Right side content */}
           <div className="hidden md:block w-full md:w-1/2" />
           <div className="w-full md:w-1/2 md:pl-8">
-            <motion.div
-              variants={CARD_VARIANTS.hover}
-              initial="inactive"
-              animate={isActive ? "active" : "inactive"}
+            <GlowContainer
+              className="p-6"
+              isActive={isActive}
+              intensity={isActive ? "medium" : "none"}
+              whileHover={{ y: -5 }}
             >
-              <Card
-                className="p-6 transition-all"
-                isActive={isActive}
-                intensity={isActive ? "medium" : "none"}
-                whileHover={{ y: -5 }}
+              <motion.div
+                variants={TIMELINE_VARIANTS.timelineItem}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ delay: index * 0.1 }}
               >
-                <motion.div
-                  variants={TIMELINE_VARIANTS.timelineItem}
-                  initial="hidden"
-                  animate={inView ? "visible" : "hidden"}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
-                    {title}
-                  </GlowText>
-                  <div className="flex flex-wrap justify-between items-center mb-4">
-                    <p className="text-white/70">{company}</p>
-                    <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
-                  </div>
-                  <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
-                    {description}
-                  </GlowText>
-                </motion.div>
-              </Card>
-            </motion.div>
+                <GlowText as="h3" className="text-xl mb-1" intensity={isActive ? "medium" : "low"}>
+                  {title}
+                </GlowText>
+                <div className="flex flex-wrap justify-between items-center mb-4">
+                  <p className="text-white/70">{company}</p>
+                  <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
+                </div>
+                <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
+                  {description}
+                </GlowText>
+              </motion.div>
+            </GlowContainer>
           </div>
         </>
       )}
