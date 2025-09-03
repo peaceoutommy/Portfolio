@@ -49,11 +49,11 @@ const ProjectCard = ({
   return (
     <motion.div
       className="h-full"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      // initial={{ opacity: 0, y: 20 }}
+      // animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+      // transition={{ duration: 0.3, delay: index * 0.1 }}
+      // onMouseEnter={onMouseEnter}
+      // onMouseLeave={onMouseLeave}
     >
       <Link to={`/project/${project.id}`}>
         <motion.div

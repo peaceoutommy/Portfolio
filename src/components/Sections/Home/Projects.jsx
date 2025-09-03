@@ -1,4 +1,3 @@
-// src/components/sections/Projects.jsx - STANDARDIZED ANIMATIONS
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useMobileDetection } from '../../../hooks/useMobileDetection';
@@ -17,7 +16,7 @@ import ViewMore from '../../ui/ViewMore';
 import { GetProjects } from '../../../data/projectsData';
 
 const Projects = () => {
-  const [activeProject, setActiveProject] = useState(null); // ✅ Start with null instead of 0
+  const [activeProject, setActiveProject] = useState(null);
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const projectRefs = useRef([]);
@@ -29,11 +28,6 @@ const Projects = () => {
   // Number of projects to show initially
   const initialProjectCount = 3;
   const visibleProjects = showAllProjects ? PROJECTS : PROJECTS.slice(0, initialProjectCount);
-
-  // ✅ DEBUG: Add console logs to track state changes
-  useEffect(() => {
-    console.log('Debug - activeProject:', activeProject, 'hasInteracted:', hasInteracted, 'isMobile:', isMobile);
-  }, [activeProject, hasInteracted, isMobile]);
 
   // Set up refs for all projects
   useEffect(() => {
@@ -53,6 +47,7 @@ const Projects = () => {
   const toggleShowAllProjects = () => {
     setShowAllProjects(!showAllProjects);
 
+    // Scroll to put projects in view
     if (showAllProjects && projectRefs.current[initialProjectCount - 1]) {
       setTimeout(() => {
         projectRefs.current[initialProjectCount - 1].scrollIntoView({
@@ -66,20 +61,17 @@ const Projects = () => {
   // Handle mouse interactions for desktop
   const handleMouseEnter = (index) => {
     if (!isMobile) {
-      console.log('Mouse enter on project:', index); // ✅ DEBUG
       setActiveProject(index);
     }
   };
 
   const handleMouseLeave = () => {
     if (!isMobile) {
-      console.log('Mouse leave'); // ✅ DEBUG
       setActiveProject(null);
     }
   };
 
   const handleProjectClick = (project) => {
-    console.log('Project clicked:', project.title); // ✅ DEBUG
     setHasInteracted(true);
   };
 
@@ -150,13 +142,13 @@ const Projects = () => {
               <motion.div
                 key={index}
                 ref={el => projectRefs.current[index] = el}
-                className="project-card-container relative" // ✅ IMPORTANT: relative positioning for absolute child
+                className="relative"
                 onClick={() => handleProjectClick(project)}
-                onMouseEnter={() => handleMouseEnter(index)} // ✅ MOVED: Put hover on container
-                onMouseLeave={handleMouseLeave} // ✅ MOVED: Put hover on container
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
                 variants={ITEM_VARIANTS.scaleIn}
               >
-                {/* ✅ ENHANCED: Click indicator with better positioning and debugging */}
+
                 {activeProject === index && !hasInteracted && !isMobile && (
                   <motion.div
                     className="absolute -top-10 left-1 transform z-30 pointer-events-none"
@@ -181,13 +173,11 @@ const Projects = () => {
                   isActive={activeProject === index}
                   inView={inView}
                   isMobile={isMobile}
-                // ✅ REMOVED: onMouseEnter/Leave from ProjectCard to avoid conflicts
                 />
               </motion.div>
             ))}
           </motion.div>
 
-          {/* ✅ CONSISTENT: View More with standardized animation */}
           {PROJECTS.length > initialProjectCount && (
             <motion.div
               className="flex flex-col items-center mt-12"
