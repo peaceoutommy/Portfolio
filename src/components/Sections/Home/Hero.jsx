@@ -1,4 +1,3 @@
-// src/components/sections/Hero.jsx - STANDARDIZED ANIMATIONS
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollToSection } from '../../../hooks/useScrollToSection';
@@ -15,14 +14,14 @@ const Hero = () => {
   
   // Typewriter effects
   const nameTypewriter = useTypewriter("Hi, I'm Tomás Lopes", { 
-    typingSpeed: 100,
+    typingSpeed: 75,
     startDelay: 200
   });
   
   const roleTypewriter = useTypewriter("Software Engineer", { 
-    typingSpeed: 100,
+    typingSpeed: 75,
     startTyping: nameTypewriter.isComplete,
-    startDelay: 500
+    startDelay: 100
   });
 
   return (
@@ -36,14 +35,12 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[radial-gradient(rgba(var(--highlight-rgb),0.1)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 z-0"></div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[color:var(--highlight-color)] opacity-5 blur-[100px] z-0"></div>
       
-      {/* ✅ STANDARDIZED: Use consistent section animation */}
       <motion.div 
         className="relative z-10 max-w-4xl mx-auto text-center"
         variants={SECTION_VARIANTS.slide}
         initial="hidden"
         animate="visible"
       >
-        {/* ✅ CONSISTENT: All items use same animation variant */}
         <motion.div variants={ITEM_VARIANTS.fadeInUp} className="mb-6">
           <h1 
             className={`text-3xl md:text-6xl lg:text-7xl font-bold leading-tight min-h-[1.2em] ${nameTypewriter.isTyping ? 'typing' : ''}`}

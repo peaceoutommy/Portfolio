@@ -173,7 +173,7 @@ const Skills = () => {
                     <i className={activeCategoryIcon} aria-hidden="true"></i>
                   </span>
                   <GlowText as="h3" className="text-2xl" intensity={isContainerHighlighted ? "medium" : "low"}>
-                    {activeCategory} Skills
+                    {activeCategory} Proficiency
                   </GlowText>
                 </div>
 
