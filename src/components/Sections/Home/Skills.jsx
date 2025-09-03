@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useMobileDetection } from '../../../hooks/useMobileDetection';
 import { useHoverState } from '../../../hooks/useHoverState';
-import { 
-  SECTION_VARIANTS, 
-  CONTAINER_VARIANTS, 
-  ITEM_VARIANTS, 
+import {
+  SECTION_VARIANTS,
+  CONTAINER_VARIANTS,
+  ITEM_VARIANTS,
   CARD_VARIANTS,
-  INTERSECTION_CONFIG 
+  INTERSECTION_CONFIG
 } from '../../../constants/animations';
 import { BREAKPOINTS } from '../../../constants';
 import SectionTitle from '../../ui/SectionTitle';
@@ -112,13 +112,13 @@ const Skills = () => {
   const isContainerHighlighted = isMobile ? containerInView : containerHover.isHovered('container');
 
   return (
-   
+
     <AnimatedSection id="skills" variant="stagger">
       {(inView) => (
         <>
           <SectionTitle title="Skills" inView={inView} />
 
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4"
             variants={CONTAINER_VARIANTS.grid}
             initial="hidden"
@@ -146,7 +146,7 @@ const Skills = () => {
             ))}
           </motion.div>
 
-         
+
           <div
             className="relative w-full"
             ref={containerInViewRef}

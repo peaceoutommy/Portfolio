@@ -16,7 +16,6 @@ export default {
         glow: {
           sm: 'var(--box-shadow-sm)',
           md: 'var(--box-shadow-md)',
-          lg: 'var(--box-shadow-lg)',
         }
       },
       transitionProperty: {
@@ -47,9 +46,6 @@ export default {
         },
         '.box-shadow-glow-md': {
           'box-shadow': 'var(--box-shadow-md)',
-        },
-        '.box-shadow-glow-lg': {
-          'box-shadow': 'var(--box-shadow-lg)',
         },
       }
       addUtilities(newUtilities)

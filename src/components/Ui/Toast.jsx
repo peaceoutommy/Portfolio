@@ -161,7 +161,7 @@ const Toast = ({
               {/* Close button */}
               <button
                 onClick={() => setIsVisible(false)}
-                className="flex-shrink-0 ml-4 text-white/70 hover:text-white transition-colors duration-300 focus:outline-none"
+                className="flex-shrink-0 ml-4 text-base hover:text-white transition-colors duration-300 focus:outline-none"
                 aria-label="Close"
               >
                 <i className="fas fa-times text-sm"></i>

@@ -242,7 +242,7 @@ const ProjectDetail = () => {
               </GlowText>
 
               <motion.div
-                className="text-white/80"
+                className="text-base"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
@@ -319,7 +319,7 @@ const ProjectDetail = () => {
                     <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
                       <Icons name="CheckCircle" />
                     </GlowText>
-                    <span className="text-white/80 text-sm">{feature}</span>
+                    <span className="text-base text-sm">{feature}</span>
                   </motion.div>
                 )))}
             </Card>

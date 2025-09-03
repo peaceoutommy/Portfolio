@@ -84,7 +84,7 @@ const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositi
         </div>
         <button 
           onClick={onClose} 
-          className="text-white/70 hover:text-white transition-colors"
+          className="text-base hover:text-white transition-colors"
           aria-label="Close notification"
         >
           <Icons name="X" />

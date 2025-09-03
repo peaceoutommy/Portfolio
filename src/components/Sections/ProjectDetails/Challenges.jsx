@@ -123,7 +123,7 @@ const Challenges = ({
                               </GlowText>
                               <div className="flex-1 h-px bg-gradient-to-r from-red-500/30 to-transparent" />
                             </div>
-                            <p className="text-white/80 text-sm leading-relaxed pl-3 border-l-2 border-red-400/20">
+                            <p className="text-base text-sm leading-relaxed pl-3 border-l-2 border-red-400/20">
                               {challenge}
                             </p>
                           </div>
@@ -154,7 +154,7 @@ const Challenges = ({
                                 </GlowText>
                                 <div className="flex-1 h-px bg-gradient-to-r from-green-500/30 to-transparent" />
                               </div>
-                              <p className="text-white/80 text-sm leading-relaxed pl-3 border-l-2 border-green-400/20">
+                              <p className="text-base text-sm leading-relaxed pl-3 border-l-2 border-green-400/20">
                                 {solutions[index]}
                               </p>
                             </div>

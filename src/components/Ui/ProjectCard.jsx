@@ -99,7 +99,7 @@ const ProjectCard = ({
               <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "medium" : "low"}>
                 {project.title}
               </GlowText>
-              <p className="mb-4 text-white/80">{project.short}</p>
+              <p className="mb-4 text-base">{project.short}</p>
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag, tagIndex) => (

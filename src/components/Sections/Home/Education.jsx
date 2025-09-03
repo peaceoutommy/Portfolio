@@ -8,7 +8,7 @@ const Education = () => {
     const education = [
         { Title: "Fontys University", description: "Bachelors in Software Engineering" },
         { Title: "Citeforma", description: "ICT - Software development" },
-        {Title: "Placeholder", description:"Needed to be filled"}
+        { Title: "Placeholder", description: "Needed to be filled" }
     ];
 
     return (
@@ -17,7 +17,7 @@ const Education = () => {
                 <>
                     <SectionTitle title="Education" inView={inView} />
 
-                    <motion.div 
+                    <motion.div
                         className="flex flex-col md:flex-row w-full mt-16 text-center gap-8"
                         variants={CONTAINER_VARIANTS.grid}
                         initial="hidden"
@@ -35,12 +35,12 @@ const Education = () => {
                                     whileHover="active"
                                     initial="inactive"
                                 >
-                                    <GlowText className="text-xl text-white/70">
+                                    <GlowText className="text-xl">
                                         {item.Title}
                                     </GlowText>
-                                    <GlowText className="mt-4">
+                                    <span className="mt-4 text-base">
                                         {item.description}
-                                    </GlowText>
+                                    </span>
                                     <div className="parallelogram mt-8"></div>
                                 </motion.div>
                             </motion.div>

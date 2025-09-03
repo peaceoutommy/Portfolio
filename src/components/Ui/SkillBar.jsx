@@ -38,7 +38,7 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
         <motion.div
           className="h-full rounded-full relative"
           style={{
-            background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(var(--highlight-rgb), 1) 100%)`,
+            background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(255, 255, 255, 0.8) 100%)`,
             boxShadow: 'var(--box-shadow-sm)'
           }}
           initial={{ width: 0 }}
@@ -49,10 +49,6 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
             ease: [0.4, 0, 0.2, 1]
           }}
         >
-          {/* Animated particles within the bar */}
-          <div className="absolute top-0 right-0 h-full w-8 overflow-hidden">
-            <div className="absolute inset-0"></div>
-          </div>
         </motion.div>
       </div>
     </motion.div>

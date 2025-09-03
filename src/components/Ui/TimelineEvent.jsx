@@ -45,12 +45,10 @@ const TimelineEvent = ({
                   {title}
                 </GlowText>
                 <div className="flex flex-wrap justify-between items-center mb-4">
-                  <p className="text-white/70">{company}</p>
+                  <p className="text-base">{company}</p>
                   <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
                 </div>
-                <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
-                  {description}
-                </GlowText>
+                <span className="text-sm md:text-base">{description}</span>
               </motion.div>
             </GlowContainer>
           </div>
@@ -76,12 +74,10 @@ const TimelineEvent = ({
                   {title}
                 </GlowText>
                 <div className="flex flex-wrap justify-between items-center mb-4">
-                  <p className="text-white/70">{company}</p>
+                  <p className="text-base">{company}</p>
                   <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
                 </div>
-                <GlowText className="text-sm md:text-base" intensity={isActive ? "low" : "none"}>
-                  {description}
-                </GlowText>
+                <span className="text-sm md:text-base">{description}</span>
               </motion.div>
             </GlowContainer>
           </div>
