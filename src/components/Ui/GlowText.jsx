@@ -31,7 +31,7 @@ const GlowText = ({
   };
   
   // Add hover effect if requested
-  const hoverClasses = hover ? "hover:text-shadow-lg" : "";
+  const hoverClasses = hover ? "hover:text-shadow-md" : "";
   
   return (
     <Component 

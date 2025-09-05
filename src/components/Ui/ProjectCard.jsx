@@ -123,7 +123,7 @@ const ProjectCard = ({
                     aria-label={`View code for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="medium">
+                    <GlowText hover intensity="low">
                       <div className='flex items-center gap-2'>
                         <Icons name="GitHub" />
                         <span>Code</span>
@@ -132,7 +132,7 @@ const ProjectCard = ({
                   </a>
                 ) : (
                   <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 text-gray-400 text-xs cursor-not-allowed opacity-60"
                     disabled
                     aria-label="Code not available"
                     onClick={(e) => e.stopPropagation()}
@@ -145,13 +145,13 @@ const ProjectCard = ({
                 {project.link && project.link !== null && project.link !== "#" ? (
                   <a
                     href={project.link}
-                    className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/30 text-sm"
+                    className="px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 transition-all text-sm"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View live demo for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="medium">
+                    <GlowText hover intensity="low">
                       <div className='flex items-center gap-2'>
                         <Icons name='ExternalLink' />
                         <span>Live Demo</span>
@@ -160,7 +160,7 @@ const ProjectCard = ({
                   </a>
                 ) : (
                   <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 text-gray-400 text-xs cursor-not-allowed opacity-60"
                     disabled
                     aria-label="Live demo not available"
                     onClick={(e) => e.stopPropagation()}

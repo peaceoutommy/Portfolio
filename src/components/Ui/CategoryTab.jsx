@@ -19,8 +19,8 @@ const CategoryTab = ({
     <motion.button
       className={`px-5 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 ${
         isActive
-          ? 'bg-[var(--highlight-color)]/20 border-2 border-[var(--highlight-color)]'
-          : 'bg-black/40 border-2 border-white/20 text-base hover:border-white/30'
+          ? 'border-2 border-[var(--highlight-color)]'
+          : 'border-2 border-white/20 hover:border-white/30 text-base'
       }`}
       onClick={onClick}
       initial={{ opacity: 0, y: 20 }}
