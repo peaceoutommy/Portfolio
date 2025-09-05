@@ -57,7 +57,7 @@ const ThemeColorButton = () => {
       >
         <Button
           size="sm"
-          className="p-2 relative group"
+          className="p-2 relative group border-none shadow-none"
           onClick={toggleDropdown}
           aria-label="Change theme color"
           aria-expanded={isOpen}
@@ -89,7 +89,7 @@ const ThemeColorButton = () => {
                 <Button
                   variant={color.value === currentTheme ? "active" : "default"}
                   size="sm"
-                  className="w-full px-4 py-2 text-left flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none"
                   onClick={() => handleColorSelect(color.value)}
                   style={{
                     textShadow: color.value === currentTheme
