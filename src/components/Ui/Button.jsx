@@ -1,71 +1,60 @@
-// src/components/ui/Button.jsx - ENHANCED VERSION
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Icons from './Icons';
 
 /**
- * Enhanced Button component with multiple variants and polymorphic support
- * Now supports rendering as different elements (button, a, etc.)
+ * Button component with input-like focus behavior
+ * Supports multiple variants, sizes, and polymorphic rendering
  */
 const Button = forwardRef(({ 
   children, 
-  variant = 'primary',    // 'primary', 'outline', 'ghost'
-  size = 'md',           // 'sm', 'md', 'lg'
-  as = 'button',         // Element to render as (button, a, etc.)
-  loading = false,       // Loading state
+  variant = 'default',
+  size = 'md',
+  as = 'button',
+  loading = false,
   disabled = false,
   className = '', 
   onClick,
   ...props
 }, ref) => {
   const Component = as;
-
-  // Combine loading and disabled states
   const isDisabled = disabled || loading;
 
-  // Base classes shared by all variants
+  // Styling configuration
   const baseClasses = "inline-flex items-center justify-center rounded-lg border-2 text-[var(--highlight-color)] transition-all duration-300 relative overflow-hidden group font-medium focus:outline-none focus:ring-2 focus:ring-[var(--highlight-color)]/50 focus:ring-offset-2 focus:ring-offset-black";
   
-  // Variant-specific styling
   const variants = {
-    primary: "bg-[var(--highlight-color)]/20 border-[var(--highlight-color)] hover:bg-[var(--highlight-color)]/30 text-shadow-md hover:text-shadow-lg",
-    outline: "border-[var(--highlight-color)] hover:bg-[var(--highlight-color)]/10 text-shadow-sm hover:text-shadow-md",
-    ghost: "border-transparent hover:bg-[var(--highlight-color)]/5 hover:border-[var(--highlight-color)]/30 text-shadow-sm hover:text-shadow-md"
+    default: "border-white/20 hover:border-white/30 focus:border-[var(--highlight-color)]",
+    active: "border-[var(--highlight-color)] "
   };
   
-  // Size variations
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-6 py-3 text-base",
     lg: "px-8 py-4 text-lg"
   };
 
-  // Disabled styling
   const disabledClasses = isDisabled 
     ? "opacity-50 cursor-not-allowed pointer-events-none"
     : "cursor-pointer";
   
-  // Combine all classes
   const buttonClasses = `${baseClasses} ${variants[variant]} ${sizes[size]} ${disabledClasses} ${className}`;
   
-  // Handle click for disabled state
   const handleClick = (e) => {
     if (isDisabled) {
       e.preventDefault();
       return;
     }
-    if (onClick) {
-      onClick(e);
-    }
+    onClick?.(e);
   };
 
   return (
     <motion.div
       className="inline-block"
-      whileHover={isDisabled ? {} : { scale: 1.03 }}
+      whileHover={isDisabled ? {} : { scale: 1.01 }}
       whileTap={isDisabled ? {} : { scale: 0.98 }}
-      transition={{ duration: 0.15 }}
+      transition={{ duration: 0.1 }}
     >
       <Component
         ref={ref}
@@ -73,8 +62,8 @@ const Button = forwardRef(({
         disabled={isDisabled}
         onClick={handleClick}
         style={{
-          textShadow: '0 0 4px var(--highlight-color)',
-          boxShadow: '0 0 8px rgba(var(--highlight-rgb), 0.2)',
+          textShadow: isDisabled ? 'none' : '0 0 4px var(--highlight-color)',
+          boxShadow: 'var(--box-shadow-sm)',
         }}
         {...props}
       >
@@ -90,12 +79,6 @@ const Button = forwardRef(({
           )}
           {children}
         </span>
-        
-        {/* Animated background overlay */}
-        <span 
-          className="absolute inset-0 bg-[var(--highlight-color)]/0 group-hover:bg-[var(--highlight-color)]/10 transition-all duration-300"
-          aria-hidden="true"
-        />
         
         {/* Glow effect on hover */}
         <span 
@@ -114,7 +97,7 @@ Button.displayName = 'Button';
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(['primary', 'outline', 'ghost']),
+  variant: PropTypes.oneOf(['default', 'active']),
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
   loading: PropTypes.bool,

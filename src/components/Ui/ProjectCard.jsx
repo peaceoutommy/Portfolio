@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Card from './Card';
 import GlowText from './GlowText';
 import Icons from './Icons';
+import Button from './Button';
 
 /**
  * ProjectCard - A standardized project card component for the portfolio
@@ -115,59 +116,57 @@ const ProjectCard = ({
 
               <div className="flex gap-4 mt-auto">
                 {project.github && project.github !== null && project.github !== "#" ? (
-                  <a
+                  <Button
+                    as="a"
                     href={project.github}
-                    className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10 text-sm"
+                    size="sm"
+                    variant="default"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View code for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="low">
-                      <div className='flex items-center gap-2'>
-                        <Icons name="GitHub" />
-                        <span>Code</span>
-                      </div>
-                    </GlowText>
-                  </a>
+                    <Icons name="GitHub" />
+                    <span>Code</span>
+                  </Button>
                 ) : (
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 text-gray-400 text-xs cursor-not-allowed opacity-60"
+                  <Button
+                    size="sm"
                     disabled
+                    className="text-gray-400"
                     aria-label="Code not available"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Icons name="GitHub" />
                     <span>Code</span>
-                  </button>
+                  </Button>
                 )}
 
                 {project.link && project.link !== null && project.link !== "#" ? (
-                  <a
+                  <Button
+                    as="a"
                     href={project.link}
-                    className="px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 transition-all text-sm"
+                    size="sm"
+                    variant="default"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View live demo for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="low">
-                      <div className='flex items-center gap-2'>
-                        <Icons name='ExternalLink' />
-                        <span>Live Demo</span>
-                      </div>
-                    </GlowText>
-                  </a>
+                    <Icons name='ExternalLink' />
+                    <span>Live Demo</span>
+                  </Button>
                 ) : (
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-white/20 hover:border-white/30 duration-300 text-gray-400 text-xs cursor-not-allowed opacity-60"
+                  <Button
+                    size="sm"
                     disabled
+                    className="text-gray-400"
                     aria-label="Live demo not available"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Icons name='ExternalLink' />
                     <span>Live Demo</span>
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../../ui/Card';
 import GlowText from '../../ui/GlowText';
 import Icons from '../../ui/Icons';
+import Button from '../../ui/Button';
 
 const Challenges = ({
   challenges,
@@ -25,15 +26,19 @@ const Challenges = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <motion.button
+          <motion.div
             className="w-full text-left relative rounded-xl transition-all duration-200 cursor-pointer overflow-hidden"
-            onClick={() => onToggleExpansion(index)}
             whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
-            aria-expanded={expandedChallenges[index]}
-            aria-controls={`challenge-content-${index}`}
-            aria-label={`Challenge ${index + 1}: ${expandedChallenges[index] ? 'Collapse' : 'Expand'} details`}
           >
+            <Button
+              variant="default"
+              className="w-full text-left relative rounded-xl transition-all duration-200 cursor-pointer overflow-hidden"
+              onClick={() => onToggleExpansion(index)}
+              aria-expanded={expandedChallenges[index]}
+              aria-controls={`challenge-content-${index}`}
+              aria-label={`Challenge ${index + 1}: ${expandedChallenges[index] ? 'Collapse' : 'Expand'} details`}
+            >
             {/* Card Header */}
             <div className="relative p-4">
               <div className="flex items-center justify-between">
@@ -166,7 +171,8 @@ const Challenges = ({
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.button>
+            </Button>
+          </motion.div>
 
           {/* Connecting line to next challenge (except for last one) */}
           {index < challenges.length - 1 && (

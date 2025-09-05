@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Card from '../ui/Card';
+import Button from './Button';
 
 const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
   if (!images || images.length === 0) {
@@ -63,8 +64,10 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
 
       <div className="flex justify-center mt-4">
         {images.map((_, index) => (
-          <button
+          <Button
             key={index}
+            size="sm"
+            variant={activeImageIndex === index ? "active" : "default"}
             className={`mx-1 h-1 rounded-full transition-all duration-300 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}

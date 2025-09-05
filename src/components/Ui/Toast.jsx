@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from './Button';
 
 /**
  * Toast notification component with cyberpunk styling using Tailwind
@@ -159,13 +160,14 @@ const Toast = ({
               </div>
               
               {/* Close button */}
-              <button
+              <Button
                 onClick={() => setIsVisible(false)}
+                size="sm"
                 className="flex-shrink-0 ml-4 text-base hover:text-white transition-colors duration-300 focus:outline-none"
                 aria-label="Close"
               >
                 <i className="fas fa-times text-sm"></i>
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>

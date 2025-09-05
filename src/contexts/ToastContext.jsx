@@ -2,7 +2,8 @@ import { createContext, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlowText from '../components/ui/GlowText';
-import Icons from '../components/ui/Icons'; //
+import Icons from '../components/ui/Icons';
+import Button from '../components/ui/Button';
 
 // Toast Types
 export const ToastTypes = {
@@ -82,13 +83,14 @@ const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositi
         <div className="flex-grow">
           <GlowText intensity="medium">{message}</GlowText>
         </div>
-        <button 
+        <Button 
           onClick={onClose} 
+          size="sm"
           className="text-base hover:text-white transition-colors"
           aria-label="Close notification"
         >
           <Icons name="X" />
-        </button>
+        </Button>
         {/* Progress bar */}
         <div className="absolute bottom-0 left-0 h-0.5 bg-white/20 w-full">
           <div 

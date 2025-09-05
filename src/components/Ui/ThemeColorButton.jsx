@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import GlowText from './GlowText';
+import Button from './Button';
 import { FaPalette } from "react-icons/fa";
 import { GetColors } from '../../data/themeColors'
 
@@ -50,18 +51,22 @@ const ThemeColorButton = () => {
 
   return (
     <div className="relative theme-color-dropdown-container">
-      <motion.button
-        className="p-2 relative group"
+      <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.98 }}
-        onClick={toggleDropdown}
-        aria-label="Change theme color"
-        aria-expanded={isOpen}
       >
-        <GlowText>
-          <FaPalette size={20}/>
-        </GlowText>
-      </motion.button>
+        <Button
+          size="sm"
+          className="p-2 relative group"
+          onClick={toggleDropdown}
+          aria-label="Change theme color"
+          aria-expanded={isOpen}
+        >
+          <GlowText>
+            <FaPalette size={20}/>
+          </GlowText>
+        </Button>
+      </motion.div>
 
       {/* Color dropdown */}
       <AnimatePresence>
@@ -77,25 +82,30 @@ const ThemeColorButton = () => {
             }}
           >
             {themeColors.map((color, index) => (
-              <motion.button
+              <motion.div
                 key={index}
-                className="w-full px-4 py-2 text-left flex items-center gap-2"
-                onClick={() => handleColorSelect(color.value)}
                 whileHover={{ x: 3 }}
-                style={{
-                  textShadow: color.value === currentTheme
-                    ? 'var(--text-shadow-md)'
-                    : 'none'
-                }}
               >
-                <span
-                  className={`h-3 w-3 rounded-full inline-block`}
-                  style={{ background: `rgb(${color.value})`, boxShadow: `0 0 4px rgb(${color.value})` }}
-                />
-                <GlowText intensity={color.value === currentTheme ? "medium" : "none"}>
-                  {color.name}
-                </GlowText>
-              </motion.button>
+                <Button
+                  variant={color.value === currentTheme ? "active" : "default"}
+                  size="sm"
+                  className="w-full px-4 py-2 text-left flex items-center gap-2"
+                  onClick={() => handleColorSelect(color.value)}
+                  style={{
+                    textShadow: color.value === currentTheme
+                      ? 'var(--text-shadow-md)'
+                      : 'none'
+                  }}
+                >
+                  <span
+                    className={`h-3 w-3 rounded-full inline-block`}
+                    style={{ background: `rgb(${color.value})`, boxShadow: `0 0 4px rgb(${color.value})` }}
+                  />
+                  <GlowText intensity={color.value === currentTheme ? "medium" : "none"}>
+                    {color.name}
+                  </GlowText>
+                </Button>
+              </motion.div>
             ))}
           </motion.div>
         )}

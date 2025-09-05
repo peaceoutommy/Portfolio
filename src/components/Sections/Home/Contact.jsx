@@ -134,7 +134,7 @@ const Contact = () => {
               <motion.div variants={ITEM_VARIANTS.scaleIn}>
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="default"
                   loading={isSubmitting}
                   disabled={!isFormValid}
                   aria-label={isSubmitting ? "Sending message..." : "Send message"}

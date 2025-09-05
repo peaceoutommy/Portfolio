@@ -115,7 +115,7 @@ const ProjectDetail = () => {
         className="mb-8"
       >
         <Button
-          variant="outline"
+          variant="default"
           size="sm"
           onClick={handleBackClick}
           className="flex items-center gap-2"
@@ -161,7 +161,7 @@ const ProjectDetail = () => {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                variant="outline"
+                variant="default"
                 size="sm"
                 className="flex items-center gap-2"
               >
@@ -170,7 +170,7 @@ const ProjectDetail = () => {
               </Button>
             ) : (
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 disabled
                 className="flex items-center gap-2"
@@ -186,7 +186,7 @@ const ProjectDetail = () => {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                variant="primary"
+                variant="default"
                 size="sm"
                 className="flex items-center gap-2"
               >
@@ -195,7 +195,7 @@ const ProjectDetail = () => {
               </Button>
             ) : (
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 disabled
                 className="flex items-center gap-2"

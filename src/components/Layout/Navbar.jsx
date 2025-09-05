@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ThemeColorButton from '../ui/ThemeColorButton';
 import NavLink from '../ui/NavLink';
 import GlowText from '../ui/GlowText';
+import Button from '../ui/Button';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useNavbarScroll } from '../../hooks/useNavbarScroll';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -161,9 +162,10 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <ThemeColorButton />
 
-            <button
+            <Button
               id="menu-toggle"
               onClick={toggleMenu}
+              size="sm"
               className="ml-4 p-2 focus:outline-none"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
@@ -194,7 +196,7 @@ const Navbar = () => {
                   className="w-6 h-0.5 bg-[var(--highlight-color)] block origin-center"
                 />
               </motion.div>
-            </button>
+            </Button>
           </div>
         </div>
       </motion.header>

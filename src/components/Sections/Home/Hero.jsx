@@ -63,11 +63,11 @@ const Hero = () => {
             variants={ITEM_VARIANTS.scaleIn}
             className="flex flex-col md:flex-row gap-6 justify-center sm:px-6"
           >
-            <Button variant="outline" onClick={() => scrollToSection('contact')}>
+            <Button variant="default" onClick={() => scrollToSection('contact')}>
               Contact Me
             </Button>
             
-            <Button variant="primary" onClick={() => scrollToSection('projects')}>
+            <Button variant="default" onClick={() => scrollToSection('projects')}>
               View Projects
             </Button>
           </motion.div>
