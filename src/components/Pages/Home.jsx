@@ -9,8 +9,8 @@ const Home = () => {
     return (
         <main role="main" id="main-content">
             <Hero />
-            <Skills />
             <Projects />
+            <Skills />
             <Timeline />
             <Education />
             <Contact />

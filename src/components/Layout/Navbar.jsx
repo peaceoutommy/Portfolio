@@ -9,8 +9,8 @@ import { useNavbarScroll } from '../../hooks/useNavbarScroll';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const NAV_ITEMS = [
-  { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
   { id: 'timeline', label: 'Experience' },
   { id: 'contact', label: 'Contact' }
 ];

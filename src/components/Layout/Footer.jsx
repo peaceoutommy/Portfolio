@@ -8,8 +8,8 @@ import Icons from './../ui/Icons';
 
 const SOCIAL_LINKS = [
   { icon: "GitHub", url: "https://github.com/peaceoutommy", label: "GitHub" },
-  { icon: "Linkedin", url: "https://www.linkedin.com/in/tomaslopess", label: "LinkedIn" },
-  { icon: "Mail", url: "mailto:tomas.29.work@gmail.com", label: "Email" }
+  { icon: "LinkedIn", url: "https://www.linkedin.com/in/tomaslopess", label: "LinkedIn" },
+  { icon: "Email", url: "mailto:tomas.29.work@gmail.com", label: "Email" }
 ];
 
 const Footer = () => {
