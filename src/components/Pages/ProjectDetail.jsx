@@ -11,7 +11,7 @@ import Button from '../ui/Button';
 import Loading from '../ui/Loading';
 import Carousel from '../ui/Carousel';
 import ViewMore from '../ui/ViewMore';
-import Challenges from '../Sections/ProjectDetails/Challenges';
+import MainTakeaways from '../Sections/ProjectDetails/MainTakeaways';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -21,8 +21,6 @@ const ProjectDetail = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [projectImages, setProjectImages] = useState([]);
   const [expandedDescription, setExpandedDescription] = useState(false);
-  const [activeProcessStep, setActiveProcessStep] = useState(0);
-  const [expandedChallenges, setExpandedChallenges] = useState({});
 
   const { handleMouseEnter, handleMouseLeave, isHovered } = useHoverState();
 
@@ -61,41 +59,6 @@ const ProjectDetail = () => {
     }, 100);
   };
 
-  const toggleChallengeExpansion = (index) => {
-    setExpandedChallenges(prev => ({
-      ...prev,
-      [index]: !prev[index]
-    }));
-  };
-
-  const developmentSteps = [
-    {
-      title: "Planning & Research",
-      description: "Extensive research to understand requirements and identify the best technologies to use.",
-      icon: "Search",
-      details: "This included analyzing similar solutions and defining the scope of work."
-    },
-    {
-      title: "Design & Prototyping",
-      description: "Creating wireframes and interactive prototypes to visualize the user interface.",
-      icon: "Palette",
-      details: "This iterative process helped refine the design before any code was written."
-    },
-    {
-      title: "Development",
-      description: "Structured development approach with regular code reviews and testing.",
-      icon: "Code",
-      details: "The front-end was built using React with Tailwind CSS for styling, while the back-end utilized relevant technologies."
-    },
-    {
-      title: "Testing & Deployment",
-      description: "Rigorous testing ensured all features worked as expected across different environments.",
-      icon: "CheckCircle",
-      details: "After thorough quality assurance, the project was deployed to production with monitoring tools in place."
-    }
-  ];
-
-  // ✅ FIXED: Use standardized Loading component
   if (loading) {
     return <Loading text="Loading Project..." fullScreen />;
   }
@@ -154,7 +117,6 @@ const ProjectDetail = () => {
           </div>
 
           <div className="flex gap-4">
-            {/* ✅ FIXED: Use standardized Button component instead of custom implementation */}
             {project.github && project.github !== null && project.github !== "#" ? (
               <Button
                 as="a"
@@ -334,12 +296,9 @@ const ProjectDetail = () => {
           animate="visible"
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          {/* Challenges & Solutions Component */}
-          <Challenges
-            challenges={project.challenges}
-            solutions={project.solutions}
-            expandedChallenges={expandedChallenges}
-            onToggleExpansion={toggleChallengeExpansion}
+          {/* Main Takeaways Component */}
+          <MainTakeaways
+            takeaways={project.takeaways}
           />
         </motion.div>
       </div>

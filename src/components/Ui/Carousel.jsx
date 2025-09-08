@@ -62,13 +62,15 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
         </div>
       </Card>
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 gap-1">
         {images.map((_, index) => (
-          <Button
+          <button
             key={index}
-            size="sm"
-            variant={activeImageIndex === index ? "active" : "default"}
-            className={`mx-1 h-1 rounded-full transition-all duration-200 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
+            className={`h-1 rounded-full transition-all duration-500 ${
+              activeImageIndex === index 
+                ? "w-6 bg-[var(--highlight-color)]" 
+                : "w-3 bg-white/15 hover:bg-white/25"
+            }`}
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
