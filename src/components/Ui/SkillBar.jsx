@@ -26,7 +26,7 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
     >
       <div className="flex justify-between mb-2">
         <div className="flex items-center gap-2">
-          <GlowText intensity={isHighlighted ? "low" : "none"} className="text-sm flex items-center">
+          <GlowText intensity={isHighlighted ? "low" : "none"} className="text-base flex items-center">
             <Icons name={skill.name} />
           </GlowText>
 

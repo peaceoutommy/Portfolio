@@ -48,7 +48,7 @@ const TimelineEvent = ({
                   <p className="text-base">{company}</p>
                   <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
                 </div>
-                <span className="text-sm md:text-base">{description}</span>
+                <span className="text-base">{description}</span>
               </motion.div>
             </GlowContainer>
           </div>
@@ -77,7 +77,7 @@ const TimelineEvent = ({
                   <p className="text-base">{company}</p>
                   <span className="text-xs md:text-sm text-white/50 whitespace-nowrap">{period}</span>
                 </div>
-                <span className="text-sm md:text-base">{description}</span>
+                <span className="text-base">{description}</span>
               </motion.div>
             </GlowContainer>
           </div>

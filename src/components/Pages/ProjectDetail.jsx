@@ -281,7 +281,7 @@ const ProjectDetail = () => {
                     <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
                       <Icons name="CheckCircle" />
                     </GlowText>
-                    <span className="text-base text-sm">{feature}</span>
+                    <span className="text-base">{feature}</span>
                   </motion.div>
                 )))}
             </Card>

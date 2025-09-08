@@ -46,7 +46,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center flex flex-col">
-        <GlowText className="md:text-sm text-xs">
+        <GlowText className="text-base">
           © {new Date().getFullYear()} Tomás Lopes
         </GlowText>
         <GlowText className="mt-2 md:text-xs text-[10px] opacity-70" intensity="low">

@@ -154,7 +154,7 @@ const Toast = ({
               
               {/* Message */}
               <div className="flex-1 ml-2">
-                <p className="text-white text-sm leading-5 font-mono">
+                <p className="text-white text-base leading-5 font-mono">
                   {message}
                 </p>
               </div>

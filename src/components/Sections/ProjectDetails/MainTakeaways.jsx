@@ -4,7 +4,6 @@ import { useHoverState } from '../../../hooks/useHoverState';
 import { CARD_VARIANTS } from '../../../constants/animations';
 import Card from '../../ui/Card';
 import GlowText from '../../ui/GlowText';
-import Icons from '../../ui/Icons';
 
 const MainTakeaways = ({ takeaways }) => {
     const { handleMouseEnter, handleMouseLeave, isHovered } = useHoverState();
@@ -43,7 +42,7 @@ const MainTakeaways = ({ takeaways }) => {
                             transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
 
-                            <p className="text-sm leading-relaxed text-white/90">
+                            <p className="text-base leading-relaxed text-white/90">
                                 {takeaway}
                             </p>
 
