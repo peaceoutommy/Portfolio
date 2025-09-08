@@ -120,7 +120,7 @@ const Navbar = () => {
       {/* Desktop Header */}
       <motion.header
         className={`w-full py-4 px-4 sm:px-8 fixed top-0 z-50 
-                    transition-all duration-300
+                    transition-all duration-200
                     ${isAtTop ? 'bg-black/30' : 'bg-black/70'} 
                     backdrop-blur-sm neon-border`}
         initial={{ y: 0 }}

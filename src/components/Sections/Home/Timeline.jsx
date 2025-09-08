@@ -53,7 +53,7 @@ const Timeline = () => {
 
             {/* ✅ PERFORMANCE: Animated progress fill with memoized styles */}
             <div
-              className="absolute left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-300 z-10 top-0"
+              className="absolute left-1/2 transform -translate-x-1/2 w-1.5 transition-all duration-200 z-10 top-0"
               style={progressBarStyle}
               aria-hidden="true"
             />

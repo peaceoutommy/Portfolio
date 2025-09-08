@@ -59,7 +59,7 @@ const Contact = () => {
     }
   };
 
-  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-300";
+  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 hover:border-white/30 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-200";
   const labelStyles = "block mb-2";
   const isFormValid = name.trim() && email.trim() && message.trim();
 

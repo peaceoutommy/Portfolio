@@ -22,7 +22,7 @@ const Button = forwardRef(({
   const isDisabled = disabled || loading;
 
   // Styling configuration
-  const baseClasses = "inline-flex items-center justify-center rounded-lg border-2 text-[var(--highlight-color)] transition-all duration-300 relative overflow-hidden group font-medium focus:outline-none focus:ring-2 focus:ring-[var(--highlight-color)]/50 focus:ring-offset-2 focus:ring-offset-black";
+  const baseClasses = "inline-flex items-center justify-center rounded-lg border-2 text-[var(--highlight-color)] transition-all duration-200 relative overflow-hidden group font-medium focus:outline-none focus:ring-2 focus:ring-[var(--highlight-color)]/50 focus:ring-offset-2 focus:ring-offset-black";
   
   const variants = {
     default: "border-white/20 hover:border-white/30 focus:border-[var(--highlight-color)]",
@@ -82,7 +82,7 @@ const Button = forwardRef(({
         
         {/* Glow effect on hover */}
         <span 
-          className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           style={{
             boxShadow: '0 0 20px rgba(var(--highlight-rgb), 0.3)'
           }}

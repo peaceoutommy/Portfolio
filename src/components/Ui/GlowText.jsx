@@ -20,7 +20,7 @@ const GlowText = ({
   ...props 
 }) => {
   // Base classes for all glow text
-  const baseClasses = "text-[var(--highlight-color)] transition-all duration-300";
+  const baseClasses = "text-[var(--highlight-color)] transition-all duration-200";
   
   // Shadow intensities
   const glowIntensities = {

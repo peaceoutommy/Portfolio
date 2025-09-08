@@ -123,7 +123,7 @@ const Toast = ({
         >
           <div 
             className={`glass rounded-lg overflow-hidden backdrop-blur-md max-w-md 
-              transform transition-all duration-300 hover:scale-[1.02] 
+              transform transition-all duration-200 hover:scale-[1.02] 
               ${toastStyles[type].border} ${toastStyles[type].shadow}
               relative overflow-hidden`}
           >
@@ -163,7 +163,7 @@ const Toast = ({
               <Button
                 onClick={() => setIsVisible(false)}
                 size="sm"
-                className="flex-shrink-0 ml-4 text-base hover:text-white transition-colors duration-300 focus:outline-none"
+                className="flex-shrink-0 ml-4 text-base hover:text-white transition-colors duration-200 focus:outline-none"
                 aria-label="Close"
               >
                 <i className="fas fa-times text-sm"></i>

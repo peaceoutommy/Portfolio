@@ -10,7 +10,7 @@ import GlowText from './GlowText';
 const NavLink = ({ href, children, onClick, isMobile = false, active = false }) => (
   <li>
     <div
-      className={`transition-all duration-300 cursor-pointer ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
+      className={`transition-all duration-200 cursor-pointer ${isMobile ? 'text-base' : 'text-sm sm:text-base lg:text-lg'} ${active ? 'font-bold' : ''}`}
       to={`/${href}`}
       onClick={onClick}
     >

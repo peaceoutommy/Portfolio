@@ -106,7 +106,7 @@ const ProjectCard = ({
                 {project.tags.map((tag, tagIndex) => (
                   <span
                     key={tagIndex}
-                    className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-300"
+                    className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-200"
                     style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
                   >
                     <GlowText intensity="low">{tag}</GlowText>

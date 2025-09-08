@@ -68,7 +68,7 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
             key={index}
             size="sm"
             variant={activeImageIndex === index ? "active" : "default"}
-            className={`mx-1 h-1 rounded-full transition-all duration-300 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
+            className={`mx-1 h-1 rounded-full transition-all duration-200 ${activeImageIndex === index ? "w-6 bg-[var(--highlight-color)]" : "w-3 bg-gray-500" }`}
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
           />

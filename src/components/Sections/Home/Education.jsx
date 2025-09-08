@@ -26,7 +26,7 @@ const Education = () => {
                         {education.map((item, i) => (
                             <motion.div
                                 key={i}
-                                className='flex flex-col transition-all duration-300 w-full md:w-1/3 mb-8 tokenomic-container'
+                                className='flex flex-col transition-all duration-200 w-full md:w-1/3 mb-8 tokenomic-container'
                                 variants={ITEM_VARIANTS.scaleIn}
                             >
                                 <motion.div
