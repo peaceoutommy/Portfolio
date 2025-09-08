@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GetProject } from '../../data/projectsData';
+import { useHoverState } from '../../hooks/useHoverState';
+import { CARD_VARIANTS, ITEM_VARIANTS } from '../../constants/animations';
 import GlowText from '../ui/GlowText';
 import Card from '../ui/Card';
 import Icons from '../ui/Icons';
+import Button from '../ui/Button';
+import Loading from '../ui/Loading';
 import Carousel from '../ui/Carousel';
 import ViewMore from '../ui/ViewMore';
-import Challenges from '../Sections/ProjectDetails/Challenges';
+import MainTakeaways from '../Sections/ProjectDetails/MainTakeaways';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
@@ -17,11 +21,8 @@ const ProjectDetail = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [projectImages, setProjectImages] = useState([]);
   const [expandedDescription, setExpandedDescription] = useState(false);
-  const [activeProcessStep, setActiveProcessStep] = useState(0);
-  const [expandedChallenges, setExpandedChallenges] = useState({});
 
-  // Add hover state management
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const { handleMouseEnter, handleMouseLeave, isHovered } = useHoverState();
 
   useEffect(() => {
     const selectedProject = GetProject(projectId);
@@ -43,6 +44,11 @@ const ProjectDetail = () => {
     setLoading(false);
   }, [projectId, navigate]);
 
+  // Scroll to top when component mounts or projectId changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
   const handleBackClick = () => {
     navigate('/');
     setTimeout(() => {
@@ -53,93 +59,9 @@ const ProjectDetail = () => {
     }, 100);
   };
 
-  const toggleChallengeExpansion = (index) => {
-    setExpandedChallenges(prev => ({
-      ...prev,
-      [index]: !prev[index]
-    }));
-  };
-
-  // Hover handlers
-  const handleMouseEnter = (cardId) => {
-    setHoveredCard(cardId);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCard(null);
-  };
-
-  // Animation variants for card hover effects (matching ProjectCard behavior)
-  const cardVariants = {
-    active: {
-      y: -5,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-        duration: 0.4
-      }
-    },
-    inactive: {
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 25,
-        duration: 0.4
-      }
-    }
-  };
-
-  const developmentSteps = [
-    {
-      title: "Planning & Research",
-      description: "Extensive research to understand requirements and identify the best technologies to use.",
-      icon: "Search",
-      details: "This included analyzing similar solutions and defining the scope of work."
-    },
-    {
-      title: "Design & Prototyping",
-      description: "Creating wireframes and interactive prototypes to visualize the user interface.",
-      icon: "Palette",
-      details: "This iterative process helped refine the design before any code was written."
-    },
-    {
-      title: "Development",
-      description: "Structured development approach with regular code reviews and testing.",
-      icon: "Code",
-      details: "The front-end was built using React with Tailwind CSS for styling, while the back-end utilized relevant technologies."
-    },
-    {
-      title: "Testing & Deployment",
-      description: "Rigorous testing ensured all features worked as expected across different environments.",
-      icon: "CheckCircle",
-      details: "After thorough quality assurance, the project was deployed to production with monitoring tools in place."
-    }
-  ];
-
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0.2, 1, 0.2],
-            scale: [0.98, 1.02, 0.98]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <GlowText intensity="high" className="text-xl">
-            Loading Project...
-          </GlowText>
-        </motion.div>
-      </div>
-    );
-  };
+    return <Loading text="Loading Project..." fullScreen />;
+  }
 
   if (!project) {
     return null;
@@ -148,27 +70,30 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen pt-20 pb-16 mx-auto">
       {/* Back Button */}
-      <motion.button
-        onClick={handleBackClick}
-        className="self-start mb-8 py-2"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
+      <motion.div
+        variants={ITEM_VARIANTS.fadeInUp}
+        initial="hidden"
+        animate="visible"
         transition={{ duration: 0.3 }}
-        whileHover={{ x: -5, transition: { duration: 0.2 } }}
+        className="mb-8"
       >
-        <GlowText hover intensity="medium">
-          <div className="flex items-center gap-2">
-            <Icons name="ChevronLeft" />
-            <span>Back</span>
-          </div>
-        </GlowText>
-      </motion.button>
+        <Button
+          variant="default"
+          size="sm"
+          onClick={handleBackClick}
+          className="flex items-center gap-2"
+        >
+          <Icons name="ChevronLeft" />
+          <span>Back</span>
+        </Button>
+      </motion.div>
 
       {/* Project header */}
       <motion.div
         className="w-full mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={ITEM_VARIANTS.fadeInUp}
+        initial="hidden"
+        animate="visible"
         transition={{ duration: 0.4 }}
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -193,55 +118,53 @@ const ProjectDetail = () => {
 
           <div className="flex gap-4">
             {project.github && project.github !== null && project.github !== "#" ? (
-              <motion.a
+              <Button
+                as="a"
                 href={project.github}
-                className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GlowText hover intensity="medium">
-                  <div className='flex items-center gap-2'>
-                    <Icons name="GitHub" />
-                    <span>Code</span>
-                  </div>
-                </GlowText>
-              </motion.a>
-            ) : (
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
+                variant="default"
+                size="sm"
+                className="flex items-center gap-2"
               >
                 <Icons name="GitHub" />
                 <span>Code</span>
-              </button>
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                disabled
+                className="flex items-center gap-2"
+              >
+                <Icons name="GitHub" />
+                <span>Code</span>
+              </Button>
             )}
 
             {project.link && project.link !== null && project.link !== "#" ? (
-              <motion.a
+              <Button
+                as="a"
                 href={project.link}
-                className="px-4 py-2 rounded-lg border transition-all duration-300 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GlowText hover intensity="medium">
-                  <div className='flex items-center gap-2'>
-                    <Icons name='ExternalLink' />
-                    <span>Live Demo</span>
-                  </div>
-                </GlowText>
-              </motion.a>
-            ) : (
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
-                disabled
+                variant="default"
+                size="sm"
+                className="flex items-center gap-2"
               >
                 <Icons name='ExternalLink' />
                 <span>Live Demo</span>
-              </button>
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                disabled
+                className="flex items-center gap-2"
+              >
+                <Icons name='ExternalLink' />
+                <span>Live Demo</span>
+              </Button>
             )}
           </div>
         </div>
@@ -258,29 +181,30 @@ const ProjectDetail = () => {
         {/* Main Content - 8 columns on large screens */}
         <motion.div
           className="lg:col-span-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={ITEM_VARIANTS.fadeInUp}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           {/* Project Overview - Expandable Card */}
           <motion.div
-            variants={cardVariants}
+            variants={CARD_VARIANTS.hover}
             initial="inactive"
-            animate={hoveredCard === 'overview' ? "active" : "inactive"}
+            animate={isHovered('overview') ? "active" : "inactive"}
           >
             <Card
               className="p-6 mb-8"
-              isActive={hoveredCard === 'overview'}
-              intensity={hoveredCard === 'overview' ? 'medium' : 'none'}
+              isActive={isHovered('overview')}
+              intensity={isHovered('overview') ? 'medium' : 'none'}
               onMouseEnter={() => handleMouseEnter('overview')}
               onMouseLeave={handleMouseLeave}
             >
-              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'overview' ? "medium" : "low"}>
+              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('overview') ? "medium" : "low"}>
                 Project Overview
               </GlowText>
 
               <motion.div
-                className="text-white/80"
+                className="text-base"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
@@ -319,7 +243,7 @@ const ProjectDetail = () => {
                       isExpanded={expandedDescription}
                       onClick={() => setExpandedDescription(!expandedDescription)}
                       expandedText="Show Less"
-                      collapsedText={"View more"}
+                      collapsedText={"Show more"}
                       intensity="medium"
                       ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}
                     />
@@ -331,18 +255,18 @@ const ProjectDetail = () => {
 
           {/* Key Features */}
           <motion.div
-            variants={cardVariants}
+            variants={CARD_VARIANTS.hover}
             initial="inactive"
-            animate={hoveredCard === 'features' ? "active" : "inactive"}
+            animate={isHovered('features') ? "active" : "inactive"}
           >
             <Card
               className="p-6 mb-8"
-              isActive={hoveredCard === 'features'}
-              intensity={hoveredCard === 'features' ? 'medium' : 'none'}
+              isActive={isHovered('features')}
+              intensity={isHovered('features') ? 'medium' : 'none'}
               onMouseEnter={() => handleMouseEnter('features')}
               onMouseLeave={handleMouseLeave}
             >
-              <GlowText as="h2" className="text-xl mb-4" intensity={hoveredCard === 'features' ? "medium" : "low"}>
+              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('features') ? "medium" : "low"}>
                 Key Features
               </GlowText>
 
@@ -353,102 +277,28 @@ const ProjectDetail = () => {
                     className="flex gap-3 p-3 rounded-lg"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
                   >
-                    <GlowText intensity={hoveredCard === 'features' ? 'medium' : 'low'}>
+                    <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
                       <Icons name="CheckCircle" />
                     </GlowText>
-                    <span className="text-white/80 text-sm">{feature}</span>
+                    <span className="text-base">{feature}</span>
                   </motion.div>
                 )))}
             </Card>
           </motion.div>
-
-          {/* Development Process - Interactive Timeline */}
-          <motion.div
-            variants={cardVariants}
-            initial="inactive"
-            animate={hoveredCard === 'process' ? "active" : "inactive"}
-          >
-            <Card
-              className="p-6 mb-8"
-              isActive={hoveredCard === 'process'}
-              intensity={hoveredCard === 'process' ? 'medium' : 'none'}
-              onMouseEnter={() => handleMouseEnter('process')}
-              onMouseLeave={handleMouseLeave}
-            >
-              <GlowText as="h2" className="text-xl mb-6" intensity={hoveredCard === 'process' ? "medium" : "low"}>
-                Development Process
-              </GlowText>
-              <motion.div
-                className="space-y-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                {developmentSteps.map((step, index) => (
-                  <motion.div
-                    key={index}
-                    className={`relative p-4 rounded-lg border transition-all duration-300 cursor-pointer ${activeProcessStep === index
-                      ? 'border-[var(--highlight-color)]/50 bg-[var(--highlight-color)]/5'
-                      : 'border-[var(--highlight-color)]/20 hover:border-[var(--highlight-color)]/40'
-                      }`}
-                    onClick={() => setActiveProcessStep(activeProcessStep === index ? -1 : index)}
-                    whileHover={{ scale: 1.01 }}
-                    layoutId={`process-${index}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg ${activeProcessStep === index
-                        ? 'bg-[var(--highlight-color)]/20'
-                        : 'bg-[var(--highlight-color)]/10'
-                        }`}>
-                        <Icons name={step.icon} />
-                      </div>
-                      <div className="flex-1">
-                        <GlowText as="h3" className="text-lg mb-1" intensity={hoveredCard === 'process' ? "medium" : "low"}>
-                          {index + 1}. {step.title}
-                        </GlowText>
-                        <p className="text-white/70 text-sm">{step.description}</p>
-                      </div>
-                      <motion.div
-                        animate={{ rotate: activeProcessStep === index ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Icons name="ChevronDown" />
-                      </motion.div>
-                    </div>
-                    <AnimatePresence>
-                      {activeProcessStep === index && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden mt-4 pt-4 border-t border-[var(--highlight-color)]/20"
-                        >
-                          <p className="text-white/80 text-sm">{step.details}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </Card>
-          </motion.div>
         </motion.div>
 
+        {/* Sidebar */}
         <motion.div
           className="lg:col-span-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={ITEM_VARIANTS.fadeInUp}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          {/* Challenges & Solutions Component */}
-          <Challenges
-            challenges={project.challenges}
-            solutions={project.solutions}
-            expandedChallenges={expandedChallenges}
-            onToggleExpansion={toggleChallengeExpansion}
+          {/* Main Takeaways Component */}
+          <MainTakeaways
+            takeaways={project.takeaways}
           />
         </motion.div>
       </div>

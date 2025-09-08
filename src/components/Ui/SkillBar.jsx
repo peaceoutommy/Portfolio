@@ -26,20 +26,19 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
     >
       <div className="flex justify-between mb-2">
         <div className="flex items-center gap-2">
-          <GlowText intensity={isHighlighted ? "low" : "none"} className="text-sm flex items-center">
+          <GlowText intensity={isHighlighted ? "low" : "none"} className="text-base flex items-center">
             <Icons name={skill.name} />
           </GlowText>
 
           <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.name}</GlowText>
         </div>
 
-        <GlowText intensity={isHighlighted ? "low" : "none"}>{skill.level}%</GlowText>
       </div>
-      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
+      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/20">
         <motion.div
           className="h-full rounded-full relative"
           style={{
-            background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(var(--highlight-rgb), 1) 100%)`,
+            background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(255, 255, 255, 0.8) 100%)`,
             boxShadow: 'var(--box-shadow-sm)'
           }}
           initial={{ width: 0 }}
@@ -50,10 +49,6 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
             ease: [0.4, 0, 0.2, 1]
           }}
         >
-          {/* Animated particles within the bar */}
-          <div className="absolute top-0 right-0 h-full w-8 overflow-hidden">
-            <div className="absolute inset-0"></div>
-          </div>
         </motion.div>
       </div>
     </motion.div>

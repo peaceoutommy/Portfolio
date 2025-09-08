@@ -2,41 +2,50 @@ import SectionTitle from '../../ui/SectionTitle';
 import { motion } from 'framer-motion';
 import AnimatedSection from '../../ui/AnimatedSection';
 import GlowText from '../../ui/GlowText';
+import { CONTAINER_VARIANTS, ITEM_VARIANTS, CARD_VARIANTS } from '../../../constants/animations';
 
 const Education = () => {
     const education = [
         { Title: "Fontys University", description: "Bachelors in Software Engineering" },
-        { Title: "Citeforma", description: "ICT - Software development course" },
+        { Title: "Citeforma", description: "ICT - Software development" },
+        { Title: "Placeholder", description: "Needed to be filled" }
     ];
 
     return (
-        <AnimatedSection id="education">
+        <AnimatedSection id="education" variant="stagger">
             {(inView) => (
                 <>
                     <SectionTitle title="Education" inView={inView} />
 
-                    <div className="flex flex-col md:flex-row w-full mt-16 text-center gap-8">
+                    <motion.div
+                        className="flex flex-col md:flex-row w-full mt-16 text-center gap-8"
+                        variants={CONTAINER_VARIANTS.grid}
+                        initial="hidden"
+                        animate={inView ? "visible" : "hidden"}
+                    >
                         {education.map((item, i) => (
                             <motion.div
                                 key={i}
-                                className='flex flex-col transition-all duration-300 w-full md:w-1/3 mb-8 tokenomic-container'
+                                className='flex flex-col transition-all duration-200 w-full md:w-1/3 mb-8 tokenomic-container'
+                                variants={ITEM_VARIANTS.scaleIn}
                             >
                                 <motion.div
-                                    transition={{ duration: 0.3 }}
-                                    whileHover={{ y: -5, x: 5 }}
                                     className='flex w-full h-full justify-between flex-col'
+                                    variants={CARD_VARIANTS.hover}
+                                    whileHover="active"
+                                    initial="inactive"
                                 >
-                                    <GlowText as="h3" className="text-xl text-white/70">
+                                    <GlowText className="text-xl">
                                         {item.Title}
                                     </GlowText>
-                                    <GlowText className="mt-4">
+                                    <span className="mt-4 text-base">
                                         {item.description}
-                                    </GlowText>
+                                    </span>
                                     <div className="parallelogram mt-8"></div>
                                 </motion.div>
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </>
             )}
         </AnimatedSection>

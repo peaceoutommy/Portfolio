@@ -14,6 +14,7 @@ const Card = forwardRef(({
   whileHover = { y: -5, intensity:'medium'},
   isActive = false,
   intensity,
+  style,
   ...props 
 }, ref) => {
   return (
@@ -24,10 +25,7 @@ const Card = forwardRef(({
       onClick={onClick}
       isActive={isActive}
       intensity={intensity}
-      style={{
-        transition: "all 0.6s cubic-bezier(0.19, 1, 0.22, 1)",
-        ...props.style
-      }}
+      style={style}
       {...props}
     >
       {children}

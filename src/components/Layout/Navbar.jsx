@@ -1,16 +1,16 @@
-// src/components/Navbar.jsx
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeColorButton from './../Ui/ThemeColorButton';
-import NavLink from './../Ui/Navlink';
-import GlowText from './../Ui/GlowText';
-import { useScrollToSection } from './../../hooks/useScrollToSection';
-import { useNavbarScroll } from './../../hooks/useNavbarScroll';
-import { Link, useNavigate } from 'react-router-dom';
+import ThemeColorButton from '../ui/ThemeColorButton';
+import NavLink from '../ui/NavLink';
+import GlowText from '../ui/GlowText';
+import Button from '../ui/Button';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
+import { useNavbarScroll } from '../../hooks/useNavbarScroll';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const NAV_ITEMS = [
-  { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
   { id: 'timeline', label: 'Experience' },
   { id: 'contact', label: 'Contact' }
 ];
@@ -19,6 +19,10 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const navigate = useNavigate();
+  const location = useLocation(); // Add this to track current route
+
+  // Check if we're on the home page
+  const isHomePage = location.pathname === '/';
 
   // Use our simplified navbar scroll hook
   const { isVisible, isAtTop } = useNavbarScroll();
@@ -29,18 +33,6 @@ const Navbar = () => {
   }, []);
 
   // Handle navigation
-  // const handleNavClick = useCallback((id) => {
-  //   scrollToSection(id, {
-  //     onComplete: () => {
-  //       // Close mobile menu after scrolling completes
-  //       if (isMenuOpen) {
-  //         setTimeout(() => setIsMenuOpen(false), 300);
-  //       }
-  //       setActiveSection(id);
-  //     }
-  //   });
-  // }, [isMenuOpen, scrollToSection]);
-
   const handleNavClick = (id) => {
     navigate('/');
     // Scroll to projects section after a short delay
@@ -52,8 +44,14 @@ const Navbar = () => {
     }, 100);
   };
 
-  // Update active section based on scroll position
+  // Update active section based on scroll position - ONLY when on home page
   useEffect(() => {
+    // Don't track active sections if not on home page
+    if (!isHomePage) {
+      setActiveSection('');
+      return;
+    }
+
     const handleScroll = () => {
       const sections = NAV_ITEMS.map(item => item.id);
 
@@ -80,7 +78,7 @@ const Navbar = () => {
     handleScroll(); // Initialize
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]); // Add isHomePage as dependency
 
   // Close menu on window resize (when switching to desktop view)
   useEffect(() => {
@@ -122,7 +120,7 @@ const Navbar = () => {
       {/* Desktop Header */}
       <motion.header
         className={`w-full py-4 px-4 sm:px-8 fixed top-0 z-50 
-                    transition-all duration-300
+                    transition-all duration-200
                     ${isAtTop ? 'bg-black/30' : 'bg-black/70'} 
                     backdrop-blur-sm neon-border`}
         initial={{ y: 0 }}
@@ -150,7 +148,7 @@ const Navbar = () => {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={() => handleNavClick(item.id)}
-                  active={activeSection === item.id}
+                  active={isHomePage && activeSection === item.id} 
                 >
                   {item.label}
                 </NavLink>
@@ -164,9 +162,10 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <ThemeColorButton />
 
-            <button
+            <Button
               id="menu-toggle"
               onClick={toggleMenu}
+              size="sm"
               className="ml-4 p-2 focus:outline-none"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
@@ -197,7 +196,7 @@ const Navbar = () => {
                   className="w-6 h-0.5 bg-[var(--highlight-color)] block origin-center"
                 />
               </motion.div>
-            </button>
+            </Button>
           </div>
         </div>
       </motion.header>
@@ -224,7 +223,7 @@ const Navbar = () => {
                   key={item.id}
                   href={`#${item.id}`}
                   isMobile={true}
-                  active={activeSection === item.id}
+                  active={isHomePage && activeSection === item.id}
                   onClick={() => handleNavClick(item.id)}
                 >
                   {item.label}

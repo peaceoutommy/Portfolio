@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import SectionTitle from '../../ui/SectionTitle';
 import Button from '../../ui/Button';
 import AnimatedSection from '../../ui/AnimatedSection';
 import GlowText from '../../ui/GlowText';
 import { useToast, ToastPositions } from '../../../hooks/useToast';
+import { TOAST_CONFIG } from '../../../constants';
+import { CONTAINER_VARIANTS, ITEM_VARIANTS } from '../../../constants/animations';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -15,14 +18,12 @@ const Contact = () => {
   const templateId = import.meta.env.VITE_MAILER_TEMPLATE_ID;
   const publicKey = import.meta.env.VITE_MAILER_PUBLIC_KEY;
   
-  // Use the refactored toast hook with position and duration options
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
     emailjs.init(publicKey);
   }, [publicKey]);
 
-  // Using object shorthand for handlers
   const handleChange = {
     name: (e) => setName(e.target.value),
     email: (e) => setEmail(e.target.value),
@@ -34,51 +35,51 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Validate configuration
       if (!serviceId || !templateId || !publicKey) {
         throw new Error('Missing required EmailJS configuration values');
       }
 
-      // Send email
-      await emailjs.send(
-        serviceId,
-        templateId,
-        { name, email, message },
-        publicKey
-      );
+      await emailjs.send(serviceId, templateId, { name, email, message }, publicKey);
 
       showSuccess('Message sent successfully!', {
         position: ToastPositions.TOP_RIGHT,
-        duration: 4000
+        duration: TOAST_CONFIG.SUCCESS_DURATION
       });
 
-      // Reset form
       setName('');
       setEmail('');
       setMessage('');
     } catch (error) {
       showError(`Failed to send message: ${error.message || 'Please try again later'}`, {
         position: ToastPositions.TOP_RIGHT,
-        duration: 4000 
+        duration: TOAST_CONFIG.ERROR_DURATION
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Input styles - standardized
-  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-300";
+  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 hover:border-white/30 rounded-lg focus:border-[var(--highlight-color)] text-white transition-all duration-200";
   const labelStyles = "block mb-2";
+  const isFormValid = name.trim() && email.trim() && message.trim();
 
   return (
-    <AnimatedSection id="contact">
+    <AnimatedSection id="contact" variant="fade">
       {(inView) => (
         <>
           <SectionTitle title="Get In Touch" inView={inView} />
 
-          <div className="max-w-4xl w-full mx-auto mb-8">
+          <motion.div 
+            className="max-w-4xl w-full mx-auto mb-8"
+            variants={CONTAINER_VARIANTS.stagger}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
             <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                variants={ITEM_VARIANTS.fadeInUp}
+              >
                 <div>
                   <label htmlFor="name" className={labelStyles}>
                     <GlowText>Name</GlowText>
@@ -111,9 +112,9 @@ const Contact = () => {
                     aria-required="true"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div>
+              <motion.div variants={ITEM_VARIANTS.fadeInUp}>
                 <label htmlFor="message" className={labelStyles}>
                   <GlowText>Message</GlowText>
                 </label>
@@ -128,20 +129,21 @@ const Contact = () => {
                   required
                   aria-required="true"
                 ></textarea>
-              </div>
+              </motion.div>
 
-              <div>
+              <motion.div variants={ITEM_VARIANTS.scaleIn}>
                 <Button
                   type="submit"
-                  primary
-                  disabled={isSubmitting}
+                  variant="default"
+                  loading={isSubmitting}
+                  disabled={!isFormValid}
                   aria-label={isSubmitting ? "Sending message..." : "Send message"}
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  Send Message
                 </Button>
-              </div>
+              </motion.div>
             </form>
-          </div>
+          </motion.div>
         </>
       )}
     </AnimatedSection>

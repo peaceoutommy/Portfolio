@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from './Button';
 
 /**
  * Toast notification component with cyberpunk styling using Tailwind
@@ -122,7 +123,7 @@ const Toast = ({
         >
           <div 
             className={`glass rounded-lg overflow-hidden backdrop-blur-md max-w-md 
-              transform transition-all duration-300 hover:scale-[1.02] 
+              transform transition-all duration-200 hover:scale-[1.02] 
               ${toastStyles[type].border} ${toastStyles[type].shadow}
               relative overflow-hidden`}
           >
@@ -153,19 +154,20 @@ const Toast = ({
               
               {/* Message */}
               <div className="flex-1 ml-2">
-                <p className="text-white text-sm leading-5 font-mono">
+                <p className="text-white text-base leading-5 font-mono">
                   {message}
                 </p>
               </div>
               
               {/* Close button */}
-              <button
+              <Button
                 onClick={() => setIsVisible(false)}
-                className="flex-shrink-0 ml-4 text-white/70 hover:text-white transition-colors duration-300 focus:outline-none"
+                size="sm"
+                className="flex-shrink-0 ml-4 text-base hover:text-white transition-colors duration-200 focus:outline-none"
                 aria-label="Close"
               >
                 <i className="fas fa-times text-sm"></i>
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>

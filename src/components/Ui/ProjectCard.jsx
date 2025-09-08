@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Card from './Card';
 import GlowText from './GlowText';
 import Icons from './Icons';
+import Button from './Button';
 
 /**
  * ProjectCard - A standardized project card component for the portfolio
@@ -49,11 +50,11 @@ const ProjectCard = ({
   return (
     <motion.div
       className="h-full"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      // initial={{ opacity: 0, y: 20 }}
+      // animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+      // transition={{ duration: 0.3, delay: index * 0.1 }}
+      // onMouseEnter={onMouseEnter}
+      // onMouseLeave={onMouseLeave}
     >
       <Link to={`/project/${project.id}`}>
         <motion.div
@@ -99,13 +100,13 @@ const ProjectCard = ({
               <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "medium" : "low"}>
                 {project.title}
               </GlowText>
-              <p className="mb-4 text-white/80">{project.short}</p>
+              <p className="mb-4 text-base">{project.short}</p>
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag, tagIndex) => (
                   <span
                     key={tagIndex}
-                    className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-300"
+                    className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-200"
                     style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
                   >
                     <GlowText intensity="low">{tag}</GlowText>
@@ -115,59 +116,57 @@ const ProjectCard = ({
 
               <div className="flex gap-4 mt-auto">
                 {project.github && project.github !== null && project.github !== "#" ? (
-                  <a
+                  <Button
+                    as="a"
                     href={project.github}
-                    className="px-4 py-2 rounded-lg border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/10 text-sm"
+                    size="sm"
+                    variant="default"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View code for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="medium">
-                      <div className='flex items-center gap-2'>
-                        <Icons name="GitHub" />
-                        <span>Code</span>
-                      </div>
-                    </GlowText>
-                  </a>
+                    <Icons name="GitHub" />
+                    <span>Code</span>
+                  </Button>
                 ) : (
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                  <Button
+                    size="sm"
                     disabled
+                    className="text-gray-400"
                     aria-label="Code not available"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Icons name="GitHub" />
                     <span>Code</span>
-                  </button>
+                  </Button>
                 )}
 
                 {project.link && project.link !== null && project.link !== "#" ? (
-                  <a
+                  <Button
+                    as="a"
                     href={project.link}
-                    className="px-4 py-2 rounded-lg bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/50 transition-all duration-300 hover:bg-[var(--highlight-color)]/30 text-sm"
+                    size="sm"
+                    variant="default"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View live demo for ${project.title}`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <GlowText hover intensity="medium">
-                      <div className='flex items-center gap-2'>
-                        <Icons name='ExternalLink' />
-                        <span>Live Demo</span>
-                      </div>
-                    </GlowText>
-                  </a>
+                    <Icons name='ExternalLink' />
+                    <span>Live Demo</span>
+                  </Button>
                 ) : (
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-500/50 text-gray-400 text-sm cursor-not-allowed opacity-60"
+                  <Button
+                    size="sm"
                     disabled
+                    className="text-gray-400"
                     aria-label="Live demo not available"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Icons name='ExternalLink' />
                     <span>Live Demo</span>
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>

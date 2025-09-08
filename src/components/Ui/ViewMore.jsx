@@ -33,7 +33,7 @@ const ViewMore = ({
       role="button"
       tabIndex={disabled ? -1 : 0}
       aria-label={ariaLabel || (isExpanded ? expandedText : collapsedText)}
-      whileHover={disabled ? {} : { scale: 1.05 }}
+      whileHover={disabled ? {} : { y: -5 }}
       whileTap={disabled ? {} : { scale: 0.95 }}
       transition={{ duration: 0.3 }}
     >

@@ -6,18 +6,16 @@ import Education from "../sections/home/Education"
 import Contact from "../sections/home/Contact"
 
 const Home = () => {
-
     return (
-        <>
+        <main role="main" id="main-content">
             <Hero />
-            <Skills />
             <Projects />
+            <Skills />
             <Timeline />
             <Education />
             <Contact />
-        </>
+        </main>
     )
 }
 
 export default Home
-

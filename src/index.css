@@ -9,18 +9,17 @@
     /* Add standard shadow intensities */
     --text-shadow-sm: 0 0 2px var(--highlight-color);
     --text-shadow-md: 0 0 2px var(--highlight-color), 0 0 4px var(--highlight-color);
-    --text-shadow-lg: 0 0 4px var(--highlight-color), 0 0 8px var(--highlight-color), 0 0 12px var(--highlight-color);
-    
+    --text-shadow-lg: 0 0 3px var(--highlight-color), 0 0 6px var(--highlight-color), 0 0 8px var(--highlight-color);
+
     /* Add box shadow standards */
     --box-shadow-sm: 0 0 5px rgba(var(--highlight-rgb), 0.1);
     --box-shadow-md: 0 0 10px rgba(var(--highlight-rgb), 0.3);
-    --box-shadow-lg: 0 0 15px rgba(var(--highlight-rgb), 0.5), 0 0 30px rgba(var(--highlight-rgb), 0.2);
-    
+
     /* Animation timing */
     --transition-fast: 200ms;
     --transition-normal: 300ms;
     --transition-slow: 500ms;
-    
+
     /* Standard cubic bezier */
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -36,13 +35,17 @@
 
   input,
   textarea {
-    @apply focus:outline-none transition-all duration-300;
+    @apply focus:outline-none transition-all duration-200;
     box-shadow: var(--box-shadow-sm);
   }
 
   input:focus,
   textarea:focus {
     box-shadow: var(--box-shadow-md);
+  }
+
+  .text-base {
+    @apply text-white/90;
   }
 
   /* Scrollbar styling */
@@ -68,69 +71,24 @@
 
 /* Component styles */
 @layer components {
+
   /* Typography styles */
   .text-shadow-sm {
     text-shadow: var(--text-shadow-sm);
   }
-  
+
   .text-shadow-md {
     text-shadow: var(--text-shadow-md);
   }
-  
+
   .text-shadow-lg {
     text-shadow: var(--text-shadow-lg);
-  }
-  
-  /* Legacy classes for backwards compatibility */
-  .neon-text {
-    @apply text-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
-    text-shadow: var(--text-shadow-md);
-    letter-spacing: 1px;
-  }
-
-  .neon-text-hover {
-    @apply neon-text;
-    transition: text-shadow 0.3s var(--ease-standard), color 0.3s var(--ease-standard);
-  }
-
-  .neon-text-hover:hover {
-    text-shadow: var(--text-shadow-lg);
-  }
-
-  .neon-title {
-    @apply text-[var(--highlight-color)];
-    text-shadow: var(--text-shadow-lg);
-    animation: flicker 5s infinite;
   }
 
   /* Border effects */
   .neon-border {
-    @apply border-t-2 border-b-2 border-[var(--highlight-color)] transition-colors duration-300 ease-in-out;
+    @apply border-t-2 border-b-2 border-[var(--highlight-color)] transition-colors duration-200 ease-in-out;
     box-shadow: var(--box-shadow-sm);
-  }
-
-  /* Glass effect */
-  .glass {
-    @apply bg-black/40 backdrop-blur-md rounded-lg;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(var(--highlight-rgb), 0.1);
-  }
-
-  /* Background effects */
-  .neon-background {
-    @apply fixed top-0 left-0 w-full h-full overflow-hidden -z-10;
-  }
-
-  .neon-blur {
-    @apply absolute rounded-full;
-    background: rgba(var(--highlight-rgb), 0.2);
-    filter: blur(50px);
-    animation: pulse 8s infinite cubic-bezier(0.4, 0, 0.2, 1),
-      float 15s infinite cubic-bezier(0.4, 0, 0.2, 1);
-    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.5);
-    animation-delay: var(--animation-delay, 0ms);
-    will-change: transform, opacity;
   }
 
   /* Hero section */
@@ -154,26 +112,16 @@
     opacity: 0.9;
   }
 
-  /* Skill bar effects */
-  .skill-bar {
-    @apply h-2 rounded-full overflow-hidden bg-white/10;
-  }
-
-  .skill-progress {
-    @apply h-full bg-[var(--highlight-color)] rounded-full;
-    box-shadow: var(--box-shadow-sm);
-    transition: width 1s ease-out;
-  }
-
   /* Education */
   .parallelogram {
-    @apply bg-white w-full h-6 md:h-8 transition-all duration-300 brightness-75;
+    @apply w-full h-6 md:h-8 transition-all duration-200 brightness-75;
     box-shadow: var(--text-shadow-sm);
     transform: skew(-24deg);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 50%, rgba(var(--highlight-rgb), 0.7) 100%);
   }
 
   .tokenomic-container:hover .parallelogram {
-    @apply brightness-90;
+    @apply brightness-100;
     box-shadow: var(--text-shadow-md);
   }
 
@@ -249,6 +197,7 @@
   }
 
   @keyframes blink {
+
     from,
     to {
       opacity: 1;
@@ -260,6 +209,7 @@
   }
 
   @keyframes flicker {
+
     0%,
     18%,
     22%,
@@ -287,6 +237,7 @@
   }
 
   @keyframes float-particle {
+
     0%,
     100% {
       transform: translateY(0) translateX(0);
@@ -306,6 +257,7 @@
   }
 
   @keyframes skill-sparkle-animation {
+
     0%,
     100% {
       background-position: 0% 0%;
@@ -333,6 +285,7 @@
     0% {
       left: -100%;
     }
+
     100% {
       left: 150%;
     }
@@ -365,24 +318,32 @@
 }
 
 @keyframes pixel-pulse-first {
-  0%, 50%, 100% {
+
+  0%,
+  50%,
+  100% {
     opacity: 0.1;
     filter: drop-shadow(0 0 1px var(--highlight-color));
   }
-  
-  15%, 35% {
+
+  15%,
+  35% {
     opacity: 1;
     filter: drop-shadow(0 0 3px var(--highlight-color));
   }
 }
 
 @keyframes pixel-pulse-second {
-  0%, 50%, 100% {
+
+  0%,
+  50%,
+  100% {
     opacity: 0.1;
     filter: drop-shadow(0 0 1px var(--highlight-color));
   }
-  
-  65%, 85% {
+
+  65%,
+  85% {
     opacity: 1;
     filter: drop-shadow(0 0 3px var(--highlight-color));
   }

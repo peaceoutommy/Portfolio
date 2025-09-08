@@ -20,7 +20,7 @@ const GlowText = ({
   ...props 
 }) => {
   // Base classes for all glow text
-  const baseClasses = "text-[var(--highlight-color)] transition-all duration-300";
+  const baseClasses = "text-[var(--highlight-color)] transition-all duration-200";
   
   // Shadow intensities
   const glowIntensities = {
@@ -31,7 +31,7 @@ const GlowText = ({
   };
   
   // Add hover effect if requested
-  const hoverClasses = hover ? "hover:text-shadow-lg" : "";
+  const hoverClasses = hover ? "hover:text-shadow-md" : "";
   
   return (
     <Component 
