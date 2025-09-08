@@ -1,5 +1,5 @@
 // src/components/sections/Timeline.jsx - HIGHLY OPTIMIZED VERSION
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useScrollProgress } from '../../../hooks/useScrollProgress';
 import { useActiveTimelineItem } from '../../../hooks/useActiveTimelineItem';
 import AnimatedSection from '../../ui/AnimatedSection';

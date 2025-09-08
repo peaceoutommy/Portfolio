@@ -6,7 +6,6 @@ import { SECTION_VARIANTS, ITEM_VARIANTS } from '../../../constants/animations';
 import Particles from '../../Particles';
 import Button from '../../ui/Button';
 import GlowText from '../../ui/GlowText';
-import AnimatedSection from '../../ui/AnimatedSection';
 
 const Hero = () => {
   const containerRef = useRef(null);
