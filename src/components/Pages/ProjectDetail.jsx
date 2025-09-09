@@ -186,6 +186,40 @@ const ProjectDetail = () => {
           animate="visible"
           transition={{ duration: 0.4, delay: 0.2 }}
         >
+          {/* Key Features */}
+          <motion.div
+            variants={CARD_VARIANTS.hover}
+            initial="inactive"
+            animate={isHovered('features') ? "active" : "inactive"}
+          >
+            <Card
+              className="p-6 mb-8"
+              isActive={isHovered('features')}
+              intensity={isHovered('features') ? 'medium' : 'none'}
+              onMouseEnter={() => handleMouseEnter('features')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('features') ? "medium" : "low"}>
+                Key Features
+              </GlowText>
+
+              {project.keyFeatures && project.keyFeatures.length > 0 && (
+                project.keyFeatures.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex gap-3 p-3 rounded-lg"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                  >
+                    <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
+                      <Icons name="CheckCircle" />
+                    </GlowText>
+                    <span className="text-base">{feature}</span>
+                  </motion.div>
+                )))}
+            </Card>
+          </motion.div>
+
           {/* Project Overview - Expandable Card */}
           <motion.div
             variants={CARD_VARIANTS.hover}
@@ -250,40 +284,6 @@ const ProjectDetail = () => {
                   </div>
                 )}
               </motion.div>
-            </Card>
-          </motion.div>
-
-          {/* Key Features */}
-          <motion.div
-            variants={CARD_VARIANTS.hover}
-            initial="inactive"
-            animate={isHovered('features') ? "active" : "inactive"}
-          >
-            <Card
-              className="p-6 mb-8"
-              isActive={isHovered('features')}
-              intensity={isHovered('features') ? 'medium' : 'none'}
-              onMouseEnter={() => handleMouseEnter('features')}
-              onMouseLeave={handleMouseLeave}
-            >
-              <GlowText as="h2" className="text-xl mb-4" intensity={isHovered('features') ? "medium" : "low"}>
-                Key Features
-              </GlowText>
-
-              {project.keyFeatures && project.keyFeatures.length > 0 && (
-                project.keyFeatures.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex gap-3 p-3 rounded-lg"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                  >
-                    <GlowText intensity={isHovered('features') ? 'medium' : 'low'}>
-                      <Icons name="CheckCircle" />
-                    </GlowText>
-                    <span className="text-base">{feature}</span>
-                  </motion.div>
-                )))}
             </Card>
           </motion.div>
         </motion.div>

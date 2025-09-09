@@ -27,11 +27,10 @@ const PROJECTS = [
             "Stored the images on a cloud, implemented lazy loading and a skeleton placeholder."
         ],
         takeaways: [
-            "WebSockets are essential for real-time applications to maintain performance while providing live updates.",
-            "Cloud storage and lazy loading significantly improve user experience by reducing initial load times.",
-            "White-labeling requires careful architecture planning to ensure flexibility without compromising performance.",
-            "Collaborative development with Agile methodology improves code quality and project delivery.",
-            "Unit testing with xUnit and Moq is crucial for maintaining code reliability in complex applications."
+            "WebSockets are essential for real-time applications.",
+            "Cloud storage and lazy loading significantly improve initial load times.",
+            "White-labeling requires careful architecture planning.",
+            "Unit testing with xUnit and Moq is crucial for maintaining code reliability."
         ],
         tags: ["Blazor", "C#", ".NET", "Cloudinary API", "Stripe API"],
         cover: "./bbcustomer/cover.png",
