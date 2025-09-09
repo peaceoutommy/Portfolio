@@ -9,7 +9,7 @@ import Card from '../ui/Card';
 import Icons from '../ui/Icons';
 import Button from '../ui/Button';
 import Loading from '../ui/Loading';
-import Carousel from '../ui/Carousel';
+import Carousel from '../Sections/ProjectDetails/Carousel';
 import ViewMore from '../ui/ViewMore';
 import MainTakeaways from '../Sections/ProjectDetails/MainTakeaways';
 
@@ -75,7 +75,7 @@ const ProjectDetail = () => {
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.3 }}
-        className="mb-8"
+        className="mb-8 mt-8 sm:mt-0"
       >
         <Button
           variant="default"
@@ -135,7 +135,7 @@ const ProjectDetail = () => {
                 variant="default"
                 size="sm"
                 disabled
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-gray-400"
               >
                 <Icons name="GitHub" />
                 <span>Code</span>
@@ -160,7 +160,7 @@ const ProjectDetail = () => {
                 variant="default"
                 size="sm"
                 disabled
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-gray-400"
               >
                 <Icons name='ExternalLink' />
                 <span>Live Demo</span>
