@@ -60,19 +60,9 @@ const PROJECTS = [
             "Table creation with auto-generated and printable QR codes",
             "Kitchen dashboard with real-time order monitoring and status updates"
         ],
-        challenges: [
-            "Complex ingredient-dish relationships for stock tracking",
-            "Maintaining real-time synchronization across multiple devices (admin, kitchen, customer)"
-        ],
-        solutions: [
-            "Implemented a relational structure linking dishes to ingredients with quantity ratios",
-            "Used WebSockets for real-time updates and state transitions across dashboards"
-        ],
         takeaways: [
-            "Relational data modeling is crucial for complex inventory management systems.",
-            "Real-time synchronization across multiple interfaces requires careful state management.",
-            "QR code integration can significantly improve user experience in restaurant environments.",
-            "Automated stock tracking reduces manual errors and improves operational efficiency.",
+            "Relational data modeling is required for complex inventory management systems.",
+            "QR code integration improves user experience in restaurant environments.",
             "Desktop-first design for admin interfaces improves productivity for restaurant staff."
         ],
         tags: ["Blazor", "C#", ".NET", "Cloudinary API", "Stripe API", "WebSockets"],
@@ -91,6 +81,19 @@ const PROJECTS = [
         id: 3,
         title: "Dionamite",
         short: "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
+        description: [
+            "Dionamite's website is built using ReactJs, TailwindCSS, and Motion.",
+            "It describes the services, portfolio, testimonials and showcases the team in the company and allows users to contact the company.",
+        ],
+        keyFeatures: [
+            "Modern, responsive platform showcasing services and portfolio with integrated contact functionality.",
+            "It describes the services, portfolio, testimonials of the company and allows users to contact the company.",
+        ],
+        takeaways: [
+            "ReactJs is a powerful framework for building modern web applications.",
+            "TailwindCSS is a powerful framework for building modern web applications.",
+            "Motion is a powerful framework for building modern web applications.",
+        ],
         tags: ["ReactJs", "TailwindCSS", "Motion"],
         cover: "./dionamite.png",
         link: "https://dionamite.com/",
