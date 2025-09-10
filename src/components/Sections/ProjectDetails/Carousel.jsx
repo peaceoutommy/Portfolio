@@ -137,7 +137,7 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
     >
       <Card
         intensity="none"
-        className="p-0 overflow-hidden"
+        className="p-0 overflow-hidden border-none"
         whileHover={{}} // Disable Card's default hover effect by passing empty object
       >
         <div
