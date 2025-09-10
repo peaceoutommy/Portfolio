@@ -48,7 +48,7 @@ const ViewMore = ({
         animate={{ rotate: isExpanded ? 180 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <div className="chevron-first mb-2">
+        <div className="chevron-first">
           <PixelChevron />
         </div>
         <div className="chevron-second">

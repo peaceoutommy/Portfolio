@@ -57,7 +57,7 @@ const ThemeColorButton = () => {
       >
         <Button
           size="sm"
-          className="p-2 relative group border-none shadow-none"
+          className="p-2 relative group border-none drop-shadow-none shadow-none"
           onClick={toggleDropdown}
           aria-label="Change theme color"
           aria-expanded={isOpen}

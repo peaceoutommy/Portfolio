@@ -34,7 +34,7 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
         </div>
 
       </div>
-      <div className="w-full h-3 bg-white/5 overflow-hidden border border-white/20"
+      <div className="w-full h-3 bg-white/10 overflow-hidden border border-white/20 rounded-sm"
       style={{
         transform: 'skew(-24deg)',
       }}

@@ -71,7 +71,7 @@ const ProjectCard = ({
           >
             <div className="relative overflow-hidden w-full">
               {/* Apply specific rounded corners only to the top of the image container */}
-              <div className="relative aspect-video overflow-hidden rounded-t-lg">
+              <div className="relative aspect-video overflow-hidden rounded-t-sm">
                 <motion.img
                   src={project.cover}
                   alt={project.title}
