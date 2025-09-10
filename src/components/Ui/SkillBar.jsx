@@ -34,12 +34,16 @@ const SkillBar = ({ skill, index, isHighlighted = false }) => {
         </div>
 
       </div>
-      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/20">
+      <div className="w-full h-3 bg-white/5 overflow-hidden border border-white/20"
+      style={{
+        transform: 'skew(-24deg)',
+      }}
+      >
         <motion.div
-          className="h-full rounded-full relative"
+          className="h-full relative"
           style={{
             background: `linear-gradient(90deg, rgba(var(--highlight-rgb), 0.7) 0%, rgba(255, 255, 255, 0.8) 100%)`,
-            boxShadow: 'var(--box-shadow-sm)'
+            boxShadow: 'var(--box-shadow-sm)',
           }}
           initial={{ width: 0 }}
           animate={{ width: `${skill.level}%` }}

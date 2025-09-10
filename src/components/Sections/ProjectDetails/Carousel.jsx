@@ -187,10 +187,13 @@ const Carousel = ({ images, activeImageIndex, setActiveImageIndex }) => {
         {images.map((_, index) => (
           <button
             key={index}
-            className={`h-1 rounded-full transition-all duration-500 ${activeImageIndex === index
+            className={`h-1 transition-all duration-500 ${activeImageIndex === index
               ? "w-6 bg-[var(--highlight-color)]"
               : "w-3 bg-white/15 hover:bg-white/25"
               }`}
+              style={{
+                transform: "skew(-24deg)",
+              }}
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
