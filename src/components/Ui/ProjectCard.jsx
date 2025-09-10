@@ -50,11 +50,11 @@ const ProjectCard = ({
   return (
     <motion.div
       className="h-full"
-      // initial={{ opacity: 0, y: 20 }}
-      // animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-      // transition={{ duration: 0.3, delay: index * 0.1 }}
-      // onMouseEnter={onMouseEnter}
-      // onMouseLeave={onMouseLeave}
+    // initial={{ opacity: 0, y: 20 }}
+    // animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+    // transition={{ duration: 0.3, delay: index * 0.1 }}
+    // onMouseEnter={onMouseEnter}
+    // onMouseLeave={onMouseLeave}
     >
       <Link to={`/project/${project.id}`}>
         <motion.div
@@ -104,13 +104,17 @@ const ProjectCard = ({
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag, tagIndex) => (
-                  <span
+                  <div
                     key={tagIndex}
-                    className="px-3 py-1 rounded-full text-xs bg-[var(--highlight-color)]/20 border border-[var(--highlight-color)]/30 transition-all duration-200"
-                    style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
+                    className="px-3 py-1 text-xs border border-[var(--highlight-color)] transition-all duration-200"
+                    style={{
+                      transform: 'skew(-24deg)',
+                    }}
                   >
-                    <GlowText intensity="low">{tag}</GlowText>
-                  </span>
+                    <div style={{ transform: 'skew(24deg)' }}>
+                      <GlowText hover intensity="low">{tag}</GlowText>
+                    </div>
+                  </div>
                 ))}
               </div>
 
