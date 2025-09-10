@@ -122,7 +122,7 @@ const Toast = ({
           }}
         >
           <div 
-            className={`glass rounded-lg overflow-hidden backdrop-blur-md max-w-md 
+            className={`glass rounded-md overflow-hidden backdrop-blur-md max-w-md 
               transform transition-all duration-200 hover:scale-[1.02] 
               ${toastStyles[type].border} ${toastStyles[type].shadow}
               relative overflow-hidden`}

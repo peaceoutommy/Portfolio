@@ -71,7 +71,7 @@ const Toast = ({ message, type, onClose, duration = 3000, position = ToastPositi
         x: position.includes('right') ? 20 : position.includes('left') ? -20 : 0, 
         y: position.includes('top') ? -20 : position.includes('bottom') ? 20 : 0 
       }}
-      className={`rounded-lg border-2 shadow-lg p-4 w-72 backdrop-blur-md ${getBgColor()}`}
+      className={`rounded-md border-2 shadow-lg p-4 w-72 backdrop-blur-md ${getBgColor()}`}
       style={{
         boxShadow: 'var(--box-shadow-md)'
       }}

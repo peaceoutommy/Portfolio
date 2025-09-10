@@ -78,7 +78,7 @@ const GlowContainer = forwardRef(({
   return (
     <motion.div
       ref={ref}
-      className={`bg-white/5 backdrop-blur-[30px] rounded-lg border-2 z-10 ${className}`}
+      className={`bg-white/5 backdrop-blur-[30px] rounded-md border-2 z-10 ${className}`}
       whileHover={enhancedWhileHover}
       onClick={onClick}
       variants={containerVariants}

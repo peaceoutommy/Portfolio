@@ -72,7 +72,7 @@ const ThemeColorButton = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 py-2 w-36 bg-black/90 backdrop-blur-md rounded-lg z-50"
+            className="absolute right-0 mt-2 py-2 w-36 bg-black/90 backdrop-blur-md rounded-md z-50"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

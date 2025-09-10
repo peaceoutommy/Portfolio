@@ -106,11 +106,12 @@ const ProjectDetail = () => {
               {project.tags.map((tag, tagIndex) => (
                 <motion.span
                   key={tagIndex}
-                  className="px-3 py-1 rounded-full text-xs border border-[var(--highlight-color)]/30"
-                  whileHover={{ scale: 1.05 }}
-                  style={{ borderColor: 'rgba(var(--highlight-rgb), 0.3)' }}
+                  className="px-3 py-1 text-xs border border-[var(--highlight-color)] rounded-sm"
+                  style={{ transform: 'skew(-24deg)' }}
                 >
-                  <GlowText intensity="low">{tag}</GlowText>
+                  <div style={{ transform: 'skew(24deg)' }}>
+                    <GlowText hover intensity="low">{tag}</GlowText>
+                  </div>
                 </motion.span>
               ))}
             </div>
@@ -207,7 +208,7 @@ const ProjectDetail = () => {
                 project.keyFeatures.map((feature, index) => (
                   <motion.div
                     key={index}
-                    className="flex gap-3 p-3 rounded-lg"
+                    className="flex gap-3 p-3 rounded-md"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                   >
