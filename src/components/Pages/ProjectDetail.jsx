@@ -277,7 +277,7 @@ const ProjectDetail = () => {
                     <ViewMore
                       isExpanded={expandedDescription}
                       onClick={() => setExpandedDescription(!expandedDescription)}
-                      expandedText="Show Less"
+                      expandedText="Show less"
                       collapsedText={"Show more"}
                       intensity="medium"
                       ariaLabel={expandedDescription ? "Collapse project description" : "Expand project description"}

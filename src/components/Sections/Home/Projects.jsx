@@ -189,9 +189,9 @@ const Projects = () => {
               <ViewMore
                 isExpanded={showAllProjects}
                 onClick={toggleShowAllProjects}
-                expandedText="View less"
-                collapsedText="View more"
-                ariaLabel={showAllProjects ? "View less projects" : "View more projects"}
+                expandedText="Show less"
+                collapsedText="Show more"
+                ariaLabel={showAllProjects ? "Show less projects" : "Show more projects"}
               />
             </motion.div>
           )}

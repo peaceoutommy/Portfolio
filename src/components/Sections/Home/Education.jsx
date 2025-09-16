@@ -3,12 +3,15 @@ import { motion } from 'framer-motion';
 import AnimatedSection from '../../ui/AnimatedSection';
 import GlowText from '../../ui/GlowText';
 import { CONTAINER_VARIANTS, ITEM_VARIANTS, CARD_VARIANTS } from '../../../constants/animations';
+import { useState } from 'react';
 
 const Education = () => {
+    const [hoveredItem, setHoveredItem] = useState(null);
+    
     const education = [
-        { Title: "Fontys University", description: "Bachelors in Software Engineering" },
-        { Title: "Citeforma", description: "ICT - Software development" },
-        { Title: "Placeholder", description: "Needed to be filled" }
+        { Title: "Fontys University", description: "Bachelor's in Software Engineering" },
+        { Title: "Citeforma", description: "Minor in Software development" },
+        { Title: "EBSC", description: "High School in Science and Technology" }
     ];
 
     return (
@@ -28,6 +31,8 @@ const Education = () => {
                                 key={i}
                                 className='flex flex-col transition-all duration-200 w-full md:w-1/3 mb-8 tokenomic-container'
                                 variants={ITEM_VARIANTS.scaleIn}
+                                onMouseEnter={() => setHoveredItem(i)}
+                                onMouseLeave={() => setHoveredItem(null)}
                             >
                                 <motion.div
                                     className='flex w-full h-full justify-between flex-col'
@@ -35,7 +40,8 @@ const Education = () => {
                                     whileHover="active"
                                     initial="inactive"
                                 >
-                                    <GlowText className="text-xl">
+                                    
+                                    <GlowText intensity={hoveredItem === i ? 'medium' : 'low'} className="text-xl">
                                         {item.Title}
                                     </GlowText>
                                     <span className="mt-4 text-base">
