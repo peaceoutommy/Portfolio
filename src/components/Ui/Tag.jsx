@@ -19,6 +19,7 @@ const Tag = ({
     px-3 py-1 text-xs
     transition-all
     duration-200
+    select-none
     ease-in-out
     relative
     overflow-hidden
@@ -29,7 +30,13 @@ const Tag = ({
   return (
     <motion.div
       className={baseClasses}
-      style={{ transform: 'skew(-24deg)' }}
+      style={{ 
+        transform: 'skew(-24deg)',
+        willChange: 'transform',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        WebkitFontSmoothing: 'antialiased'
+      }}
       whileHover="hover"
       initial="initial"
       variants={{
@@ -38,28 +45,56 @@ const Tag = ({
       }}
       {...props}
     >
-      {/* Border overlay - highlight color by default, gradient on hover */}
+      {/* Base border - solid highlight color */}
+      <div
+        className="absolute inset-0 rounded-sm"
+        style={{
+          padding: '1px',
+          background: 'var(--highlight-color)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
+        }}
+      />
+      
+      {/* Gradient border overlay - fades in on hover */}
       <motion.div
         className="absolute inset-0 rounded-sm"
         style={{
           padding: '1px',
+          background: 'linear-gradient(90deg, var(--highlight-color) 0%, rgba(255, 255, 255, 0.8) 100%)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
-          maskComposite: 'exclude'
+          maskComposite: 'exclude',
+          willChange: 'opacity',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
         }}
         variants={{
-          initial: { background: 'var(--highlight-color)' },
-          hover: { background: 'linear-gradient(90deg, var(--highlight-color) 0%, rgba(255, 255, 255, 0.8) 100%)' }
+          initial: { 
+            opacity: 0 
+          },
+          hover: { 
+            opacity: 1 
+          }
         }}
-        transition={{ duration: 0.2 }}
+        transition={{ 
+          duration: 0.2,
+          ease: "easeInOut"
+        }}
       />
       
       {/* Content with highlight color text */}
       <div 
-        className="relative z-10 text-[var(--highlight-color)]"
+        className="relative z-10"
         style={{ 
           transform: 'skew(24deg)',
-          color: 'var(--highlight-color)'
+          color: 'var(--highlight-color)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          WebkitFontSmoothing: 'antialiased'
         }}
       >
         {children}
