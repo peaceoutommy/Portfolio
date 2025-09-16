@@ -9,6 +9,7 @@ import Card from '../ui/Card';
 import Icons from '../ui/Icons';
 import Button from '../ui/Button';
 import Loading from '../ui/Loading';
+import Tag from '../ui/Tag';
 import Carousel from '../Sections/ProjectDetails/Carousel';
 import ViewMore from '../ui/ViewMore';
 import MainTakeaways from '../Sections/ProjectDetails/MainTakeaways';
@@ -104,15 +105,9 @@ const ProjectDetail = () => {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {project.tags.map((tag, tagIndex) => (
-                <motion.span
-                  key={tagIndex}
-                  className="px-3 py-1 text-xs border border-[var(--highlight-color)] rounded-sm"
-                  style={{ transform: 'skew(-24deg)' }}
-                >
-                  <div style={{ transform: 'skew(24deg)' }}>
-                    <GlowText hover intensity="low">{tag}</GlowText>
-                  </div>
-                </motion.span>
+                <Tag key={tagIndex} size="sm">
+                  {tag}
+                </Tag>
               ))}
             </div>
           </div>

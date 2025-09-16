@@ -6,6 +6,7 @@ import Card from './Card';
 import GlowText from './GlowText';
 import Icons from './Icons';
 import Button from './Button';
+import Tag from './Tag';
 
 /**
  * ProjectCard - A standardized project card component for the portfolio
@@ -104,17 +105,9 @@ const ProjectCard = ({
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map((tag, tagIndex) => (
-                  <div
-                    key={tagIndex}
-                    className="px-3 py-1 text-xs border border-[var(--highlight-color)] transition-all duration-200"
-                    style={{
-                      transform: 'skew(-24deg)',
-                    }}
-                  >
-                    <div style={{ transform: 'skew(24deg)' }}>
-                      <GlowText hover intensity="low">{tag}</GlowText>
-                    </div>
-                  </div>
+                  <Tag key={tagIndex} size="sm">
+                    {tag}
+                  </Tag>
                 ))}
               </div>
 
