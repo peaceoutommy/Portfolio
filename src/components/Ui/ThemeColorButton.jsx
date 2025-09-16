@@ -56,6 +56,7 @@ const ThemeColorButton = () => {
   const handleCustomColorApply = useCallback((color) => {
     const rgbValue = hexToRgb(color);
     changeColor(rgbValue);
+    setCustomColor(color); // Update the custom color state
     setIsOpen(false);
     setShowCustomPicker(false);
   }, [hexToRgb, changeColor]);
@@ -95,7 +96,7 @@ const ThemeColorButton = () => {
       >
         <Button
           size="sm"
-          className="p-2 relative group border-none drop-shadow-none shadow-none"
+          className="p-2 relative group border-none drop-shadow-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0"
           onClick={toggleDropdown}
           aria-label="Change theme color"
           aria-expanded={isOpen}
@@ -124,11 +125,12 @@ const ThemeColorButton = () => {
               <motion.div
                 key={index}
                 whileHover={{ x: 3 }}
+                className='w-full'
               >
                 <Button
                   variant={color.value === currentTheme ? "active" : "default"}
                   size="sm"
-                  className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none"
+                  className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0"
                   onClick={() => handleColorSelect(color.value)}
                   style={{
                     textShadow: color.value === currentTheme
@@ -147,15 +149,13 @@ const ThemeColorButton = () => {
               </motion.div>
             ))}
 
-            {/* Divider */}
-            <div className="border-t border-gray-600/30 my-2"></div>
 
             {/* Custom color option */}
-            <motion.div whileHover={{ x: 3 }}>
+            <motion.div whileHover={{ x: 3 }} className='w-full'>
               <Button
                 variant={isCustomColor() ? "active" : "default"}
                 size="sm"
-                className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none"
+                className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0"
                 onClick={() => setShowCustomPicker(!showCustomPicker)}
                 style={{
                   textShadow: isCustomColor()
@@ -166,15 +166,20 @@ const ThemeColorButton = () => {
                 <span
                   className={`h-3 w-3 rounded-full flex items-center justify-center`}
                   style={{ 
-                    background: isCustomColor() ? `rgb(${currentTheme})` : 'transparent',
+                    background: isCustomColor() ? `rgb(${currentTheme})` : '#000000',
                     border: isCustomColor() ? 'none' : '1px solid #666',
                     boxShadow: isCustomColor() ? `0 0 4px rgb(${currentTheme})` : 'none'
                   }}
                 >
                   {!isCustomColor() && <FaPlus size={8} className="text-gray-400" />}
                 </span>
-                <GlowText intensity={isCustomColor() ? "medium" : "none"}>
-                  {isCustomColor() ? 'Custom' : 'Custom Color'}
+                <GlowText 
+                  intensity={isCustomColor() ? "medium" : "none"}
+                  style={{
+                    color: isCustomColor() ? `rgb(${currentTheme})` : 'var(--highlight-color)'
+                  }}
+                >
+                  Custom Color
                 </GlowText>
               </Button>
             </motion.div>
@@ -189,7 +194,7 @@ const ThemeColorButton = () => {
                 transition={{ duration: 0.2 }}
               >
                 <CustomColorPicker
-                  key="custom-color-picker"
+                  key={`custom-color-picker-${customColor}`}
                   initialColor={customColor}
                   onApply={handleCustomColorApply}
                   onCancel={handleCustomColorCancel}
