@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Hero from "../sections/home/hero"
 import Skills from "../sections/home/Skills"
 import Projects from "../sections/home/Projects"
@@ -6,6 +7,10 @@ import Education from "../sections/home/Education"
 import Contact from "../sections/home/Contact"
 
 const Home = () => {
+    useEffect(() => {
+        document.title = "peaceoutommy - Portfolio";
+    }, []);
+
     return (
         <main role="main" id="main-content">
             <Hero />
