@@ -119,7 +119,7 @@ const Skills = () => {
           <SectionTitle title="Skills" inView={inView} />
 
           <motion.div
-            className="flex flex-wrap justify-center mb-12 gap-0 md:gap-4"
+            className="flex flex-wrap justify-center mb-12 gap-2 md:gap-4"
             variants={CONTAINER_VARIANTS.grid}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
