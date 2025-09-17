@@ -236,7 +236,7 @@ const CustomColorPicker = ({
             <div className="mb-3">
                 <div
                     ref={colorAreaRef}
-                    className="w-full h-24 rounded-lg cursor-crosshair relative overflow-hidden border border-gray-600/30"
+                    className="w-full h-24 rounded-lg cursor-crosshair relative overflow-hidden"
                     style={{
                         background: `linear-gradient(to right, 
               hsl(${hue}, 0%, 50%) 0%, 

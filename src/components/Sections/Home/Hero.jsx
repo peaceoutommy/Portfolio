@@ -78,8 +78,9 @@ const Hero = () => {
       />
 
       {/* Main content container */}
-      <div className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 w-full px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           {/* Left side - Text content */}
           <motion.div
@@ -198,7 +199,8 @@ const Hero = () => {
                 </div>
               </div>
             </motion.div>
-          </motion.div>
+           </motion.div>
+          </div>
         </div>
       </div>
     </section>
