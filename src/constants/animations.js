@@ -95,12 +95,10 @@ export const CARD_VARIANTS = {
   hover: {
     active: {
       y: -5,
-      boxShadow: "0 8px 40px rgba(var(--highlight-color-rgb), 0.3)",
       transition: EASINGS.spring
     },
     inactive: {
       y: 0,
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
       transition: EASINGS.springGentle
     }
   },

@@ -22,6 +22,9 @@ const Footer = () => {
     <motion.footer
       ref={ref}
       className="w-full p-4 flex flex-col justify-center items-center neon-border md:mt-32 mt-16"
+      style={{
+        backgroundColor: 'var(--bg-secondary)'
+      }}
       variants={ITEM_VARIANTS.fadeInUp}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}

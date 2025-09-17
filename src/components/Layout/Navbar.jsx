@@ -121,8 +121,10 @@ const Navbar = () => {
       <motion.header
         className={`w-full py-4 px-4 sm:px-8 fixed top-0 z-50 
                     transition-all duration-200
-                    ${isAtTop ? 'bg-black/30' : 'bg-black/70'} 
                     backdrop-blur-sm neon-border`}
+        style={{
+          backgroundColor: isAtTop ? 'var(--bg-secondary)' : 'var(--bg-tertiary)'
+        }}
         initial={{ y: 0 }}
         animate={{
           y: isVisible ? 0 : -100,
@@ -206,9 +208,10 @@ const Navbar = () => {
         {isMenuOpen && (
           <motion.nav
             id="mobile-menu"
-            className="fixed w-full top-[73px] z-40 backdrop-blur-[10px] bg-black/70 neon-border md:hidden"
+            className="fixed w-full top-[73px] z-40 backdrop-blur-[10px] neon-border md:hidden"
             style={{
               boxShadow: 'var(--box-shadow-md)',
+              backgroundColor: 'var(--bg-tertiary)',
               // Ensure the top edge of the menu is visible by adding a border
               borderTop: '1px solid var(--highlight-color)'
             }}

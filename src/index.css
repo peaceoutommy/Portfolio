@@ -22,6 +22,28 @@
 
     /* Standard cubic bezier */
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Light mode variables - subtle light backgrounds */
+    --bg-primary: #000000;
+    --bg-secondary: rgba(255, 255, 255, 0.05);
+    --bg-tertiary: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --border-primary: rgba(255, 255, 255, 0.2);
+    --border-secondary: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Light mode overrides */
+  .light-mode {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: rgba(0, 0, 0, 0.05);
+    --bg-tertiary: rgba(0, 0, 0, 0.1);
+    --text-primary: #1a1a1a;
+    --text-secondary: rgba(0, 0, 0, 0.8);
+    --text-muted: rgba(0, 0, 0, 0.6);
+    --border-primary: rgba(0, 0, 0, 0.2);
+    --border-secondary: rgba(0, 0, 0, 0.1);
   }
 
   html {
@@ -29,9 +51,13 @@
   }
 
   body {
-    @apply font-mono bg-black overflow-auto m-0 p-0 relative;
+    @apply font-mono overflow-auto m-0 p-0 relative;
     font-family: 'Press Start 2P', monospace;
     overflow-x: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color var(--transition-normal) var(--ease-standard), 
+                color var(--transition-normal) var(--ease-standard);
   }
 
   input,
@@ -46,7 +72,7 @@
   }
 
   .text-base {
-    @apply text-white/90;
+    color: var(--text-secondary);
   }
 
   /* Scrollbar styling */
@@ -55,7 +81,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-black;
+    background-color: var(--bg-primary);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -104,26 +130,15 @@
     box-shadow: 0 0 6px var(--highlight-color);
   }
 
-  /* Typewriter cursor effect */
-  .typing::after {
-    content: '|';
-    @apply text-[var(--highlight-color)];
-    animation: blink 0.75s step-end infinite;
-    font-weight: 700;
-    opacity: 0.9;
-  }
-
   /* Education */
   .parallelogram {
-    @apply w-full h-6 md:h-8 transition-all duration-200 brightness-75 rounded-md;
-    box-shadow: var(--text-shadow-sm);
+    @apply w-full h-6 md:h-8 transition-all duration-200 brightness-75 rounded-sm;
     transform: skew(-24deg);
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 50%, rgba(var(--highlight-rgb), 0.7) 100%);
   }
 
   .tokenomic-container:hover .parallelogram {
     @apply brightness-100;
-    box-shadow: var(--text-shadow-md);
   }
 
   .tokenomic-container {

@@ -41,7 +41,7 @@ const GlowContainer = forwardRef(({
   // Border color based on active state
   const borderColor = isActive 
     ? 'border-[var(--highlight-color)]' 
-    : 'border-white/20';
+    : 'border-[var(--border-primary)]';
     
   // Use extremely fast transitions for hover animations
   const transitionDuration = whileHover && whileHover.y ? 0.1 : 0.6;
@@ -58,7 +58,7 @@ const GlowContainer = forwardRef(({
     },
     inactive: {
       boxShadow: shadowIntensities[intensity].split(',')[0], // Get the first part of the shadow
-      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: 'var(--border-primary)',
       transition: { 
         duration: transitionDuration,
         ease: [0.19, 1, 0.22, 1]
@@ -78,16 +78,17 @@ const GlowContainer = forwardRef(({
   return (
     <motion.div
       ref={ref}
-      className={`bg-white/5 backdrop-blur-[30px] rounded-md border-2 z-10 ${className}`}
+      className={`backdrop-blur-[30px] rounded-md border-2 z-10 ${className}`}
+      style={{
+        backgroundColor: 'var(--bg-secondary)',
+        willChange: 'transform, box-shadow, border-color'
+      }}
       whileHover={enhancedWhileHover}
       onClick={onClick}
       variants={containerVariants}
       initial="inactive"
       animate={isActive ? "active" : "inactive"}
       transition={{ duration: transitionDuration }}
-      style={{
-        willChange: 'transform, box-shadow, border-color'
-      }}
       {...props}
     >
       {children}

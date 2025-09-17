@@ -111,14 +111,11 @@ const ThemeColorButton = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 py-2 w-64 bg-black/90 backdrop-blur-md rounded-md z-50"
+            className="absolute right-0 mt-2 py-2 w-64 backdrop-blur-md rounded-md z-50 bg-[var(--bg-primary)]"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            style={{
-              boxShadow: 'var(--box-shadow-md)'
-            }}
           >
             {/* Predefined colors */}
             {themeColors.map((color, index) => (
@@ -128,14 +125,21 @@ const ThemeColorButton = () => {
                 className='w-full'
               >
                 <button
-                  className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 hover:bg-white/5 border border-transparent'
-                  onClick={() => handleColorSelect(color.value)}
+                  className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 border border-transparent'
                   style={{
                     textShadow: color.value === currentTheme
                       ? 'var(--text-shadow-md)'
                       : 'none',
-                    color: 'var(--highlight-color)'
+                    color: 'var(--highlight-color)',
+                    backgroundColor: 'transparent'
                   }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = 'var(--bg-secondary)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'transparent';
+                  }}
+                  onClick={() => handleColorSelect(color.value)}
                 >
                   <span
                     className={`h-3 w-3 rounded-full inline-block`}
@@ -152,14 +156,21 @@ const ThemeColorButton = () => {
             {/* Custom color option */}
             <motion.div whileHover={{ x: 3 }} className='w-full'>
               <button
-                className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 hover:bg-white/5 border border-transparent'
-                onClick={() => setShowCustomPicker(!showCustomPicker)}
+                className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 border border-transparent'
                 style={{
                   textShadow: isCustomColor()
                     ? 'var(--text-shadow-md)'
                     : 'none',
-                  color: 'var(--highlight-color)'
+                  color: 'var(--highlight-color)',
+                  backgroundColor: 'transparent'
                 }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--bg-secondary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                }}
+                onClick={() => setShowCustomPicker(!showCustomPicker)}
               >
                 <span
                   className={`h-3 w-3 rounded-full flex items-center justify-center`}

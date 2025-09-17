@@ -59,7 +59,7 @@ const Contact = () => {
     }
   };
 
-  const inputStyles = "w-full p-3 bg-white/5 border-2 border-white/20 hover:border-white/30 rounded-md focus:border-[var(--highlight-color)] text-white transition-all duration-200";
+  const inputStyles = "w-full p-3 rounded-md border-2 transition-all duration-200";
   const labelStyles = "block mb-2";
   const isFormValid = name.trim() && email.trim() && message.trim();
 
@@ -91,6 +91,11 @@ const Contact = () => {
                     value={name}
                     onChange={handleChange.name}
                     className={inputStyles}
+                    style={{
+                      backgroundColor: 'var(--bg-secondary)',
+                      borderColor: 'var(--border-primary)',
+                      color: 'var(--text-primary)'
+                    }}
                     placeholder="Your Name"
                     required
                     aria-required="true"
@@ -107,6 +112,11 @@ const Contact = () => {
                     value={email}
                     onChange={handleChange.email}
                     className={inputStyles}
+                    style={{
+                      backgroundColor: 'var(--bg-secondary)',
+                      borderColor: 'var(--border-primary)',
+                      color: 'var(--text-primary)'
+                    }}
                     placeholder="your.email@example.com"
                     required
                     aria-required="true"
@@ -125,6 +135,11 @@ const Contact = () => {
                   onChange={handleChange.message}
                   rows="4"
                   className={inputStyles}
+                  style={{
+                    backgroundColor: 'var(--bg-secondary)',
+                    borderColor: 'var(--border-primary)',
+                    color: 'var(--text-primary)'
+                  }}
                   placeholder="Your message here..."
                   required
                   aria-required="true"

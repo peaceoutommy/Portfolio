@@ -93,7 +93,7 @@ const Hero = () => {
             {/* Main heading */}
             <motion.div variants={ITEM_VARIANTS.fadeInUp} className="mb-6">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight">
-                <span className="block text-white">Tomás</span>
+                <span className="block" style={{ color: 'var(--text-primary)' }}>Tomás</span>
                 <span className="block">
                   <GlowText intensity="medium">Lopes</GlowText>
                 </span>
@@ -166,7 +166,11 @@ const Hero = () => {
           >
             {/* Central code block */}
             <motion.div
-              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border border-white/20 hover:border-white/30 bg-black/20 backdrop-blur-md rounded-md p-4 sm:p-6 duration-200"
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border backdrop-blur-md rounded-md p-4 sm:p-6 duration-200"
+              style={{
+                borderColor: 'var(--border-primary)',
+                backgroundColor: 'var(--bg-secondary)'
+              }}
               variants={ITEM_VARIANTS.scaleIn}
             >
               {/* Code content */}
@@ -175,23 +179,23 @@ const Hero = () => {
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-xs text-white/50 ml-4">portfolio.js</span>
+                  <span className="text-xs ml-4" style={{ color: 'var(--text-muted)' }}>portfolio.js</span>
                 </div>
 
                 <div className="space-y-2 text-xs sm:text-sm font-mono">
                   <div className="text-[var(--highlight-color)]">
-                    <span className="text-white/50">const</span> developer = <span className="text-yellow-400">'Tomás'</span>;
+                    <span style={{ color: 'var(--text-muted)' }}>const</span> developer = <span className="text-yellow-400">'Tomás'</span>;
                   </div>
                   <div className="text-[var(--highlight-color)]">
-                    <span className="text-white/50">const</span> skills = [
+                    <span style={{ color: 'var(--text-muted)' }}>const</span> skills = [
                   </div>
                   <div className="text-green-400 ml-4">'React', 'Node.js', 'JavaScript',</div>
                   <div className="text-green-400 ml-4">'C#', '.NET', 'Python',</div>
                   <div className="text-green-400 ml-4">'Express', 'Blazor'</div>
                   <div className="text-[var(--highlight-color)]">];</div>
-                  <div className="text-white/50 mt-4">// Building amazing things</div>
+                  <div className="mt-4" style={{ color: 'var(--text-muted)' }}>// Building amazing things</div>
                   <div className="text-[var(--highlight-color)]">
-                    <span className="text-white/50">function</span> "createMagic() {`{`}
+                    <span style={{ color: 'var(--text-muted)' }}>function</span> "createMagic() {`{`}
                   </div>
                   <div className="text-yellow-400 ml-4">return</div>
                   <div className="text-green-400 ml-8">'Innovation'</div>

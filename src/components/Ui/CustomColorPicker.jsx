@@ -218,19 +218,22 @@ const CustomColorPicker = ({
 
     return (
         <motion.div
-            className="p-3 bg-black/95 backdrop-blur-md rounded-lg border border-gray-700/50 select-none shadow-xl"
+            className="p-3 backdrop-blur-md rounded-lg border select-none shadow-xl bg-[var(--bg-primary)] border-[var(--border-primary)]"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
         >
-            {/* Color Preview */}
+            {/* Color Preview */}       
             <div className="mb-3 flex items-center gap-2">
                 <div
-                    className="w-8 h-8 rounded border border-white/20"
-                    style={{ backgroundColor: currentColor }}
+                    className="w-8 h-8 rounded border"
+                    style={{ 
+                        backgroundColor: currentColor,
+                        borderColor: 'var(--border-primary)'
+                    }}
                 />
-                <div className="text-sm font-mono text-white">
+                <div className="text-sm font-mono" style={{ color: 'var(--text-primary)' }}>
                     {hexValue.toUpperCase()}
                 </div>
             </div>
@@ -290,8 +293,13 @@ const CustomColorPicker = ({
                     type="text"
                     value={hexValue}
                     onChange={handleHexChange}
-                    className="w-full px-2 py-1.5 bg-white/5 border border-white/20 hover:border-white/30 rounded text-white text-sm font-mono 
+                    className="w-full px-2 py-1.5 border rounded text-sm font-mono 
                              focus:outline-none focus:border-blue-500/70 transition-all"
+                    style={{
+                        backgroundColor: 'var(--bg-secondary)',
+                        borderColor: 'var(--border-primary)',
+                        color: 'var(--text-primary)'
+                    }}
                     placeholder="#000000"
                     maxLength={7}
                 />
