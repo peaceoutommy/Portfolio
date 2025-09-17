@@ -47,8 +47,8 @@ const ThemeColorButton = () => {
   // Convert hex color to RGB format
   const hexToRgb = useCallback((hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? 
-      `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+    return result ?
+      `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` :
       '0, 255, 255';
   }, []);
 
@@ -102,7 +102,7 @@ const ThemeColorButton = () => {
           aria-expanded={isOpen}
         >
           <GlowText>
-            <FaPalette size={20}/>
+            <FaPalette size={20} />
           </GlowText>
         </Button>
       </motion.div>
@@ -127,15 +127,14 @@ const ThemeColorButton = () => {
                 whileHover={{ x: 3 }}
                 className='w-full'
               >
-                <Button
-                  variant={color.value === currentTheme ? "active" : "default"}
-                  size="sm"
-                  className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0"
+                <button
+                  className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 hover:bg-white/5 border border-transparent'
                   onClick={() => handleColorSelect(color.value)}
                   style={{
                     textShadow: color.value === currentTheme
                       ? 'var(--text-shadow-md)'
-                      : 'none'
+                      : 'none',
+                    color: 'var(--highlight-color)'
                   }}
                 >
                   <span
@@ -145,27 +144,26 @@ const ThemeColorButton = () => {
                   <GlowText intensity={color.value === currentTheme ? "medium" : "none"}>
                     {color.name}
                   </GlowText>
-                </Button>
+                </button>
               </motion.div>
             ))}
 
 
             {/* Custom color option */}
             <motion.div whileHover={{ x: 3 }} className='w-full'>
-              <Button
-                variant={isCustomColor() ? "active" : "default"}
-                size="sm"
-                className="w-full px-4 py-2 text-left flex items-center gap-2 border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0"
+              <button
+                className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 hover:bg-white/5 border border-transparent'
                 onClick={() => setShowCustomPicker(!showCustomPicker)}
                 style={{
                   textShadow: isCustomColor()
                     ? 'var(--text-shadow-md)'
-                    : 'none'
+                    : 'none',
+                  color: 'var(--highlight-color)'
                 }}
               >
                 <span
                   className={`h-3 w-3 rounded-full flex items-center justify-center`}
-                  style={{ 
+                  style={{
                     background: isCustomColor() ? `rgb(${currentTheme})` : '#000000',
                     border: isCustomColor() ? 'none' : '1px solid #666',
                     boxShadow: isCustomColor() ? `0 0 4px rgb(${currentTheme})` : 'none'
@@ -173,7 +171,7 @@ const ThemeColorButton = () => {
                 >
                   {!isCustomColor() && <FaPlus size={8} className="text-gray-400" />}
                 </span>
-                <GlowText 
+                <GlowText
                   intensity={isCustomColor() ? "medium" : "none"}
                   style={{
                     color: isCustomColor() ? `rgb(${currentTheme})` : 'var(--highlight-color)'
@@ -181,7 +179,7 @@ const ThemeColorButton = () => {
                 >
                   Custom Color
                 </GlowText>
-              </Button>
+              </button>
             </motion.div>
 
             {/* Custom color picker */}
