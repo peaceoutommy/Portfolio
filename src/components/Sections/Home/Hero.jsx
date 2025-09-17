@@ -166,11 +166,7 @@ const Hero = () => {
           >
             {/* Central code block */}
             <motion.div
-              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border backdrop-blur-md rounded-md p-4 sm:p-6 duration-200"
-              style={{
-                borderColor: 'var(--border-primary)',
-                backgroundColor: 'var(--bg-secondary)'
-              }}
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border backdrop-blur-md rounded-md p-4 sm:p-6 duration-200 border-[var(--border-primary)] hover:border-[var(--border-secondary)] bg-[var(--bg-secondary)]"
               variants={ITEM_VARIANTS.scaleIn}
             >
               {/* Code content */}

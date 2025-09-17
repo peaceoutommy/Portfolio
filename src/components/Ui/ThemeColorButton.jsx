@@ -111,7 +111,7 @@ const ThemeColorButton = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 py-2 w-64 backdrop-blur-md rounded-md z-50 bg-[var(--bg-primary)]"
+            className="absolute right-0 mt-2 py-2 w-64 backdrop-blur-md rounded-md z-50 bg-[var(--bg-primary)] box-shadow-glow-md"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -125,7 +125,7 @@ const ThemeColorButton = () => {
                 className='w-full'
               >
                 <button
-                  className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200 border border-transparent'
+                  className='w-full px-4 py-2 text-left flex items-center gap-2 rounded-md transition-all duration-200'
                   style={{
                     textShadow: color.value === currentTheme
                       ? 'var(--text-shadow-md)'

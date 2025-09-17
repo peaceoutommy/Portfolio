@@ -38,11 +38,7 @@ const GlowContainer = forwardRef(({
       : '0 0 12px rgba(var(--highlight-rgb), 0.3)'
   };
 
-  // Border color based on active state
-  const borderColor = isActive 
-    ? 'border-[var(--highlight-color)]' 
-    : 'border-[var(--border-primary)]';
-    
+
   // Use extremely fast transitions for hover animations
   const transitionDuration = whileHover && whileHover.y ? 0.1 : 0.6;
   

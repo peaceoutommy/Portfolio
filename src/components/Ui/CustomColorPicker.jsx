@@ -218,7 +218,7 @@ const CustomColorPicker = ({
 
     return (
         <motion.div
-            className="p-3 backdrop-blur-md rounded-lg border select-none shadow-xl bg-[var(--bg-primary)] border-[var(--border-primary)]"
+            className="p-3 backdrop-blur-md rounded-lg select-none shadow-xl bg-[var(--bg-primary)]"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}

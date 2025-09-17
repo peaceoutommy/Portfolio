@@ -31,7 +31,7 @@
     --text-secondary: rgba(255, 255, 255, 0.8);
     --text-muted: rgba(255, 255, 255, 0.6);
     --border-primary: rgba(255, 255, 255, 0.2);
-    --border-secondary: rgba(255, 255, 255, 0.1);
+    --border-secondary: rgba(255, 255, 255, 0.3);
   }
 
   /* Light mode overrides */
@@ -43,7 +43,7 @@
     --text-secondary: rgba(0, 0, 0, 0.8);
     --text-muted: rgba(0, 0, 0, 0.6);
     --border-primary: rgba(0, 0, 0, 0.2);
-    --border-secondary: rgba(0, 0, 0, 0.1);
+    --border-secondary: rgba(0, 0, 0, 0.3);
   }
 
   html {

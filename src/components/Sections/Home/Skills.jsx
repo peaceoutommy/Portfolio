@@ -148,7 +148,7 @@ const Skills = () => {
 
 
           <div
-            className="relative w-full"
+            className="relative w-full bg-[var(--bg-secondary)]"
             ref={containerInViewRef}
             onMouseEnter={handleContainerMouseEnter}
             onMouseLeave={handleContainerMouseLeave}

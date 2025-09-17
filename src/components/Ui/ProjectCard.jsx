@@ -49,14 +49,7 @@ const ProjectCard = ({
   const hoverAnimation = isMobile ? undefined : { y: -5 };
 
   return (
-    <motion.div
-      className="h-full"
-    // initial={{ opacity: 0, y: 20 }}
-    // animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-    // transition={{ duration: 0.3, delay: index * 0.1 }}
-    // onMouseEnter={onMouseEnter}
-    // onMouseLeave={onMouseLeave}
-    >
+    <motion.div className="h-full">
       <Link to={`/project/${project.id}`}>
         <motion.div
           className="h-full"
@@ -97,7 +90,7 @@ const ProjectCard = ({
               </div>
             </div>
 
-            <div className="p-6 flex flex-col flex-grow">
+            <div className="p-6 flex flex-col flex-grow bg-[var(--bg-secondary)]">
               <GlowText as="h3" className="text-xl mb-3" intensity={isActive ? "medium" : "low"}>
                 {project.title}
               </GlowText>

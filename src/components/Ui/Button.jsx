@@ -25,7 +25,7 @@ const Button = forwardRef(({
   const baseClasses = "inline-flex items-center justify-center rounded-md border-2 text-[var(--highlight-color)] transition-all duration-200 relative overflow-hidden group font-medium focus:outline-none focus:ring-2 focus:ring-[var(--highlight-color)]/50 focus:ring-offset-2";
   
   const variants = {
-    default: "border-[var(--border-primary)] hover:border-[var(--border-primary)] focus:border-[var(--highlight-color)]",
+    default: "border-[var(--border-primary)] hover:border-[var(--border-secondary)] focus:border-[var(--highlight-color)]",
     active: "border-[var(--highlight-color)] "
   };
   

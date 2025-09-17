@@ -17,7 +17,7 @@ const Contact = () => {
   const serviceId = import.meta.env.VITE_MAILER_SERVICE_ID;
   const templateId = import.meta.env.VITE_MAILER_TEMPLATE_ID;
   const publicKey = import.meta.env.VITE_MAILER_PUBLIC_KEY;
-  
+
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Contact = () => {
     }
   };
 
-  const inputStyles = "w-full p-3 rounded-md border-2 transition-all duration-200";
+  const inputStyles = "w-full p-3 rounded-md border-2 transition-all duration-200 focus:border-[var(--highlight-color)] bg-[var(--bg-secondary)] border-[var(--border-primary)] hover:border-[var(--border-secondary)]";
   const labelStyles = "block mb-2";
   const isFormValid = name.trim() && email.trim() && message.trim();
 
@@ -69,14 +69,14 @@ const Contact = () => {
         <>
           <SectionTitle title="Get In Touch" inView={inView} />
 
-          <motion.div 
+          <motion.div
             className="max-w-4xl w-full mx-auto mb-8"
             variants={CONTAINER_VARIANTS.stagger}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
             <form className="space-y-6" onSubmit={handleSubmit} aria-label="Contact form">
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 variants={ITEM_VARIANTS.fadeInUp}
               >
@@ -84,6 +84,7 @@ const Contact = () => {
                   <label htmlFor="name" className={labelStyles}>
                     <GlowText>Name</GlowText>
                   </label>
+                  {/* if the input is focused, add a border-2 border-[var(--highlight-color)] */}
                   <input
                     type="text"
                     id="name"
@@ -91,11 +92,6 @@ const Contact = () => {
                     value={name}
                     onChange={handleChange.name}
                     className={inputStyles}
-                    style={{
-                      backgroundColor: 'var(--bg-secondary)',
-                      borderColor: 'var(--border-primary)',
-                      color: 'var(--text-primary)'
-                    }}
                     placeholder="Your Name"
                     required
                     aria-required="true"
@@ -112,11 +108,6 @@ const Contact = () => {
                     value={email}
                     onChange={handleChange.email}
                     className={inputStyles}
-                    style={{
-                      backgroundColor: 'var(--bg-secondary)',
-                      borderColor: 'var(--border-primary)',
-                      color: 'var(--text-primary)'
-                    }}
                     placeholder="your.email@example.com"
                     required
                     aria-required="true"
@@ -135,11 +126,6 @@ const Contact = () => {
                   onChange={handleChange.message}
                   rows="4"
                   className={inputStyles}
-                  style={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    borderColor: 'var(--border-primary)',
-                    color: 'var(--text-primary)'
-                  }}
                   placeholder="Your message here..."
                   required
                   aria-required="true"
