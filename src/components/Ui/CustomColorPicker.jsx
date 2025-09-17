@@ -209,7 +209,7 @@ const CustomColorPicker = ({
 
     return (
         <motion.div
-            className="p-3 bg-black/95 backdrop-blur-md rounded-sm select-none"
+            className="p-3 bg-black/95 backdrop-blur-md rounded-md select-none"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -219,7 +219,7 @@ const CustomColorPicker = ({
             {/* Color Preview */}
             <div className="mb-3 flex items-center gap-2">
                 <div
-                    className="w-8 h-8 rounded-sm border-2 border-white/20 shadow-lg"
+                    className="w-8 h-8 rounded-md border-2 border-white/20 shadow-lg"
                     style={{ backgroundColor: currentColor }}
                 />
                  <div className="flex-1">

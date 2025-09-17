@@ -165,10 +165,8 @@ const Hero = () => {
           >
             {/* Central code block */}
             <motion.div
-              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border border-white/20 hover:border-white/30 bg-black/20 backdrop-blur-md rounded-lg p-4 sm:p-6"
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg border border-white/20 hover:border-white/30 bg-black/20 backdrop-blur-md rounded-md p-4 sm:p-6 duration-200"
               variants={ITEM_VARIANTS.scaleIn}
-              whileHover={{ scale: 1.05, rotateY: 5 }}
-              transition={{ duration: 0.3 }}
             >
               {/* Code content */}
               <div className="space-y-3">
