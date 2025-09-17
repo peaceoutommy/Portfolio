@@ -1,9 +1,8 @@
 // src/components/Ui/CustomColorPicker.jsx
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import GlowText from './GlowText';
 import Button from './Button';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import Icons from './Icons';
 
 /**
  * CustomColorPicker - A professional HSV-based color picker component
@@ -35,15 +34,15 @@ const CustomColorPicker = ({
         const m = v - c;
 
         let r, g, b;
-        if (h < 1/6) {
+        if (h < 1 / 6) {
             [r, g, b] = [c, x, 0];
-        } else if (h < 2/6) {
+        } else if (h < 2 / 6) {
             [r, g, b] = [x, c, 0];
-        } else if (h < 3/6) {
+        } else if (h < 3 / 6) {
             [r, g, b] = [0, c, x];
-        } else if (h < 4/6) {
+        } else if (h < 4 / 6) {
             [r, g, b] = [0, x, c];
-        } else if (h < 5/6) {
+        } else if (h < 5 / 6) {
             [r, g, b] = [x, 0, c];
         } else {
             [r, g, b] = [c, 0, x];
@@ -127,7 +126,7 @@ const CustomColorPicker = ({
         // Y-axis: value/brightness (100-0%, inverted so top is brighter)
         const newSaturation = Math.round(x * 100);
         const newValue = Math.round((1 - y) * 100);
-        
+
         setSaturation(newSaturation);
         setValue(newValue);
     }, []);
@@ -165,7 +164,7 @@ const CustomColorPicker = ({
 
         const handleGlobalMouseMove = (e) => {
             e.preventDefault();
-            
+
             if (dragTarget === 'colorArea') {
                 updateColorFromArea(e);
             } else if (dragTarget === 'hueSlider') {
@@ -195,12 +194,12 @@ const CustomColorPicker = ({
     // Handle hex input changes
     const handleHexChange = useCallback((e) => {
         let inputValue = e.target.value.trim();
-        
+
         // Allow typing without # prefix
         if (!inputValue.startsWith('#') && inputValue.length > 0) {
             inputValue = '#' + inputValue;
         }
-        
+
         setHexValue(inputValue);
 
         // Only update HSV if we have a valid hex color and we're not dragging
@@ -219,36 +218,28 @@ const CustomColorPicker = ({
 
     return (
         <motion.div
-            className="p-4 bg-black/95 backdrop-blur-md rounded-lg border border-gray-700/50 select-none shadow-xl"
+            className="p-3 bg-black/95 backdrop-blur-md rounded-lg border border-gray-700/50 select-none shadow-xl"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
         >
             {/* Color Preview */}
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-3 flex items-center gap-2">
                 <div
-                    className="w-10 h-10 rounded-lg border-2 border-white/20 shadow-lg"
+                    className="w-8 h-8 rounded border border-white/20"
                     style={{ backgroundColor: currentColor }}
                 />
-                <div className="flex-1">
-                    <div className="text-sm font-medium text-white mb-1">
-                        Current Color
-                    </div>
-                    <div
-                        className="text-xs font-mono"
-                        style={{ color: currentColor }}
-                    >
-                        {hexValue.toUpperCase()}
-                    </div>
+                <div className="text-sm font-mono text-white">
+                    {hexValue.toUpperCase()}
                 </div>
             </div>
 
             {/* Main Color Area (Saturation vs Value) */}
-            <div className="mb-4">
+            <div className="mb-3">
                 <div
                     ref={colorAreaRef}
-                    className="w-full h-32 rounded-lg cursor-crosshair relative overflow-hidden border border-gray-600/30"
+                    className="w-full h-24 rounded cursor-crosshair relative overflow-hidden"
                     style={{
                         backgroundColor: hueColor,
                         backgroundImage: `
@@ -260,26 +251,22 @@ const CustomColorPicker = ({
                 >
                     {/* Picker cursor */}
                     <div
-                        className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none"
+                        className="absolute w-3 h-3 border-2 border-white rounded-full pointer-events-none"
                         style={{
                             left: `${saturation}%`,
                             top: `${100 - value}%`,
                             transform: 'translate(-50%, -50%)',
-                            boxShadow: '0 0 0 1px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2)'
+                            boxShadow: '0 0 0 1px rgba(0,0,0,0.3)'
                         }}
                     />
-                </div>
-                <div className="flex justify-between text-xs text-gray-400 mt-1">
-                    <span>Saturation & Brightness</span>
-                    <span>S: {saturation}% V: {value}%</span>
                 </div>
             </div>
 
             {/* Hue Slider */}
-            <div className="mb-4">
+            <div className="mb-3">
                 <div
                     ref={hueSliderRef}
-                    className="w-full h-6 rounded-lg cursor-pointer relative overflow-hidden border border-gray-600/30"
+                    className="w-full h-5 rounded cursor-pointer relative overflow-hidden border border-gray-600/30"
                     style={{
                         background: 'linear-gradient(to right, #ff0000 0%, #ffff00 16.67%, #00ff00 33.33%, #00ffff 50%, #0000ff 66.67%, #ff00ff 83.33%, #ff0000 100%)'
                     }}
@@ -287,56 +274,45 @@ const CustomColorPicker = ({
                 >
                     {/* Hue cursor */}
                     <div
-                        className="absolute w-2 h-full bg-white border border-gray-300 shadow-lg pointer-events-none"
+                        className="absolute w-1.5 h-full bg-white border border-gray-300 pointer-events-none"
                         style={{
                             left: `${(hue / 360) * 100}%`,
                             transform: 'translateX(-50%)',
-                            borderRadius: '2px'
+                            borderRadius: '1px'
                         }}
                     />
-                </div>
-                <div className="flex justify-between text-xs text-gray-400 mt-1">
-                    <span>Hue</span>
-                    <span>{hue}°</span>
                 </div>
             </div>
 
             {/* Hex Input */}
-            <div className="mb-4">
-                <label className="block text-xs text-gray-400 mb-2">
-                    <GlowText>Hex Color Code</GlowText>
-                </label>
+            <div className="mb-3">
                 <input
                     type="text"
                     value={hexValue}
                     onChange={handleHexChange}
-                    className="w-full px-3 py-2 bg-gray-800/70 border border-gray-600/50 rounded-lg text-white text-sm font-mono 
-                             focus:outline-none focus:border-blue-500/70 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    className="w-full px-2 py-1.5 bg-white/5 border border-white/20 hover:border-white/30 rounded text-white text-sm font-mono 
+                             focus:outline-none focus:border-blue-500/70 transition-all"
                     placeholder="#000000"
                     maxLength={7}
                 />
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
                 <Button
                     size="sm"
-                    className="flex-1 flex items-center justify-center gap-2 py-2"
+                    className="flex-1 py-1.5"
                     onClick={() => onApply?.(hexValue)}
-                    title="Apply Color"
                 >
-                    <FaCheck size={14} />
-                    Apply
+                    <Icons name="Apply" />
                 </Button>
                 <Button
                     size="sm"
                     variant="default"
-                    className="flex-1 flex items-center justify-center gap-2 py-2"
+                    className="flex-1 py-1.5"
                     onClick={onCancel}
-                    title="Cancel"
                 >
-                    <FaTimes size={14} />
-                    Cancel
+                    <Icons name="Cancel" />
                 </Button>
             </div>
         </motion.div>

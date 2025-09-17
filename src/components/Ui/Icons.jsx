@@ -64,6 +64,10 @@ const Icons = ({ name }) => {
       // Projects
       case 'ExternalLink': return <i className="fas fa-external-link-alt"></i>
 
+      // Actions
+      case 'Apply': return <i className="fas fa-check"></i>;
+      case 'Cancel': return <i className="fas fa-times"></i>;
+
       // Default
       default: return <i className="fas fa-code"></i>;
     }
