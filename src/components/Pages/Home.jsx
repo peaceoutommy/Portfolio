@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Hero from "../sections/home/hero"
+import Hero from "../sections/home/Hero"
 import Skills from "../sections/home/Skills"
 import Projects from "../sections/home/Projects"
 import Timeline from "../sections/home/Timeline"

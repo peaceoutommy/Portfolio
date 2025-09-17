@@ -9,9 +9,9 @@ const Education = () => {
     const [hoveredItem, setHoveredItem] = useState(null);
     
     const education = [
-        { Title: "Fontys University", description: "Bachelor's in Software Engineering" },
-        { Title: "Citeforma", description: "Minor in Software development" },
-        { Title: "EBSC", description: "High School in Science and Technology" }
+        { Title: "Bachelor's Degree", description: "Software Engineering at Fontys University" },
+        { Title: "Level 5 EQF", description: "ICT at Citeforma" },
+        { Title: "High School", description: "Science and Technology at EBSC" }
     ];
 
     return (
