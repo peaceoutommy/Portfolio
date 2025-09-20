@@ -180,16 +180,13 @@ const Hero = () => {
 
                 <div className="space-y-2 text-xs sm:text-sm font-mono">
                   <div className="text-[var(--highlight-color)]">
-                    <span style={{ color: 'var(--text-muted)' }}>const</span> developer = <span className="text-yellow-400">'Tomás'</span>;
-                  </div>
-                  <div className="text-[var(--highlight-color)]">
                     <span style={{ color: 'var(--text-muted)' }}>const</span> skills = [
                   </div>
                   <div className="text-green-400 ml-4">'React', 'Node.js', 'JavaScript',</div>
                   <div className="text-green-400 ml-4">'C#', '.NET', 'Python',</div>
                   <div className="text-green-400 ml-4">'Express', 'Blazor'</div>
                   <div className="text-[var(--highlight-color)]">];</div>
-                  <div className="mt-4" style={{ color: 'var(--text-muted)' }}>// Building amazing things</div>
+                  <div className="mt-4" style={{ color: 'var(--text-muted)' }}>// Developing software</div>
                   <div className="text-[var(--highlight-color)]">
                     <span style={{ color: 'var(--text-muted)' }}>function</span> "createMagic() {`{`}
                   </div>

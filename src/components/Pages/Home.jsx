@@ -15,7 +15,7 @@ const Home = () => {
         <main role="main" id="main-content">
             <Hero />
             <Projects />
-            <Skills />
+            {/* <Skills /> */}
             <Timeline />
             <Education />
             <Contact />
